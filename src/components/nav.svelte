@@ -3,7 +3,11 @@
     <span>|</span>
     <a href="/">Home</a>
     <span>|</span>
-    <a href="/">About</a>
+    <a href="/">Profile</a>
+    <span>|</span>
+    <a href="/">Training Plans</a>
+    <span>|</span>
+    <a href="/">Diet Manager</a>
     <span>|</span>
     <a href="/login">Login Temp</a>
 </nav>
@@ -13,7 +17,8 @@
         display: flex;
         align-items: center;
         height: 3rem;
-        background-color: #1e1e1e;
+        background-color: #0096EB;
+        font-weight: 400;
     }
     #logo {
         color: white;
@@ -28,7 +33,12 @@
     }
 
     nav a:hover {
-        color: rgb(91, 93, 246);
+        text-decoration: underline;
         transition: 10ms;
+    }
+    span {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        font-weight: 200;
     }
 </style>

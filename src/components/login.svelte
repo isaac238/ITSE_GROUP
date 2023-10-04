@@ -19,9 +19,11 @@
       max-width: 300px;
       margin: 10rem auto;
       padding: 20px;
-      border: 1px solid #ccc;
+      border: 1px solid #0096EB;
       border-radius: 5px;
-      background-color: #333;
+      background-color: #ffffff;
+      color: black;
+      filter: drop-shadow(5px 5px);
     }
   
     .form-group {
@@ -47,7 +49,7 @@
     .submit-button {
       width: 100%;
       padding: 10px;
-      background-color: #007bff;
+      background-color: #0096EB;
       color: #fff;
       border: none;
       border-radius: 5px;
@@ -55,7 +57,7 @@
     }
   
     .submit-button:hover {
-      background-color: #0056b3;
+      background-color: rgb(3, 117, 238);
     }
   </style>
   
