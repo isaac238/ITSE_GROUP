@@ -12,7 +12,7 @@
     margin: 1rem;
     border-radius: 1rem;
     width: fit-content;
-    min-width: 30rem;
+    min-width: 20rem;
     max-width: 40rem;
     height: 15rem;
     padding: 1rem;
