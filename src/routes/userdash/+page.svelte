@@ -1,3 +1,7 @@
+<script>
+    import DashItem from '../../components/dashitem.svelte';
+</script>
+
 <div class="container">
     <div class="layout-container">
         <div class="side-bar">
@@ -8,9 +12,12 @@
             </ul>
         </div>
         <div class="dash-container">
-            <div class="welcome">
-                <h1>Welcome back!</h1>
-            </div>
+                <DashItem>
+                    <h1>Hello World!</h1>
+                    <p>This is a dynamically loading component!</p>
+                    <p>Pass whatever you want in here!</p>
+                    <p>We'll pass data from the DB into here through props.</p>
+                </DashItem>
         </div>
     </div>
 </div>

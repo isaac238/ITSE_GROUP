@@ -3,13 +3,9 @@
     <span>|</span>
     <a href="/">Home</a>
     <span>|</span>
-    <a href="/">Profile</a>
+    <a href="/userdash">Dashboard</a>
     <span>|</span>
-    <a href="/">Training Plans</a>
-    <span>|</span>
-    <a href="/">Diet Manager</a>
-    <span>|</span>
-    <a href="/login">Login Temp</a>
+    <a href="/login">Login</a>
 </nav>
 
 <style>
