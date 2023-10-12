@@ -1,3 +1,23 @@
+  <script>
+	import 'iconify-icon';
+
+	let type = "password";
+	let icon = "mdi:eye-off-outline";
+
+	const toggleType = (event) => {
+		switch (type) {
+			case "password":
+				type = "text";
+				icon = "mdi:eye-off-outline"
+				break;
+			case "text":
+				type = "password";
+				icon = "mdi:eye-outline"
+				break;
+			default: break;
+		}
+	};
+  </script>
   <div class="login-form">
     <h2>Login</h2>
     <form>
@@ -7,7 +27,8 @@
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" id="password"/>
+        <input {type} id="password"/>
+		<button on:click={toggleType}><iconify-icon {icon} /></button>
       </div>
       <button class="submit-button" type="submit">Login</button>
     </form>
