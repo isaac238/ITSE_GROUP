@@ -7,7 +7,7 @@
         padding: 0;
         margin: 0;
         color: white;
-        background-color: #333;
+        background-color: #ffff;
         font-family: 'Lexend', sans-serif;
     }
 </style>

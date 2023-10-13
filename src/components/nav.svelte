@@ -13,7 +13,7 @@
         display: flex;
         align-items: center;
         height: 3rem;
-        background-color: #0096EB;
+        background-color: #857AFF;
         font-weight: 400;
     }
     #logo {

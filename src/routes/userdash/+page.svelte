@@ -90,9 +90,9 @@
                 margin-right: 1rem;
                 box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
-                align-content: flex-start; /* Adjust to your desired alignment */
-                align-items: flex-start;  /* Align items within each row */
-                justify-content: flex-start; /* Align items horizontally */
+                align-content: flex-start; 
+                align-items: flex-start; 
+                justify-content: flex-start;
             }
 
             .side-bar,

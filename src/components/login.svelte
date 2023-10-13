@@ -42,11 +42,10 @@
       max-width: 300px;
       margin: 10rem auto;
       padding: 20px;
-      border: 1px solid #0096EB;
       border-radius: 5px;
-      background-color: #ffffff;
-      color: black;
-      filter: drop-shadow(5px 5px);
+      background-color: #857AFF;
+      color: white;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
   
     .form-group {
@@ -73,8 +72,8 @@
     .submit-button {
       width: 100%;
       padding: 10px;
-      background-color: #0096EB;
-      color: #fff;
+      background-color: #ffffff;
+      color: #000000;
       border: none;
       border-radius: 5px;
       cursor: pointer;
