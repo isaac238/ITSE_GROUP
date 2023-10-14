@@ -23,12 +23,14 @@
     <form>
       <div class="form-group">
         <label for="username">Username:</label>
-        <input type="text" id="username"/>
+       <input type="text" id="username"/>
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
-        <input {type} id="password"/>
-		<button on:click={toggleType}><iconify-icon {icon} /></button>
+		<div id="password-container">
+			<input {type} id="password"/>
+			<button id="toggle-button" on:click={toggleType}><iconify-icon {icon} /></button>
+		</div>
       </div>
       <button class="submit-button" type="submit">Login</button>
     </form>
@@ -80,7 +82,27 @@
     .submit-button:hover {
       background-color: rgb(3, 117, 238);
     }
-  </style>
-  
 
+	#toggle-button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		background: transparent;
+		border: none;
+	}
+
+	#password {
+		border: none;
+		background: transparent;
+	}
+
+	#password-container {
+		display: flex;
+		border: black solid 1.5px;
+		border-radius: .25rem;
+	}
+
+
+  </style>
   
