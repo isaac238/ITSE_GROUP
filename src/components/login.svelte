@@ -8,11 +8,11 @@
 		switch (type) {
 			case "password":
 				type = "text";
-				icon = "mdi:eye-off-outline"
+				icon = "mdi:eye-outline"
 				break;
 			case "text":
 				type = "password";
-				icon = "mdi:eye-outline"
+				icon = "mdi:eye-off-outline"
 				break;
 			default: break;
 		}
@@ -29,7 +29,7 @@
         <label for="password">Password:</label>
 		<div id="password-container">
 			<input {type} id="password"/>
-			<button id="toggle-button" on:click={toggleType}><iconify-icon {icon} /></button>
+			<button id="toggle-button" type="button" on:click={toggleType}><iconify-icon {icon} /></button>
 		</div>
       </div>
       <button class="submit-button" type="submit">Login</button>
@@ -61,11 +61,12 @@
 
     input[type="text"],
     input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
+		width: 100%;
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		box-sizing: border-box;
+		background: white;
     }
 
   
@@ -99,8 +100,9 @@
 
 	#password-container {
 		display: flex;
-		border: black solid 1.5px;
-		border-radius: .25rem;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		background: white;
 	}
 
 
