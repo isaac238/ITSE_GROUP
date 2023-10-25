@@ -1,5 +1,6 @@
 <script>
     import DashItem from '../../components/dashitem.svelte';
+	import 'iconify-icon';
 
     let items = [
     {
@@ -28,10 +29,11 @@
 <div class="container">
     <div class="layout-container">
         <div class="side-bar">
-            <ul>
+            <ul style="height: 100%;">
                 <a href="#" style="color: #857AFF;">Dashboard</a>
                 <a href="#">Workout Plans</a>
                 <a href="#">Nutrition Planner</a>
+				<a href="/logout" style="margin-top: auto; margin-bottom: 3rem; display:inline-flex; align-items: center; gap: .25rem;"><iconify-icon icon="mdi:logout"/>Logout</a>
             </ul>
         </div>
         <div class="dash-container">
