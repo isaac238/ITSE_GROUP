@@ -13,3 +13,15 @@ export function getPocketbase() {
 	return pb;
 }
 
+export default class databaseHandler {
+	static async login(formData) {
+		try {
+			await pb.collection('users').authWithPassword(formData.get('username'), formData.get('password'));
+			return {success: true, message: "Logged in"};
+		} catch (error) {
+			console.log(error);
+			return {success: false, message: "Error occured"};
+		}
+	}
+
+}

@@ -20,15 +20,15 @@
   </script>
   <div class="login-form">
     <h2>Login</h2>
-    <form>
+    <form method="POST">
       <div class="form-group">
         <label for="username">Username:</label>
-       <input type="text" id="username"/>
+       <input type="text" id="username" name="username"/>
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
 		<div id="password-container">
-			<input {type} id="password"/>
+			<input {type} id="password" name="password"/>
 			<button id="toggle-button" type="button" on:click={toggleType}><iconify-icon {icon} /></button>
 		</div>
       </div>
