@@ -21,33 +21,35 @@
 </script>
 
 <div class="container">
-  <div class="login-form">
-    <h2>Login</h2>
-    <form method="POST">
+  <div class="register-form">
+    <h2>Register</h2>
+    <form>
       <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" />
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" />
       </div>
       <div class="form-group">
         <label for="password">Password:</label>
         <div id="password-container">
-          <input {type} id="password" name="password" />
+          <input {type} id="password" />
+          <button id="toggle-button" type="button" on:click={toggleType}
+            ><iconify-icon {icon} /></button
+          >
+        </div>
+        <label for="confirm-password">Confirm Password</label>
+        <div id="password-container">
+          <input {type} id="password" name="confirm-password" />
           <button id="toggle-button" type="button" on:click={toggleType}
             ><iconify-icon {icon} /></button
           >
         </div>
       </div>
-      <button class="submit-button" type="submit">Login</button>
-      <div class="register">
-        <p style="margin: 0;">Don't have an account?</p>
-        <a href="/register" style="color: white;">Register here!</a>
-      </div>
+      <button class="submit-button" type="submit">Register</button>
     </form>
   </div>
 </div>
 
 <style>
-
   .container {
     height: 100vh;
     width: 100vw;
@@ -55,18 +57,9 @@
     justify-content: center;
     align-items: center;
   }
-  .register {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-  }
 
-  .login-form {
+  .register-form {
     min-width: 20rem;
-    height: fit-content;
-    margin: auto;
     padding: 20px;
     border-radius: 5px;
     background-color: #857aff;
@@ -133,5 +126,6 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     background: white;
+    margin-bottom: 1rem;
   }
 </style>
