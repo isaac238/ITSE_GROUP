@@ -24,4 +24,24 @@ export default class databaseHandler {
 		}
 	}
 
+	static async register(formData) {
+		try {
+			const data = {
+			"username": formData.get('username'),
+			"email": formData.get('email'),
+			"emailVisibility": true,
+			"password": formData.get('password'),
+			"passwordConfirm": formData.get('confirm-password'),
+			"pin_number": 1234
+		};
+
+		const record = await pb.collection('users').create(data);
+		return {success: true, message: "Registered!"};
+		} catch(error) {
+			console.log(error);
+			return {success: false, message: "A user with those details already exists!"};
+		}
+		
+	}
+
 }

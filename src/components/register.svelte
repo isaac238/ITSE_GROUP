@@ -23,7 +23,7 @@
 <div class="container">
   <div class="register-form">
     <h2>Register</h2>
-    <form>
+    <form method="POST">
       <div class="form-group">
         <label for="email">Email:</label>
         <input type="text" id="email" name="email" />
@@ -31,14 +31,14 @@
       <div class="form-group">
         <label for="password">Password:</label>
         <div id="password-container">
-          <input {type} id="password" />
+          <input {type} id="password" name="password" />
           <button id="toggle-button" type="button" on:click={toggleType}
             ><iconify-icon {icon} /></button
           >
         </div>
         <label for="confirm-password">Confirm Password</label>
         <div id="password-container">
-          <input {type} id="password" name="confirm-password" />
+          <input {type} id="confirm-password" name="confirm-password" />
           <button id="toggle-button" type="button" on:click={toggleType}
             ><iconify-icon {icon} /></button
           >
