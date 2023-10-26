@@ -22,5 +22,9 @@
 		"vite": "^4.4.2",
 		"vitest": "^0.34.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"iconify-icon": "^1.0.8",
+		"pocketbase": "^0.18.0"
+	}
 }
