@@ -26,82 +26,36 @@
   ];
 </script>
 
-<div class="container">
-    <div class="layout-container">
-        <div class="side-bar">
-            <ul style="height: 100%;">
-                <a href="#" style="color: #857AFF;">Dashboard</a>
-                <a href="#">Workout Plans</a>
-                <a href="#">Nutrition Planner</a>
-				<a href="/logout" style="margin-top: auto; margin-bottom: 3rem; display:inline-flex; align-items: center; gap: .25rem;"><iconify-icon icon="mdi:logout"/>Logout</a>
+<div class="relative w-screen h-screen bg-neutral-200"> <!-- Set the width and height of the parent div -->
+    <div class="absolute inset-0 m-5 rounded-xl flex gap-4">
+        <div class="w-1/6 rounded-xl p-10 bg-neutral-100 shadow-lg flex flex-col justify-between">
+            <ul>
+              <li class="pb-10"><a href="/userdash" class="text-purple-500">Dashboard</a></li>
+              <li class="pb-10"><a href="/workoutplanner" class="hover:text-purple-500 text-neutral-800">Workout Plans</a></li>
             </ul>
-        </div>
-        <div class="dash-container">
-            {#each items as item}
-                <DashItem>
-                    <h1>{item.title}</h1>
-                    <p>{item.content}</p>
-                </DashItem>
-            {/each}
+            <ul class="self-end w-[100%]">
+                <li>
+                    <a href="/logout" class="text-neutral-800 flex items-center hover:text-red-400">
+                      <iconify-icon icon="mdi:logout"/>
+                      <span class="ml-2">Logout</span>
+                    </a>
+                  </li>
+            </ul>
+          </div>
+          
+          <div class="w-5/6 bg-neutral-100 rounded-xl shadow-lg flex flex-wrap justify-items-start">
+            <div class="w-[100%] rounded-xl flex flex-wrap h-fit gap-10 m-10">
+                {#each items as item}
+                    <DashItem>
+                        <h1 class="text-white">{item.title}</h1>
+                        <p class="text-white">{item.content}</p>
+                    </DashItem>
+                {/each}
+            </div>
+            
         </div>
     </div>
-</div>
-
+  </div>
+  
 <style>
-    :global(body),
-    :global(html) {
-        box-sizing: border-box;
-    }
-
-    .container {
-        color: white;
-    }
-        .layout-container {
-            display: grid;
-            grid-template-areas:
-            'side main'
-            'side main';
-            grid-template-columns: 20rem auto;
-            background-color: #ffff;
-            min-height: 100vh;
-            height: fit-content;
-        }
-            .side-bar {
-                grid-area: side;
-                background-color: #F4F3F3;
-                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-            }
-                .side-bar ul {
-                    display: flex;
-                    flex-direction: column;
-                }
-                    .side-bar a {
-                        margin: 1rem;
-                        text-decoration: none;
-                        color: black;
-                    }
-
-                    .side-bar a:hover {
-                        color: #857AFF;
-                    }
-            .dash-container {
-                display: flex;
-                flex-wrap: wrap;
-                grid-area: main;
-                background-color: #FFFF;
-                margin-right: 1rem;
-                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
-                align-content: flex-start; 
-                align-items: flex-start; 
-                justify-content: flex-start;
-            }
-
-            .side-bar,
-            .dash-container {
-                border-radius: 1rem;
-                margin-bottom: 1rem;
-                margin-left: 1rem;
-                margin-top: 1rem;
-            }
 </style>

@@ -9,7 +9,6 @@
 <style>
   .dashboard-item {
     background-color: #857AFF;
-    margin: 1rem;
     border-radius: 1rem;
     width: fit-content;
     min-width: 20rem;
