@@ -20,118 +20,15 @@
   };
 </script>
 
-<div class="container">
-  <div class="login-form">
-    <h2>Login</h2>
-    <form method="POST">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" />
+<div class="w-screen h-screen flex items-center justify-center">
+  <form method="post" class=" card w-[25%] bg-neutral-900 p-10">
+      <h1 class="text-2xl font-bold mb-8">Login</h1>
+      <div class="form-control gap-2 mb-4">
+          <input type="email" placeholder="Email" name="username" class="input input-bordered">
+          <input type="{type}" name="password" placeholder="Password" class="input input-bordered">
+          <button id="toggleButton" type="button" on:click={toggleType}><iconify-icon {icon}/></button>
+          <button class="btn hover:bg-secondary text-white bg-slate-700">Login</button>
       </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <div id="password-container">
-          <input {type} id="password" name="password" />
-          <button id="toggle-button" type="button" on:click={toggleType}
-            ><iconify-icon {icon} /></button
-          >
-        </div>
-      </div>
-      <button class="submit-button" type="submit">Login</button>
-      <div class="register">
-        <p style="margin: 0;">Don't have an account?</p>
-        <a href="/register" style="color: white;">Register here!</a>
-      </div>
-    </form>
-  </div>
+      <p>Don't have an account?<a href="/register" class="text-indigo-600 hover:text-white pl-3">Register here</a></p>
+  </form>
 </div>
-
-<style>
-
-  .container {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .register {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .login-form {
-    min-width: 20rem;
-    height: fit-content;
-    margin: auto;
-    padding: 20px;
-    border-radius: 5px;
-    background-color: #857aff;
-    color: white;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  }
-
-  .form-group {
-    margin-bottom: 15px;
-  }
-
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-
-  input[type="text"],
-  input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    background: white;
-  }
-
-  .submit-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #ffffff;
-    color: #000000;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-
-  .submit-button:active {
-    transform: scale(1.04);
-
-  }
-
-  .submit-button:hover {
-    background-color: #E67A8B;
-    transition: .2s ease-in-out;
-  }
-
-  #toggle-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    background: transparent;
-    border: none;
-  }
-
-  #password {
-    border: none;
-    background: transparent;
-  }
-
-  #password-container {
-    display: flex;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background: white;
-  }
-</style>
