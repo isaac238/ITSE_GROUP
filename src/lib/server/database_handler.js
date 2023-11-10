@@ -31,16 +31,14 @@ export default class databaseHandler {
 		var birthday = formData.get('birthdate')
 		var year = birthday.toString().split('-')[0].substring(2,4)
 		var month = birthday.toString().split('-')[1]
-		var random = Math.round(Math.random()*9999).toString()
+		var random = Math.round(Math.random()*999).toString()
 		if(random.length == 1){
-			random = "000" + random;
-		}
-		else if(random.length == 2){
 			random = "00" + random;
 		}
-		else if(random.length == 3){
+		else if(random.length == 2){
 			random = "0" + random;
 		}
+
 
 		pin = year + month + random
 		console.log(pin)
@@ -52,14 +50,20 @@ export default class databaseHandler {
 				"emailVisibility": true,
 				"password": formData.get('password'),
 				"passwordConfirm": formData.get('confirm-password'),
-				"pin_number": pin
+				"pin": "4043323"
 			};
 
 			const record = await pb.collection('users').create(data);
 			return {success: true, message: "Registered!"};
 		} catch(error) {
-			console.log(error);
-			return {success: false, message: "A user with those details already exists!"};
+
+			if(error.data.data.pin.code == 'validation_not_unique'){
+				return {success: false, message: "A user with those details already exists!"};
+
+			}
+			else{
+				console.log(error.data)
+			}
 		}
 		
 	}
