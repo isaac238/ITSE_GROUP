@@ -27,19 +27,23 @@ export default class databaseHandler {
 
 	static async register(formData) {
 
-		var random = Math.round(Math.random()*9999)
-		
-		if(random.toString().length == 1){
-			random = "000" + random.toString();
+		var pin;
+		var birthday = formData.get('birthdate')
+		var year = birthday.toString().split('-')[0].substring(2,4)
+		var month = birthday.toString().split('-')[1]
+		var random = Math.round(Math.random()*9999).toString()
+		if(random.length == 1){
+			random = "000" + random;
 		}
-		else if(random.toString().length == 2){
-			random = "00" + random.toString();
+		else if(random.length == 2){
+			random = "00" + random;
 		}
-		else if(random.toString().length == 3){
-			random = "0" + random.toString();
+		else if(random.length == 3){
+			random = "0" + random;
 		}
 
-		
+		pin = year + month + random
+		console.log(pin)
 
 		try {
 			const data = {
@@ -48,7 +52,7 @@ export default class databaseHandler {
 				"emailVisibility": true,
 				"password": formData.get('password'),
 				"passwordConfirm": formData.get('confirm-password'),
-				"pin_number": random.toString()
+				"pin_number": pin
 			};
 
 			const record = await pb.collection('users').create(data);
