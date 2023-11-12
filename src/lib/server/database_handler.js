@@ -41,7 +41,6 @@ export default class databaseHandler {
 
 
 		pin = year + month + random
-		console.log(pin)
 
 		try {
 			const data = {
@@ -50,21 +49,46 @@ export default class databaseHandler {
 				"emailVisibility": true,
 				"password": formData.get('password'),
 				"passwordConfirm": formData.get('confirm-password'),
-				"pin": "4043323"
+				"pin": pin
 			};
 
 			const record = await pb.collection('users').create(data);
 			return {success: true, message: "Registered!"};
 		} catch(error) {
 
-			if(error.data.data.pin.code == 'validation_not_unique'){
-				return this.register(formData);
+			if(error.data.data.pin){
+				if(error.data.data.pin.code == 'validation_not_unique'){
+					return this.register(formData);
+				}
+				else{
+					console.log(error.data)
+					return {success:false,message:"Something else went wrong check console for details"}
+				}
 			}
+			else if(error.data.data.email){
+				if(error.data.data.email.code == 'validation_invalid_email'){
+					return {success: false, message:error.data.data.email.message}
+				}
+				else{
+					console.log(error.data)
+					return {success:false,message:"Something else went wrong check console for details"}
+				}
+			}
+			else if(error.data.data.password){
+				if(error.data.data.password.code == 'validation_length_out_of_range'){
+					return {success:false,message:error.data.data.password.message}
+				}
+				else{
+					console.log(error.data)
+					return {success:false,message:"Something else went wrong check console for details"}
+				}
+			}
+
 			else{
 				console.log(error.data)
-				return {success: false, message: "A user with those details already exists!"};
-
+				return {success:false,message:"Something else went wrong check console for details"}
 			}
+			
 		}
 		
 	}
