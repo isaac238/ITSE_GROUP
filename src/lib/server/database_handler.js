@@ -58,7 +58,7 @@ export default class databaseHandler {
 
 	static async register(formData) {
 		var birthday = formData.get('birthdate');
-		var pin = this.generatePin(birthday);
+		var pin = "301212";
 		
 		try {
 			const data = {
@@ -74,9 +74,9 @@ export default class databaseHandler {
 			return {success: true, message: "Registered!"};
 		} catch(error) {
 
-			if (!pinValid(error)) return this.register(formData);
-			if (!passwordValid(error)) return {success:false,message:error.data.data.password.message};
-			if (!emailValid(error)) return {success: false, message:error.data.data.email.message};
+			if (!this.pinValid(error)) return this.register(formData);
+			if (!this.passwordValid(error)) return {success:false,message:error.data.data.password.message};
+			if (!this.emailValid(error)) return {success: false, message:error.data.data.email.message};
 			console.log(error.data);
 			return {success:false,message:"Something else went wrong check console for details"};
 		}
