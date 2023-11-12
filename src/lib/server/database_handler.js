@@ -27,7 +27,7 @@ export default class databaseHandler {
 
 	static generatePin(birthday) {
 		var year = birthday.toString().split('-')[0].substring(2,4);
-		var month birthday.toString().split('-')[1];
+		var month = birthday.toString().split('-')[1];
 		
 		var random = Math.round(Math.random()*999).toString();
 		random += "0".repeat(3-random.length);
