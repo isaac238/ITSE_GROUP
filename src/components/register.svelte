@@ -33,4 +33,5 @@
           <button class="btn hover:bg-secondary text-white bg-slate-700" type="submit">Register</button>
       </div>
   </form>
+
 </div>
