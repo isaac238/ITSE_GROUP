@@ -58,11 +58,12 @@ export default class databaseHandler {
 		} catch(error) {
 
 			if(error.data.data.pin.code == 'validation_not_unique'){
-				return {success: false, message: "A user with those details already exists!"};
-
+				return this.register(formData);
 			}
 			else{
 				console.log(error.data)
+				return {success: false, message: "A user with those details already exists!"};
+
 			}
 		}
 		
