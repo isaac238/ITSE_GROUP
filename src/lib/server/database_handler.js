@@ -58,7 +58,7 @@ export default class databaseHandler {
 
 	static async register(formData) {
 		var birthday = formData.get('birthdate');
-		var pin = "301212";
+		var pin = this.generatePin(birthday);
 		
 		try {
 			const data = {
