@@ -6,11 +6,11 @@
 	export let type;
 </script>
 
-<label class="flex flex-col gap-2">
+<label for={name} class="flex flex-col gap-2">
 	<span class="text-sm tracking-normal w-full">{placeholder}</span>
 	{#if type == "password"}
 		<PasswordInput name={name} placeholder={placeholder} />
 	{:else}
-		<input type={type} placeholder={placeholder} name={name} class="w-full input input-bordered" />
+		<input id={name} type={type} placeholder={placeholder} name={name} class="w-full input input-bordered focus:outline focus:outline-1 focus:outline-white focus:border-none focus:ring-0" />
 	{/if}
 </label>
