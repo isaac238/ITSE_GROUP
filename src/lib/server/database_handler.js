@@ -56,10 +56,7 @@ export default class databaseHandler {
 		return !(passwordData && invalidPassword);
 	}
 
-	static async register(formData) {
-		var birthday = formData.get('birthdate');
-		var pin = this.generatePin(birthday);
-		
+	static async register(formData) {		
 		try {
 			const data = {
 				"username": formData.get('username'),
@@ -67,7 +64,7 @@ export default class databaseHandler {
 				"emailVisibility": true,
 				"password": formData.get('password'),
 				"passwordConfirm": formData.get('confirm-password'),
-				"pin": pin
+				"pin": this.generatePin(formData.get('birthdate'))
 			};
 
 			const record = await pb.collection('users').create(data);
