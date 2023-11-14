@@ -1,9 +1,10 @@
-import * as databaseHandler from '$lib/server/database_handler';
+import { startPocketbase, getPocketbase } from './lib/server/database_handler';
 
-databaseHandler.startPocketbase();
+startPocketbase();
 
 export const handle = (async ({ event, resolve }) => {
-	const pb = databaseHandler.getPocketbase();
+	const pb = getPocketbase();
+
 	pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
 
 	try {
@@ -11,6 +12,7 @@ export const handle = (async ({ event, resolve }) => {
 	} catch {
 		pb.authStore.clear();
 	}
+
 	event.locals.pb = pb;
 	event.locals.user = event.locals.pb.authStore.model;
 
@@ -21,3 +23,4 @@ export const handle = (async ({ event, resolve }) => {
 	);
 	return response;
 });
+

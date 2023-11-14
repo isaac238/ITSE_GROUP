@@ -36,6 +36,7 @@ export default class databaseHandler {
 	}
 
 	static pinValid(error) {
+		if (!error.data) return true;
 		let pinData = error.data.data.pin;
 		let nonUnique = (pinData) ? pinData.code == "validation_not_unique" : false;
 		
@@ -43,6 +44,7 @@ export default class databaseHandler {
 	}
 
 	static emailValid(error) {
+		if (!error.data) return true;
 		let emailData = error.data.data.email;
 		let invalidEmail = (emailData) ? emailData.code == "validation_invalid_email" : false;
 		
@@ -50,6 +52,7 @@ export default class databaseHandler {
 	}
 
 	static passwordValid(error) {
+		if (!error.data) return true;
 		let passwordData = error.data.data.password;
 		let invalidPassword = (passwordData) ? passwordData.code == "validation_length_out_of_range" : false;
 		
@@ -62,7 +65,7 @@ export default class databaseHandler {
 		return new File([blob], "profile.svg", {type: blob.type});
 	}
 
-	static async register(formData) {		
+	static async registerMember(formData) {		
 		try {
 			const data = {
 				"email": formData.get('email'),
@@ -76,17 +79,18 @@ export default class databaseHandler {
 				"avatar": await this.imageFromUrl("https://api.iconify.design/mdi/user.svg?download=1"),
 			};
 
-			const record = await pb.collection('users').create(data);
+			console.log(data);
+			const userRecord = await pb.collection('users').create(data);
+			const memberRecord = await pb.collection('members').create({user: userRecord.id});
 			return {success: true, message: "Registered!"};
 		} catch(error) {
 
-			if (!this.pinValid(error)) return this.register(formData);
+			if (!this.pinValid(error)) return this.registerMember(formData);
 			if (!this.passwordValid(error)) return {success:false,message:error.data.data.password.message};
 			if (!this.emailValid(error)) return {success: false, message:error.data.data.email.message};
-			console.log(error.data);
+			console.log(error);
 			return {success:false,message:"Something else went wrong check console for details"};
 		}
 		
 	}
-
 }
