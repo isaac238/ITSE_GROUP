@@ -18,8 +18,8 @@ export const handle = (async ({ event, resolve }) => {
 
 	const trainerOnlyRoutes = ["/trainerdash"];
 	const memberOnlyRoutes = ["/userdash"];
-	console.log(event.url.pathname);
-	console.log(event.locals.user);
+	console.log("PATH: " + event.url.pathname);
+	console.log("USER: " + event.locals.user);
 
 	if (!await databaseHandler.isTrainer() && trainerOnlyRoutes.includes(event.url.pathname)) {
 		console.log("IS NOT TRAINER ACCESSING TRAINER ONLY ROUTE");
