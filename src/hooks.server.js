@@ -1,9 +1,11 @@
-import * as databaseHandler from '$lib/server/database_handler';
+import { startPocketbase, getPocketbase } from '$lib/server/database_handler';
+import databaseHandler from './lib/server/database_handler';
+import { redirect } from '@sveltejs/kit';
 
-databaseHandler.startPocketbase();
+startPocketbase();
 
 export const handle = (async ({ event, resolve }) => {
-	const pb = databaseHandler.getPocketbase();
+	const pb = getPocketbase();
 	pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
 
 	try {
@@ -13,6 +15,17 @@ export const handle = (async ({ event, resolve }) => {
 	}
 	event.locals.pb = pb;
 	event.locals.user = event.locals.pb.authStore.model;
+
+	const trainerOnlyRoutes = ["/trainerdash"];
+	const memberOnlyRoutes = ["/userdash"];
+
+	if (!await databaseHandler.isTrainer() && trainerOnlyRoutes.includes(event.url.pathname)) {
+		throw redirect(302, "/");
+	}
+
+	if (!await databaseHandler.isMember() && memberOnlyRoutes.includes(event.url.pathname)) {
+		throw redirect(302, "/");
+	}
 
 	const response = await resolve(event);
 	response.headers.set(
