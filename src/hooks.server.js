@@ -18,12 +18,16 @@ export const handle = (async ({ event, resolve }) => {
 
 	const trainerOnlyRoutes = ["/trainerdash"];
 	const memberOnlyRoutes = ["/userdash"];
+	console.log(event.url.pathname);
+	console.log(event.locals.user);
 
 	if (!await databaseHandler.isTrainer() && trainerOnlyRoutes.includes(event.url.pathname)) {
+		console.log("IS NOT TRAINER ACCESSING TRAINER ONLY ROUTE");
 		throw redirect(302, "/");
 	}
 
 	if (!await databaseHandler.isMember() && memberOnlyRoutes.includes(event.url.pathname)) {
+		console.log("IS NOT MEMBER ACCESSING MEMBER ONLY ROUTE");
 		throw redirect(302, "/");
 	}
 
