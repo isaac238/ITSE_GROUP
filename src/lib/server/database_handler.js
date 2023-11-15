@@ -89,7 +89,7 @@ export default class databaseHandler {
 			if (!this.passwordValid(error)) return {success:false,message:error.data.data.password.message};
 			if (!this.emailValid(error)) return {success: false, message:error.data.data.email.message};
 			console.log(error);
-			return {success:false,message:"Something else went wrong check console for details"};
+			return {success:false,message:"Something else went wrong check the console for details"};
 		}
 		
 	}
@@ -104,6 +104,16 @@ export default class databaseHandler {
 			return null;
 		}
 	}
+
+	static async requestPasswordReset(formData) {
+		try {
+			const request = await pb.collection('users').requestPasswordReset(formData.get('email'));
+			return {success:true,message:"Reset Password Email Sent!"};
+		} catch(error) {
+			console.log(error.data)
+			return {success:false,message:"Something went wrong check the console for details"}
+    	}
+  	}
 
 	static async isMember() {
 		const user = pb.authStore.model;

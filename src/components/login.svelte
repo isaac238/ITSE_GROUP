@@ -10,6 +10,7 @@
 		<LabeledInput name="password" placeholder="Password" type="password" />
 		<button class="btn hover:bg-green-500 text-white bg-slate-700">Login</button>
       </div>
+      <p><a href="/forgotPassword" class="text-indigo-600 hover:underline">Forgot Password</a></p>
       <p>Don't have an account?<a href="/register" class="text-indigo-600 hover:underline pl-2">Register here</a></p>
   </form>
 </main>
