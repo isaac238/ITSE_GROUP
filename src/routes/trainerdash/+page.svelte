@@ -1,3 +1,8 @@
+<script>
+export let data;
+const user = data.user;
+console.log(user);
+</script>
 <div class="container">
     Main Dash
 </div>

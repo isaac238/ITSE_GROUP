@@ -93,4 +93,39 @@ export default class databaseHandler {
 		}
 		
 	}
+	
+	static async getUser() {
+		const user = pb.authStore.model;
+		if (!user) return null;
+		try {
+			return await pb.collection('users').getOne(user.id);
+		} catch (e) {
+			console.log(e);
+			return null;
+		}
+	}
+
+	static async isMember() {
+		const user = pb.authStore.model;
+		if (!user) return false;
+
+		try {
+			await pb.collection('members').getFirstListItem(`user.id = "${user.id}"`);
+			return true;
+		} catch (e) {
+			if (e.code == 404) return false;
+		}
+	}
+
+	static async isTrainer() {
+		const user = pb.authStore.model;
+		if (!user) return false;
+
+		try {
+			await pb.collection('trainers').getFirstListItem(`user.id = "${user.id}"`);
+			return true;
+		} catch (e) {
+			if (e.code == 404) return false;
+		}
+	}
 }

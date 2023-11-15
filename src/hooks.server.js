@@ -1,4 +1,6 @@
-import { startPocketbase, getPocketbase } from './lib/server/database_handler';
+import { startPocketbase, getPocketbase } from '$lib/server/database_handler';
+import databaseHandler from './lib/server/database_handler';
+import { redirect } from '@sveltejs/kit';
 
 startPocketbase();
 
@@ -15,6 +17,18 @@ export const handle = (async ({ event, resolve }) => {
 
 	event.locals.pb = pb;
 	event.locals.user = event.locals.pb.authStore.model;
+
+	const trainerOnlyRoutes = ["/trainerdash"];
+	const memberOnlyRoutes = ["/userdash"];
+
+	const isTrainer = await databaseHandler.isTrainer();
+	const isMember = await databaseHandler.isMember();
+
+	const routeIsTrainerOnly = trainerOnlyRoutes.includes(event.url.pathname);
+	const routeIsMemberOnly = memberOnlyRoutes.includes(event.url.pathname);
+
+	if (!isTrainer && routeIsTrainerOnly)  throw redirect(302, "/");
+	if (!isMember && routeIsMemberOnly) throw redirect(302, "/");
 
 	const response = await resolve(event);
 	response.headers.set(
