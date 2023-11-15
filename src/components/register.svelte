@@ -15,9 +15,10 @@
 			<LabeledInput name="confirm-password" placeholder="Confirm Password" type="password" />
 			<button class="btn hover:bg-green-500 bg-slate-700 text-white" type="submit">Register</button>
 
-			<div class="flex">
-				<p>Do you agree to the <span class="text-indigo-600 hover:underline pr- ">T&Cs</span></p>
-				<input type="checkbox" checked="checked" class="checkbox checkbox-primary" />
+			<div class="flex justify-center">
+				<input type="checkbox" checked="checked" class="checkbox checkbox-primary " />
+				<p class="pl-4">Do you agree to the <span class="text-indigo-600 hover:underline">T&Cs</span></p>
+
 
 			</div>
 
