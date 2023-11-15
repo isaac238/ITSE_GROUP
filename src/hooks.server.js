@@ -18,18 +18,15 @@ export const handle = (async ({ event, resolve }) => {
 
 	const trainerOnlyRoutes = ["/trainerdash"];
 	const memberOnlyRoutes = ["/userdash"];
-	console.log("PATH: " + event.url.pathname);
-	console.log("USER: " + event.locals.user);
 
-	if (!await databaseHandler.isTrainer() && trainerOnlyRoutes.includes(event.url.pathname)) {
-		console.log("IS NOT TRAINER ACCESSING TRAINER ONLY ROUTE");
-		throw redirect(302, "/");
-	}
+	const isTrainer = await databaseHandler.isTrainer();
+	const isMember = await databaseHandler.isMember();
 
-	if (!await databaseHandler.isMember() && memberOnlyRoutes.includes(event.url.pathname)) {
-		console.log("IS NOT MEMBER ACCESSING MEMBER ONLY ROUTE");
-		throw redirect(302, "/");
-	}
+	const routeIsTrainerOnly = trainerOnlyRoutes.includes(event.url.pathname);
+	const routeIsMemberOnly = memberOnlyRoutes.includes(event.url.pathname);
+
+	if (!isTrainer && routeIsTrainerOnly)  throw redirect(302, "/");
+	if (!isMember && routeIsMemberOnly) throw redirect(302, "/");
 
 	const response = await resolve(event);
 	response.headers.set(

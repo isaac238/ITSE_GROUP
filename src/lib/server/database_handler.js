@@ -79,14 +79,24 @@ export default class databaseHandler {
 		}
 		
 	}
+	
+	static async getUser() {
+		const user = pb.authStore.model;
+		if (!user) return null;
+		try {
+			return await pb.collection('users').getOne(user.id);
+		} catch (e) {
+			console.log(e);
+			return null;
+		}
+	}
 
 	static async isMember() {
 		const user = pb.authStore.model;
 		if (!user) return false;
+
 		try {
-			console.log("CHECKING IF MEMBER");
-			let data = await pb.collection('members').getFirstListItem(`user.id = "${user.id}"`);
-			console.log("MEMBER: " + data);
+			await pb.collection('members').getFirstListItem(`user.id = "${user.id}"`);
 			return true;
 		} catch (e) {
 			if (e.code == 404) return false;
@@ -96,10 +106,9 @@ export default class databaseHandler {
 	static async isTrainer() {
 		const user = pb.authStore.model;
 		if (!user) return false;
+
 		try {
-			console.log("CHECKING IF TRAINER");
 			await pb.collection('trainers').getFirstListItem(`user.id = "${user.id}"`);
-			console.log("TRAINER: " + data);
 			return true;
 		} catch (e) {
 			if (e.code == 404) return false;
