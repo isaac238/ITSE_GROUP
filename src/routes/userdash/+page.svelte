@@ -1,6 +1,11 @@
 <script>
+	import Nav from '../../components/nav.svelte';
     import DashItem from '../../components/dashitem.svelte';
 	import 'iconify-icon';
+
+	export let data;
+	const user = data.user;
+	console.log(user);
 
     let items = [
     {
@@ -26,6 +31,7 @@
   ];
 </script>
 
+<Nav/>
 <div class="relative w-screen h-screen bg-neutral-200"> <!-- Set the width and height of the parent div -->
     <div class="absolute inset-0 m-5 rounded-xl flex gap-4">
         <div class="w-1/6 rounded-xl p-10 bg-neutral-100 shadow-lg flex flex-col justify-between">

@@ -1,37 +1,20 @@
 <script>
-  import "iconify-icon";
-
-  let type = "password";
-  let icon = "mdi:eye-off-outline";
-
-  const toggleType = (event) => {
-    switch (type) {
-      case "password":
-        type = "text";
-        icon = "mdi:eye-outline";
-        break;
-      case "text":
-        type = "password";
-        icon = "mdi:eye-off-outline";
-        break;
-      default:
-        break;
-    }
-  };
+	import LabeledInput from "./LabeledInput.svelte";
 </script>
 
-<div class="w-screen h-screen flex items-center justify-center">
-  <form method="post" class="card w-[25%] bg-neutral-900 p-10">
-      <h1 class="text-2xl font-bold mb-8">Register</h1>
-      <div class="form-control gap-2 mb-4">
-          <input type="email" placeholder="Email" name="email" class="input input-bordered">
-          <input type="date" name="birthdate" class="input input-bordered">
-          <input type="{type}" name="password" placeholder="Password" class="input input-bordered">
-          <input type="{type}" name="confirm-password" placeholder="Confirm Password" class="input input-bordered">
+<main class="w-screen h-screen flex items-center justify-center">
+	<form method="post" class="card w-[25%] bg-base-300 p-10 ">
+		<h1 class="text-2xl font-bold mb-8">Register</h1>
 
-          <button id="toggleButton" type="button" on:click={toggleType}><iconify-icon {icon}/></button>
-          <button class="btn hover:bg-secondary text-white bg-slate-700" type="submit">Register</button>
-      </div>
-  </form>
-
-</div>
+		<div class="form-control gap-2 mb-4">
+			<LabeledInput name="first-name" placeholder="First Name" type="text" />
+			<LabeledInput name="surname" placeholder="Surname" type="text" />
+			<LabeledInput name="email" placeholder="Email" type="email" />
+			<LabeledInput name="birthdate" placeholder="Date Of Birth" type="date" />
+			<LabeledInput name="password" placeholder="Password" type="password" />
+			<LabeledInput name="confirm-password" placeholder="Confirm Password" type="password" />
+			<button class="btn hover:bg-green-500 bg-slate-700 text-white" type="submit">Register</button>
+		</div>
+		<p>Already have an account?<a href="/login" class="text-indigo-600 hover:underline pl-2">Login!</a></p>
+	</form>
+</main>
