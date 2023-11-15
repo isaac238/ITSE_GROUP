@@ -15,9 +15,9 @@ export function getPocketbase() {
 }
 
 export default class databaseHandler {
-	static async login(formData) {
+	static async login({email, password}) {
 		try {
-			await pb.collection('users').authWithPassword(formData.get('username'), formData.get('password'));
+			await pb.collection('users').authWithPassword(email, password);
 			return {success: true, message: "Logged in"};
 		} catch (error) {
 			console.log(error);
@@ -36,45 +36,59 @@ export default class databaseHandler {
 	}
 
 	static pinValid(error) {
+		if (!error.data) return true;
 		let pinData = error.data.data.pin;
-		let nonUnique = pinData.code == "validation_not_unique";
+		let nonUnique = (pinData) ? pinData.code == "validation_not_unique" : false;
 		
 		return !(pinData && nonUnique);
 	}
 
 	static emailValid(error) {
+		if (!error.data) return true;
 		let emailData = error.data.data.email;
-		let invalidEmail = emailData.code == "validation_invalid_email";
+		let invalidEmail = (emailData) ? emailData.code == "validation_invalid_email" : false;
 		
 		return !(emailData && invalidEmail);
 	}
 
 	static passwordValid(error) {
+		if (!error.data) return true;
 		let passwordData = error.data.data.password;
-		let invalidPassword = passwordData.code == "validation_length_out_of_range";
+		let invalidPassword = (passwordData) ? passwordData.code == "validation_length_out_of_range" : false;
 		
 		return !(passwordData && invalidPassword);
 	}
 
-	static async register(formData) {		
+	static async imageFromUrl(url) {
+		const response = await fetch(url);
+		const blob = await response.blob();
+		return new File([blob], "profile.svg", {type: blob.type});
+	}
+
+	static async registerMember(formData) {		
 		try {
 			const data = {
-				"username": formData.get('username'),
 				"email": formData.get('email'),
 				"emailVisibility": true,
+				"first_name": formData.get('first-name'),
+				"surname": formData.get('surname'),
+				"DOB": formData.get('birthdate'),
 				"password": formData.get('password'),
 				"passwordConfirm": formData.get('confirm-password'),
-				"pin": this.generatePin(formData.get('birthdate'))
+				"pin": this.generatePin(formData.get('birthdate')),
+				"avatar": await this.imageFromUrl("https://api.iconify.design/mdi/user.svg?download=1"),
 			};
 
-			const record = await pb.collection('users').create(data);
+			console.log(data);
+			const userRecord = await pb.collection('users').create(data);
+			const memberRecord = await pb.collection('members').create({user: userRecord.id});
 			return {success: true, message: "Registered!"};
 		} catch(error) {
 
-			if (!this.pinValid(error)) return this.register(formData);
+			if (!this.pinValid(error)) return this.registerMember(formData);
 			if (!this.passwordValid(error)) return {success:false,message:error.data.data.password.message};
 			if (!this.emailValid(error)) return {success: false, message:error.data.data.email.message};
-			console.log(error.data);
+			console.log(error);
 			return {success:false,message:"Something else went wrong check console for details"};
 		}
 		
