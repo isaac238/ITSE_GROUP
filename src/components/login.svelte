@@ -29,7 +29,7 @@
           <button id="toggleButton" type="button" on:click={toggleType}><iconify-icon {icon}/></button>
           <button class="btn hover:bg-secondary text-white bg-slate-700">Login</button>
       </div>
-      <p><a href="/forgotPassword" class="text-indigo-600 hover:text-white pl-3">Forgot Password</a></p>
+      <p><a href="/forgotPassword" class="text-indigo-600 hover:text-white">Forgot Password</a></p>
       <p>Don't have an account?<a href="/register" class="text-indigo-600 hover:text-white pl-3">Register here</a></p>
   </form>
 </div>
