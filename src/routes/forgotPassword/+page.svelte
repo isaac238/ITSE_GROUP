@@ -21,8 +21,8 @@
     <div class="divider"></div>
     <div class="card w-96 bg-base-100 shadow-xl ">
         <div class="card-body">
-          <h2 class="card-title">Success Email Sent!</h2>
-          <p>An email has been sent to {form.email}</p>
+          <h2 class="card-title">Reset Password Email Sent!</h2>
+          <p>An email has been sent to: {form.email} to reset your password</p>
           <div class="card-actions justify-center">
             <a href="/login"><button class="btn btn-primary" >Go Back</button></a>
           </div>
