@@ -1,6 +1,7 @@
 import { startPocketbase, getPocketbase } from '$lib/server/database_handler';
 import databaseHandler from './lib/server/database_handler';
 import { redirect } from '@sveltejs/kit';
+import Pin from '$lib/server/pin';
 
 startPocketbase();
 
