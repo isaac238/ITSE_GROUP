@@ -51,7 +51,7 @@ export default class databaseHandler {
 
 	static async registerMember(formData) {		
 		try {
-			const data = {
+			let data = {
 				"email": formData.get('email'),
 				"emailVisibility": true,
 				"first_name": formData.get('first-name'),
@@ -62,9 +62,11 @@ export default class databaseHandler {
 				"avatar": await this.imageFromUrl("https://api.iconify.design/mdi/user.svg?download=1"),
 			};
 
+			let pinCreated = await Pin.create(data);
+			data = {...data, "pin": pinCreated.body.id};
+
 			const userRecord = await pb.collection('users').create(data);
 			await pb.collection('members').create({user: userRecord.id});
-			await Pin.create(data, userRecord.id);
 			return {success: true, message: "Registered!"};
 		} catch(error) {
 			if (!this.passwordValid(error)) return {success:false,message:error.data.data.password.message};

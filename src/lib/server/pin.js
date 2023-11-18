@@ -3,13 +3,13 @@ import { PIN_ENCRYPTION_KEY } from "$env/static/private";
 import { getPocketbase } from "./database_handler";
 
 export default class Pin {
-	static async create({ DOB }, userId) {
+	static async create({ DOB }) {
 		try {
 			const pb = getPocketbase();
             const pin = await Pin.generateEncryptedPin(DOB);
-            await pb.collection("pins").create({ ...pin, user: userId });
+            const record = await pb.collection("pins").create(pin);
 
-            return { success: true, message: "Pin created" };
+            return { success: true, message: "Pin created", body: record };
         } catch (error) {
             console.log(error);
             return { success: false, message: "Error occured" };
@@ -23,9 +23,7 @@ export default class Pin {
         if (!user) return null;
 
         try {
-            const pinRecord = await pb
-                .collection("pins")
-                .getFirstListItem(`user.id = "${user.id}"`);
+            const pinRecord = await pb.collection("pins").getOne(user.pin);
             const pin = Pin.decryptPin(
                 pinRecord.pin,
                 pinRecord.iv,
@@ -54,12 +52,12 @@ export default class Pin {
                 .toISOString()
                 .replace("T", " ");
 
-            const potentialConflicts = await pb.collection("pins").getFullList({
-                filter: `user.DOB >= "${minDate}" && user.DOB < "${maxDate}"`,
+            const potentialConflicts = await pb.collection("users").getFullList({
+                filter: `DOB >= "${minDate}" && DOB < "${maxDate}" && pin != ""`,
             });
 
-            const potentialConflictsDecrypted = potentialConflicts.map((pin) =>
-                Pin.decryptPin(pin.pin, pin.iv, pin.tag)
+            const potentialConflictsDecrypted = potentialConflicts.map((user) =>
+                Pin.decryptPin(user.pin.pin, user.pin.iv, user.pin.tag)
             );
 
             console.log(potentialConflictsDecrypted);
