@@ -1,110 +1,127 @@
-import crypto from 'crypto';
-import { PIN_ENCRYPTION_KEY } from '$env/static/private';
-import { getPocketbase } from './database_handler';
+import crypto from "crypto";
+import { PIN_ENCRYPTION_KEY } from "$env/static/private";
+import { getPocketbase } from "./database_handler";
 
 export default class Pin {
 	static async create({ DOB }, userId) {
 		try {
 			const pb = getPocketbase();
-			const pin = await Pin.generateEncryptedPin(DOB);
-			await pb.collection('pins').create({...pin, user: userId})
-			return {success: true, message: "Pin created"};
-		} catch (error) {
-			console.log(error);
-			return {success: false, message: "Error occured"};
-		}
-	}
+            const pin = await Pin.generateEncryptedPin(DOB);
+            await pb.collection("pins").create({ ...pin, user: userId });
 
-	static async get() {
-		const pb = getPocketbase();
-		const user = pb.authStore.model;
-		if (!user) return null;
-		try {
-			const pinRecord = await pb.collection('pins').getFirstListItem(`user.id = "${user.id}"`);
-			const pin = Pin.decryptPin(pinRecord.pin, pinRecord.iv, pinRecord.tag);
+            return { success: true, message: "Pin created" };
+        } catch (error) {
+            console.log(error);
+            return { success: false, message: "Error occured" };
+        }
+    }
 
-			return pin;
-		} catch (e) {
-			console.log(e);
-			return null;
-		}
-	}
+    static async get() {
+        const pb = getPocketbase();
+        const user = pb.authStore.model;
 
-	static async isValid(pinPlainText, DOB) {
-		const pb = getPocketbase();
+        if (!user) return null;
 
-		try {
-			const dob = new Date(DOB);
-			const month = dob.getMonth();
-			const year = dob.getFullYear();
+        try {
+            const pinRecord = await pb
+                .collection("pins")
+                .getFirstListItem(`user.id = "${user.id}"`);
+            const pin = Pin.decryptPin(
+                pinRecord.pin,
+                pinRecord.iv,
+                pinRecord.tag
+            );
 
-			const maxDate = new Date(Date.UTC(year, month+1, 1)).toISOString().replace("T", " ");
-			const minDate = new Date(Date.UTC(year, month, 1)).toISOString().replace("T", " ");
+            return pin;
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
+    }
 
-			const potentialConflicts = await pb.collection('pins').getFullList({filter: `user.DOB >= "${minDate}" && user.DOB < "${maxDate}"`});
-			const potentialConflictsDecrypted = potentialConflicts.map(pin => Pin.decryptPin(pin.pin, pin.iv, pin.tag));
+    static async isValid(pinPlainText, DOB) {
+        const pb = getPocketbase();
 
-			console.log(potentialConflictsDecrypted);
-			return !potentialConflictsDecrypted.includes(pinPlainText);
-		} catch (e) {
-			if (e.code == 404) return true;
-			else console.log(e);
-		}
-	}
+        try {
+            const dob = new Date(DOB);
+            const month = dob.getMonth();
+            const year = dob.getFullYear();
 
-	static async generateEncryptedPin(birthday) {
-		const pin = this.generatePin(birthday);
-		console.log("VALID: " + await this.isValid(pin, birthday));
+            const maxDate = new Date(Date.UTC(year, month + 1, 1))
+                .toISOString()
+                .replace("T", " ");
+            const minDate = new Date(Date.UTC(year, month, 1))
+                .toISOString()
+                .replace("T", " ");
 
-		if (!this.isValid(pin, birthday)) await generateEncryptedPin(birthday);
+            const potentialConflicts = await pb.collection("pins").getFullList({
+                filter: `user.DOB >= "${minDate}" && user.DOB < "${maxDate}"`,
+            });
 
-		return this.encryptPin(pin);
-	}
+            const potentialConflictsDecrypted = potentialConflicts.map((pin) =>
+                Pin.decryptPin(pin.pin, pin.iv, pin.tag)
+            );
 
-	static generatePin(birthday) {
-		var year = birthday.toString().split('-')[0].substring(2,4);
-		var month = birthday.toString().split('-')[1];
-		
-		var random = Math.round(Math.random()*999).toString();
-		random += "0".repeat(3-random.length);
-		
-		return year + month + random;
-	}
+            console.log(potentialConflictsDecrypted);
+            return !potentialConflictsDecrypted.includes(pinPlainText);
+        } catch (e) {
+            if (e.code == 404) return true;
+            else console.log(e);
+        }
+    }
 
-	static encryptPin(pin) {
-		const iv = crypto.randomBytes(12).toString('base64');
-		const cipher = crypto.createCipheriv(
-			'aes-256-gcm',
-			Buffer.from(PIN_ENCRYPTION_KEY, 'base64'),
-			Buffer.from(iv, 'base64')
-		);
+    static async generateEncryptedPin(birthday) {
+        const pin = this.generatePin(birthday);
+        console.log("VALID: " + (await this.isValid(pin, birthday)));
 
-		let encrypted = cipher.update(pin, 'utf8', 'base64');
-		encrypted += cipher.final('base64');
+        if (!this.isValid(pin, birthday)) await generateEncryptedPin(birthday);
 
-		const tag = cipher.getAuthTag();
+        return this.encryptPin(pin);
+    }
 
-		return {
-			iv: iv,
-			pin: encrypted,
-			tag: tag.toString('base64'),
-		};
-	}
+    static generatePin(birthday) {
+        var year = birthday.toString().split("-")[0].substring(2, 4);
+        var month = birthday.toString().split("-")[1];
 
-	static decryptPin(encrypted, iv, tag) {
-		tag = Buffer.from(tag, 'base64')
-		const decipher = crypto.createDecipheriv(
-			'aes-256-gcm',
-			Buffer.from(PIN_ENCRYPTION_KEY, 'base64'),
-			Buffer.from(iv, 'base64')
-		);
+        var random = Math.round(Math.random() * 999).toString();
+        random += "0".repeat(3 - random.length);
 
-		decipher.setAuthTag(Buffer.from(tag, 'base64'));
+        return year + month + random;
+    }
 
-		let decrypted = decipher.update(encrypted, 'base64', 'utf8');
-		decrypted += decipher.final('utf8');
+    static encryptPin(pin) {
+        const iv = crypto.randomBytes(12).toString("base64");
+        const cipher = crypto.createCipheriv(
+            "aes-256-gcm",
+            Buffer.from(PIN_ENCRYPTION_KEY, "base64"),
+            Buffer.from(iv, "base64")
+        );
 
-		return decrypted;
-	}
-	
+        let encrypted = cipher.update(pin, "utf8", "base64");
+        encrypted += cipher.final("base64");
+
+        const tag = cipher.getAuthTag();
+
+        return {
+            iv: iv,
+            pin: encrypted,
+            tag: tag.toString("base64"),
+        };
+    }
+
+    static decryptPin(encrypted, iv, tag) {
+        tag = Buffer.from(tag, "base64");
+        const decipher = crypto.createDecipheriv(
+            "aes-256-gcm",
+            Buffer.from(PIN_ENCRYPTION_KEY, "base64"),
+            Buffer.from(iv, "base64")
+        );
+
+        decipher.setAuthTag(Buffer.from(tag, "base64"));
+
+        let decrypted = decipher.update(encrypted, "base64", "utf8");
+        decrypted += decipher.final("utf8");
+
+        return decrypted;
+    }
 }

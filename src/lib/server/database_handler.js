@@ -63,9 +63,8 @@ export default class databaseHandler {
 			};
 
 			const userRecord = await pb.collection('users').create(data);
-			const memberRecord = await pb.collection('members').create({user: userRecord.id});
-			const pinRecord = await Pin.create(data, userRecord.id);
-			console.log(await Pin.get());
+			await pb.collection('members').create({user: userRecord.id});
+			await Pin.create(data, userRecord.id);
 			return {success: true, message: "Registered!"};
 		} catch(error) {
 			if (!this.passwordValid(error)) return {success:false,message:error.data.data.password.message};
