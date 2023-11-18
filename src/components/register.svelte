@@ -25,6 +25,7 @@
 				<li>To access certain features of the website, you may need to create a user account.</li>
 				<li>You are responsible for maintaining the confidentiality of your account information.</li>
 				<li>You are responsible for all activities that occur under your account.</li>
+				<li>Users <strong class="underline underline-offset-4">MUST</strong> be 16 years or older to hold a Modern Fit account or enter Modern Fit facilities</li>
 			</ul>
 			<h4 class="font-bold text-xl pb-2 pt-2">3. Use Of The Website</h4>
 			<h5 class="font-bold text-m pb-2 pt-2">Normal Users</h5>
