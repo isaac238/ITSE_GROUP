@@ -28,7 +28,7 @@ export const handle = (async ({ event, resolve }) => {
 	const routeIsMemberOnly = memberOnlyRoutes.includes(event.url.pathname);
 
 	if (!isTrainer && routeIsTrainerOnly)  throw redirect(302, "/");
-	if (!isMember && routeIsMemberOnly) throw redirect(302, "/");
+	// if (!isMember && routeIsMemberOnly) throw redirect(302, "/");
 
 	const response = await resolve(event);
 	response.headers.set(

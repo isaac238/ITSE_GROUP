@@ -1,6 +1,7 @@
 <script>
 	import { writable } from 'svelte/store';
 	import Workout from '$lib/assets/workout.jpg';
+	import WorkoutItem from '../../components/WorkoutItem.svelte';
 
 	export let data; //Importing data so page isn't static, for route guarding (DO NOT DELETE)..
 
@@ -13,40 +14,13 @@
 </script>
 
 {#if $navState == "Workout"}
-	<div class="h-fit w-screen flex-row justify-center items-center">
-		<div class="card w-[90%] h-fit p-4 bg-base-200 shadow-xl m-auto my-10">
-		  <div class="card-body">
-			<h2 class="card-title pb-5">Upper Body Workout</h2>
-			<figure><img src={Workout} class="rounded-xl h-full" alt="Shoes" /></figure>
-			<ul>
-				<li class="my-4">2x20 Chest Flys</li>
-				<li class="my-4">5x10 Dumbbell Curls</li>
-				<li class="my-4">1x10 Barbell Thingies</li>
-			</ul>
-			<div class="card-actions justify-end">
-				<button class="btn btn-primary w-full">Check it out</button>
-			</div>
-		  </div>
-		</div>
-	</div>
-	<div class="card w-[90%] h-fit p-4 bg-base-200 shadow-xl m-auto my-10">
-	  <div class="card-body">
-		<h2 class="card-title pb-5">Upper Body Workout</h2>
-		<figure><img src={Workout} class="rounded-xl h-full" alt="Shoes" /></figure>
-		<ul>
-			<li class="my-4">2x20 Chest Flys</li>
-			<li class="my-4">5x10 Dumbbell Curls</li>
-			<li class="my-4">1x10 Barbell Thingies</li>
-		</ul>
-		<div class="card-actions justify-end">
-			<button class="btn btn-primary w-full">Check it out</button>
-		</div>
-	  </div>
+	<div class="w-screen h-fit flex md:flex-row m-auto flex-col justify-center items-center flex-wrap mb-36 md:mb-none">
+		<WorkoutItem workoutTitle="Example Title" workoutItems={['This', 'Is', 'Another', 'Array']} imgSource={Workout} />
+		<WorkoutItem workoutTitle="Example Title" workoutItems={['This', 'Is', 'Another', 'Array']} imgSource={Workout} />
+		<WorkoutItem workoutTitle="Example Title" workoutItems={['This', 'Is', 'Another', 'Array']} imgSource={Workout} />
+		<WorkoutItem workoutTitle="Example Title" workoutItems={['This', 'Is', 'Another', 'Array']} imgSource={Workout} />
 	</div>
 {/if}
-
-
-
 
 <div class="btm-nav">
 	<button class="bg-red-600 text-pink-200" class:active={$navState == "Workout"} on:click={() => updateNavState("Workout")}>
