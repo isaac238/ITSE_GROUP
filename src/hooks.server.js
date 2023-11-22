@@ -1,12 +1,15 @@
-import { startPocketbase, getPocketbase } from '$lib/server/database_handler';
-import databaseHandler from './lib/server/database_handler';
 import { redirect } from '@sveltejs/kit';
-import Pin from '$lib/server/pin';
+import pocketbase from 'pocketbase';
+import { PUBLIC_POCKETBASE_HOST } from '$env/static/public';
 
-startPocketbase();
+const newPocketbaseConnection = () => {
+	const pb = new pocketbase(PUBLIC_POCKETBASE_HOST);
+	pb.autoCancellation(false);
+	return pb;
+}
 
 export const handle = (async ({ event, resolve }) => {
-	const pb = getPocketbase();
+	const pb = newPocketbaseConnection();
 
 	pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
 
@@ -18,12 +21,13 @@ export const handle = (async ({ event, resolve }) => {
 
 	event.locals.pb = pb;
 	event.locals.user = event.locals.pb.authStore.model;
+	console.log("USER: " + event.locals.user);
 
 	const trainerOnlyRoutes = ["/trainerdash"];
 	const memberOnlyRoutes = ["/userdash"];
 
-	const isTrainer = await databaseHandler.isTrainer();
-	const isMember = await databaseHandler.isMember();
+	const isTrainer = event.locals.user ? event.locals.user.role == "trainer" : false;
+	const isMember = event.locals.user ? event.locals.user.role == "member" : false;
 
 	const routeIsTrainerOnly = trainerOnlyRoutes.includes(event.url.pathname);
 	const routeIsMemberOnly = memberOnlyRoutes.includes(event.url.pathname);
