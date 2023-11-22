@@ -35,6 +35,24 @@ export default class databaseHandler {
 		return !(emailData && invalidEmail);
 	}
 
+	static checkPassword(password){
+	
+		if(!/[a-z]/.test(password)){
+			return {success:false, message:"Password does not contain lowercase characters!"}
+		}
+		else if(!/[A-Z]/.test(password)){
+			return {success:false, message:"Password does not contain uppercase characters!"}
+		}
+		else if(!/\d/.test(password)){
+			return {success:false,message:"Password does not contain numbers!"}
+		}
+		else if(!/[!@#$%^&*:?.,-]/.test(password)) {
+			return {success:false,message:"Password does not contain any of these special characters !@#$%^&*:?.,- !"}
+		}
+		
+	
+	}
+
 	static passwordValid(error) {
 		if (!error.data) return true;
 		let passwordData = error.data.data.password;
