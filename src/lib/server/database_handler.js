@@ -93,12 +93,16 @@ export default class databaseHandler {
 		return new File([blob], "profile.svg", {type: blob.type});
 	}
 
-	static async registerMember(formData) {		
-		try {
-			this.checkPassword(formData.get('password'))
+	static validate(formData){
+		this.checkPassword(formData.get('password'))
 			this.ageValidation(formData.get('birthdate'))
 			this.firstNameValidation(formData.get('first-name'))
 			this.surnameValidation(formData.get('surname'))
+	}
+
+	static async registerMember(formData) {		
+		try {
+			this.validate(formData)
 			
 			if(formData.get('password') != formData.get('confirm-password')){
 				throw new PasswordsNotMatchingError();
