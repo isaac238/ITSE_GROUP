@@ -1,6 +1,7 @@
 import pocketbase from 'pocketbase';
 import { PUBLIC_POCKETBASE_HOST } from '$env/static/public';
 import Pin from './pin';
+import { PasswordValidation } from './error';
 
 
 let pb = new pocketbase(PUBLIC_POCKETBASE_HOST);
@@ -19,6 +20,7 @@ export default class databaseHandler {
 
 	static async login({email, password}) {
 		try {
+			this.checkPassword(password)
 			await pb.collection('users').authWithPassword(email, password);
 			return {success: true, message: "Logged in"};
 		} catch (error) {
@@ -38,16 +40,16 @@ export default class databaseHandler {
 	static checkPassword(password){
 	
 		if(!/[a-z]/.test(password)){
-			return {success:false, message:"Password does not contain lowercase characters!"}
+			throw new PasswordValidation("lowercase")
 		}
 		else if(!/[A-Z]/.test(password)){
-			return {success:false, message:"Password does not contain uppercase characters!"}
+			throw new PasswordValidation("uppercase")
 		}
-		else if(!/\d/.test(password)){
-			return {success:false,message:"Password does not contain numbers!"}
+		else if(!/[0-9]/.test(password)){
+			throw new PasswordValidation("digits")
 		}
 		else if(!/[!@#$%^&*:?.,-]/.test(password)) {
-			return {success:false,message:"Password does not contain any of these special characters !@#$%^&*:?.,- !"}
+			throw new PasswordValidation("characters")
 		}
 		
 	
@@ -69,6 +71,7 @@ export default class databaseHandler {
 
 	static async registerMember(formData) {		
 		try {
+			this.checkPassword(formData.get('password'))
 			let data = {
 				"email": formData.get('email'),
 				"emailVisibility": true,
@@ -88,9 +91,27 @@ export default class databaseHandler {
 			return {success: true, message: "Registered!"};
 		} catch(error) {
 			if (!this.passwordValid(error)) return {success:false,message:error.data.data.password.message};
-			if (!this.emailValid(error)) return {success: false, message:error.data.data.email.message};
-			console.log(error);
-			return {success:false,message:"Something else went wrong check the console for details"};
+			else if (!this.emailValid(error)) return {success: false, message:error.data.data.email.message};
+			try{
+				if(error.type = "lowercase"){
+					return {success:false,message:error.message}
+				}
+				else if(error.type = "uppercase"){
+					return {success:false,message:error.message}
+				}
+				else if(error.type = "digits"){
+					return {success:false,message:error.message}
+				}
+				else if(error.type = "characters"){
+					return {success:false,message:error.message}
+				}
+			}
+			catch{
+				if(error)
+				console.log(error);
+				return {success:false,message:"Something else went wrong check the console for details"};
+			}
+			
 		}
 		
 	}
