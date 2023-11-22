@@ -25,7 +25,7 @@ export default class databaseHandler {
 			return {success: true, message: "Logged in"};
 		} catch (error) {
 			console.log(error);
-			return {success: false, message: "Error occured"};
+			return {success: false, message: "Error occurred"};
 		}
 	}
 
