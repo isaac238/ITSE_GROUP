@@ -1,7 +1,7 @@
 import pocketbase from 'pocketbase';
 import { PUBLIC_POCKETBASE_HOST } from '$env/static/public';
 import Pin from './pin';
-import { BirthdayOutOfRangeError,PasswordValidationError, PasswordsNotMatchingError } from './error';
+import { BirthdayOutOfRangeError,FirstNameValidationError,PasswordValidationError, PasswordsNotMatchingError,SurnameValidationError } from './error';
 
 
 let pb = new pocketbase(PUBLIC_POCKETBASE_HOST);
@@ -69,6 +69,24 @@ export default class databaseHandler {
 		return !(passwordData && invalidPassword);
 	}
 
+	static firstNameValidation(firstName){
+		if(/[0-9]/.test(firstName)){
+			throw new FirstNameValidationError("digits")
+		}
+		else if(/[!@£$%^&*()_+{}\[\]]\/,.;'":?"><~`¡€#§¶•9º≠+=æ«÷≥≤…æ«/.test(firstName)){
+			throw new FirstNameValidationError("characters")
+		}
+	}
+
+	static surnameValidation(surname){
+		if(/[0-9]/.test(surname)){
+			throw new SurnameValidationError("digits")
+		}
+		else if(/[!@£$%^&*()_+{}\[\]]\/,.;'":?"><~`¡€#§¶•9º≠+=æ«÷≥≤…æ«/.test(surname)){
+			throw new SurnameValidationError("characters")
+		}
+	}
+
 	static async imageFromUrl(url) {
 		const response = await fetch(url);
 		const blob = await response.blob();
@@ -79,6 +97,8 @@ export default class databaseHandler {
 		try {
 			this.checkPassword(formData.get('password'))
 			this.ageValidation(formData.get('birthdate'))
+			this.firstNameValidation(formData.get('first-name'))
+			this.surnameValidation(formData.get('surname'))
 			
 			if(formData.get('password') != formData.get('confirm-password')){
 				throw new PasswordsNotMatchingError();

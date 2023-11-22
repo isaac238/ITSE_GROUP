@@ -43,3 +43,33 @@ export class BirthdayOutOfRangeError extends Error{
         this.name = "BirthdayOutOfRange"
     }
 }
+
+export class FirstNameValidationError extends Error{
+    constructor(type){
+        switch(type){
+            case "digit":
+                super("First name cannot contain a digit")
+                this.name = "FirstNameContainsDigits"
+            break;
+            case "characters":
+                super("First name cannot contain special characters")
+                this.name = "FirstNameContainsSpecialCharacters"
+            break;
+        }
+    }
+}
+
+export class SurnameValidationError extends Error{
+    constructor(type){
+        switch(type){
+            case "digit":
+                super("Surname cannot contain a digit")
+                this.name = "SurnameContainsDigits"
+            break;
+            case "characters":
+                super("Surname cannot contain special characters")
+                this.name = "SurnameContainsSpecialCharacters"
+            break;
+        }
+    }
+}
