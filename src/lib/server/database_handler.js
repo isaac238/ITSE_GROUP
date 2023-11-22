@@ -50,8 +50,6 @@ export default class databaseHandler {
 		else if(!/[!@#$%^&*:?.,-_]/.test(password)) {
 			throw new PasswordValidationError("characters")
 		}
-		
-	
 	}
 
 	static ageValidation(birthdate){
@@ -81,7 +79,7 @@ export default class databaseHandler {
 		try {
 			this.checkPassword(formData.get('password'))
 			this.ageValidation(formData.get('birthdate'))
-
+			
 			if(formData.get('password') != formData.get('confirm-password')){
 				throw new PasswordsNotMatchingError();
 			}
