@@ -48,7 +48,7 @@ export default class databaseHandler {
 		else if(!/[0-9]/.test(password)){
 			throw new PasswordValidation("digits")
 		}
-		else if(!/[!@#$%^&*:?.,-]/.test(password)) {
+		else if(!/[!@#$%^&*:?.,-_]/.test(password)) {
 			throw new PasswordValidation("characters")
 		}
 		
