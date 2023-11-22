@@ -11,6 +11,6 @@
 	{#if type == "password"}
 		<PasswordInput name={name} placeholder={placeholder} />
 	{:else}
-		<input id={name} type={type} placeholder={placeholder} name={name} class="w-full input input-bordered focus:outline focus:outline-1 focus:outline-white focus:border-none focus:ring-0" />
+		<input id={name} type={type} placeholder={placeholder} name={name} class="w-full input input-bordered focus:outline focus:outline-1 focus:outline-white focus:border-none focus:ring-0" required />
 	{/if}
 </label>
