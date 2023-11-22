@@ -1,4 +1,4 @@
-export class PasswordValidation extends Error{
+export class PasswordValidationError extends Error{
 
     constructor(error){
         switch(error){
@@ -14,14 +14,14 @@ export class PasswordValidation extends Error{
 
             break;
             case "digits":
-                this.message = `\x1b[31m${"Password does not contain numbers!"} \x1b[0m `
+                super(`\x1b[31m${"Password does not contain numbers!"} \x1b[0m `)
                 this.name = "PasswordValidationNoNumbers"
                 this.type = "digits"
 
 
             break;
             case "characters":
-                this.message = (`\x1b[31m${"Password does not contain any of these special characters !@#$%^&*:?.,- !"} \x1b[0m `)
+                super(`\x1b[31m${"Password does not contain any of these special characters !@#$%^&*:?.,- !"} \x1b[0m `)
                 this.name = "PasswordValidationNoSpecialCharacters"
                 this.type = "characters"
 
@@ -30,13 +30,16 @@ export class PasswordValidation extends Error{
     }
 }
 
-export class PasswordsNotMatching extends Error{
+export class PasswordsNotMatchingError extends Error{
     constructor(){
-        this.message = "Passwords do not match" 
+        super("Passwords do not match")
         this.name = "PasswordsNotMatching"
     }
 }
 
-export class BirthdayOutOfRange extends Error{
-
+export class BirthdayOutOfRangeError extends Error{
+    constructor(date){
+        super(`Birth of date is out of range, birthday needs to be before ${date.toDateString()}`)
+        this.name = "BirthdayOutOfRange"
+    }
 }
