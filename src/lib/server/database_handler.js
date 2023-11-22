@@ -1,7 +1,7 @@
 import pocketbase from 'pocketbase';
 import { PUBLIC_POCKETBASE_HOST } from '$env/static/public';
 import Pin from './pin';
-import { BirthdayOutOfRangeError,PasswordValidationError } from './error';
+import { BirthdayOutOfRangeError,PasswordValidationError, PasswordsNotMatchingError } from './error';
 
 
 let pb = new pocketbase(PUBLIC_POCKETBASE_HOST);
@@ -38,7 +38,6 @@ export default class databaseHandler {
 	}
 
 	static checkPassword(password){
-	
 		if(!/[a-z]/.test(password)){
 			throw new PasswordValidationError("lowercase")
 		}
@@ -82,6 +81,10 @@ export default class databaseHandler {
 		try {
 			this.checkPassword(formData.get('password'))
 			this.ageValidation(formData.get('birthdate'))
+
+			if(formData.get('password') != formData.get('confirm-password')){
+				throw new PasswordsNotMatchingError();
+			}
 			let data = {
 				"email": formData.get('email'),
 				"emailVisibility": true,
