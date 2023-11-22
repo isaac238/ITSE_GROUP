@@ -1,6 +1,7 @@
 import pocketbase from 'pocketbase';
 import { PUBLIC_POCKETBASE_HOST } from '$env/static/public';
 import Pin from './pin';
+import { BirthdayOutOfRangeError,FirstNameValidationError,PasswordValidationError, PasswordsNotMatchingError,SurnameValidationError } from './error';
 
 
 let pb = new pocketbase(PUBLIC_POCKETBASE_HOST);
@@ -19,11 +20,12 @@ export default class databaseHandler {
 
 	static async login({email, password}) {
 		try {
+			this.checkPassword(password)
 			await pb.collection('users').authWithPassword(email, password);
 			return {success: true, message: "Logged in"};
 		} catch (error) {
 			console.log(error);
-			return {success: false, message: "Error occured"};
+			return {success: false, message: "Error occurred"};
 		}
 	}
 
@@ -35,6 +37,30 @@ export default class databaseHandler {
 		return !(emailData && invalidEmail);
 	}
 
+	static checkPassword(password){
+		if(!/[a-z]/.test(password)){
+			throw new PasswordValidationError("lowercase")
+		}
+		else if(!/[A-Z]/.test(password)){
+			throw new PasswordValidationError("uppercase")
+		}
+		else if(!/[0-9]/.test(password)){
+			throw new PasswordValidationError("digits")
+		}
+		else if(!/[!@#$%^&*:?.,-_]/.test(password)) {
+			throw new PasswordValidationError("characters")
+		}
+	}
+
+	static ageValidation(birthdate){
+		let date =new Date()
+		date.setFullYear(date.getFullYear() - 16);
+		if(new Date(birthdate) <= new Date(date)){
+			return true
+		}
+		else throw new BirthdayOutOfRangeError(date)
+	}
+
 	static passwordValid(error) {
 		if (!error.data) return true;
 		let passwordData = error.data.data.password;
@@ -43,14 +69,44 @@ export default class databaseHandler {
 		return !(passwordData && invalidPassword);
 	}
 
+	static firstNameValidation(firstName){
+		if(/[0-9]/.test(firstName)){
+			throw new FirstNameValidationError("digits")
+		}
+		else if(/[!@£$%^&*()_+{}\[\]]\/,.;'":?"><~`¡€#§¶•9º≠+=æ«÷≥≤…æ«/.test(firstName)){
+			throw new FirstNameValidationError("characters")
+		}
+	}
+
+	static surnameValidation(surname){
+		if(/[0-9]/.test(surname)){
+			throw new SurnameValidationError("digits")
+		}
+		else if(/[!@£$%^&*()_+{}\[\]]\/,.;'":?"><~`¡€#§¶•9º≠+=æ«÷≥≤…æ«/.test(surname)){
+			throw new SurnameValidationError("characters")
+		}
+	}
+
 	static async imageFromUrl(url) {
 		const response = await fetch(url);
 		const blob = await response.blob();
 		return new File([blob], "profile.svg", {type: blob.type});
 	}
 
+	static validate(formData){
+		this.checkPassword(formData.get('password'))
+			this.ageValidation(formData.get('birthdate'))
+			this.firstNameValidation(formData.get('first-name'))
+			this.surnameValidation(formData.get('surname'))
+	}
+
 	static async registerMember(formData) {		
 		try {
+			this.validate(formData)
+			
+			if(formData.get('password') != formData.get('confirm-password')){
+				throw new PasswordsNotMatchingError();
+			}
 			let data = {
 				"email": formData.get('email'),
 				"emailVisibility": true,
@@ -70,9 +126,27 @@ export default class databaseHandler {
 			return {success: true, message: "Registered!"};
 		} catch(error) {
 			if (!this.passwordValid(error)) return {success:false,message:error.data.data.password.message};
-			if (!this.emailValid(error)) return {success: false, message:error.data.data.email.message};
-			console.log(error);
-			return {success:false,message:"Something else went wrong check the console for details"};
+			else if (!this.emailValid(error)) return {success: false, message:error.data.data.email.message};
+			try{
+				if(error.type = "lowercase"){
+					return {success:false,message:error.message}
+				}
+				else if(error.type = "uppercase"){
+					return {success:false,message:error.message}
+				}
+				else if(error.type = "digits"){
+					return {success:false,message:error.message}
+				}
+				else if(error.type = "characters"){
+					return {success:false,message:error.message}
+				}
+			}
+			catch{
+				if(error)
+				console.log(error);
+				return {success:false,message:"Something else went wrong check the console for details"};
+			}
+			
 		}
 		
 	}
