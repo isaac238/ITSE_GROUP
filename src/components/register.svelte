@@ -1,7 +1,15 @@
 <script>
 	import LabeledInput from "./LabeledInput.svelte";
+    import Notifactions from "./Notifactions.svelte";
 	import Policies from "./Policies.svelte";
+
+
 </script>
+
+<div>
+	<Notifactions notificationType="warning" message="this is a sample" />
+
+</div>
 
 
 
@@ -32,7 +40,6 @@
 		</div>
 		<p>Already have an account?<a href="/login" class="text-indigo-600 hover:underline pl-2">Login!</a></p>
 	</form>
-
 	
 <script>
 	function showModal(){
