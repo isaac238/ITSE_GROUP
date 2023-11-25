@@ -1,5 +1,7 @@
+import RegisterValidation from '../registerValidation';
 import Pin from './pin';
 import Utils from './utils';
+import Validation from './validation';
 
 export default class Auth {
 	constructor(pb) {
@@ -10,6 +12,7 @@ export default class Auth {
 		try {
 			const email = formData.get('email');
 			const password = formData.get('password');
+			Validation.checkPassword(password);
 			await this.pb.collection('users').authWithPassword(email, password);
 			return {success: true, message: "Logged in"};
 		} catch (error) {
@@ -18,23 +21,18 @@ export default class Auth {
 		}
 	}
 
-	emailValid(error) {
-		if (!error.data) return true;
-		let emailData = error.data.data.email;
-		let invalidEmail = (emailData) ? emailData.code == "validation_invalid_email" : false;
-		
-		return !(emailData && invalidEmail);
-	}
-
-	passwordValid(error) {
-		if (!error.data) return true;
-		let passwordData = error.data.data.password;
-		let invalidPassword = (passwordData) ? passwordData.code == "validation_length_out_of_range" : false;
-		
-		return !(passwordData && invalidPassword);
+	#validateRegister(formData) {
+		const passwordValid = RegisterValidation.passwordValidation(formData.get('password')).valid;
+		const confirmPasswordValid = RegisterValidation.confirmValidation(formData.get('password'), formData.get('confirm-password')).valid;
+		const emailValid = RegisterValidation.emailValidation(formData.get('email')).valid;
+		const ageValid = RegisterValidation.ageValidation(formData.get('birthdate')).valid;
+		const firstNameValid = RegisterValidation.firstNameValidation(formData.get('first-name')).valid;
+		const surnameValid = RegisterValidation.surnameValidation(formData.get('surname')).valid;
+		return passwordValid && confirmPasswordValid && emailValid && ageValid && firstNameValid && surnameValid;
 	}
 
 	async registerMember(formData) {
+		if (!this.#validateRegister(formData)) return {success: false, message: "Invalid form data!"};
 		try {
 			const pin = new Pin(this.pb);
 			const pinCreated = await pin.create(formData.get('birthdate'));
@@ -56,8 +54,8 @@ export default class Auth {
 
 			return {success: true, message: "Registered!"};
 		} catch(error) {
-			if (!this.passwordValid(error)) return {success:false,message:error.data.data.password.message};
-			if (!this.emailValid(error)) return {success: false, message:error.data.data.email.message};
+			if (!RegisterValidation.dbPasswordValid(error)) return {success:false,message:error.data.data.password.message};
+			if (!RegisterValidation.dbEmailValid(error)) return {success: false, message:error.data.data.email.message};
 			console.log(error);
 			return {success:false,message:"Something else went wrong check the console for details"};
 		}
