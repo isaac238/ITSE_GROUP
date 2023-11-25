@@ -1,7 +1,6 @@
 import RegisterValidation from '../registerValidation';
 import Pin from './pin';
 import Utils from './utils';
-import Validation from './validation';
 
 export default class Auth {
 	constructor(pb) {
@@ -9,10 +8,13 @@ export default class Auth {
 	}
 
 	async login(formData) {
+		const email = formData.get('email');
+		const password = formData.get('password');
+
+		if (!RegisterValidation.passwordValidation(password).valid)
+			return {success: false, message: "Invalid password!"};
+
 		try {
-			const email = formData.get('email');
-			const password = formData.get('password');
-			Validation.checkPassword(password);
 			await this.pb.collection('users').authWithPassword(email, password);
 			return {success: true, message: "Logged in"};
 		} catch (error) {
