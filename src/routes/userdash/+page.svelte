@@ -16,8 +16,8 @@
 
 
 
-<div class="w-screen h-screen flex flex-col items-center bg-neutral">
-  <ul class="menu menu-horizontal rounded-xl mt-2 p-0 h-fit">
+<div class="w-screen h-screen flex flex-col items-center bg-transparent">
+  <ul class="menu menu-horizontal rounded-xl my-2 p-0 h-fit">
     <button class="btn-sm bg-slate-800 rounded-lg mx-1">Nutrition</button>
     <button class="btn-sm bg-slate-800 rounded-lg mx-1">Workout</button>
     <button class="btn-sm bg-slate-800 rounded-lg mx-1">Dashboard</button>
@@ -28,10 +28,43 @@
     <div class="snap-always snap-center flex-shrink-0 w-[100%] h-100% bg-gray-300 rounded-lg"></div>
     <div class="snap-always snap-center flex-shrink-0 w-[100%] h-100% bg-gray-300 rounded-lg"></div>
     <div class="snap-always snap-center flex-shrink-0 w-[100%] h-100% bg-gray-300 rounded-lg"></div>
-  </div>
+</div>
 
- <div class="hidden md:flex w-4/6 h-5/6 bg-red-100 my-auto rounded-xl">
+ <div class="hidden md:flex flex-wrap items-center w-4/6 h-5/6 rounded-xl overflow-y-auto gap-7 p-4">
+	<div class="w-[24rem] h-[30rem] bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg text-white p-10 text-xl flex flex-col justify-between">
+		<div>
+			<h1 class="text-3xl font-bold mb-10">Jimbo 10k</h1>
+			<h1>The Jimbo Special</h1>
+			<h1>Alcohol for preworkout.</h1>
+		</div>
+		<button class="btn btn-default bg-white text-black border-none hover:bg-black hover:text-white mt-4">View</button>
+	</div>
+	<div class="w-[24rem] h-[30rem] bg-gradient-to-r from-amber-500 to-red-500 rounded-lg text-white p-10 text-xl flex flex-col justify-between">
+		<div>
+			<h1 class="text-3xl font-bold mb-10">Jimbo 10k</h1>
+			<h1>The Jimbo Special</h1>
+			<h1>Alcohol for preworkout.</h1>
+		</div>
+		<button class="btn btn-default bg-white text-black border-none hover:bg-black hover:text-white mt-4">View</button>
+	</div>
+	<div class="w-[24rem] h-[30rem] bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg text-white p-10 text-xl flex flex-col justify-between">
+		<div>
+			<h1 class="text-3xl font-bold mb-10">Jimbo 10k</h1>
+			<h1>The Jimbo Special</h1>
+			<h1>Alcohol for preworkout.</h1>
+		</div>
+		<button class="btn btn-default bg-white text-black border-none hover:bg-black hover:text-white mt-4">View</button>
+	</div>
+	<div class="w-[24rem] h-[30rem] bg-gradient-to-r from-amber-500 to-red-500 rounded-lg text-white p-10 text-xl flex flex-col justify-between">
+		<div>
+			<h1 class="text-3xl font-bold mb-10">Jimbo 10k</h1>
+			<h1>The Jimbo Special</h1>
+			<h1>Alcohol for preworkout.</h1>
+		</div>
+		<button class="btn btn-default bg-white text-black border-none hover:bg-black hover:text-white mt-4">View</button>
+	</div>
 	
+
  </div>
 </div>
 
