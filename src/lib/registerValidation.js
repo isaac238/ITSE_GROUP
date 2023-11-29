@@ -73,7 +73,7 @@ export default class RegisterValidation {
 	static firstNameValidation(firstName) {
 		const isEmpty = firstName == "";
 		const hasNumbers = /[0-9]/.test(firstName);
-		const hasSpecialCharacters = /[!@£$%^&*()_+{}\[\]\/,.;'":?"><~`¡€#§¶•9º≠+=æ«÷≥≤…æ«]/.test(surname);
+		const hasSpecialCharacters = /[!@£$%^&*()_+{}\[\]\/,.;'":?"><~`¡€#§¶•9º≠+=æ«÷≥≤…æ«]/.test(firstName);
 
 		const valid = !isEmpty && !hasNumbers && !hasSpecialCharacters;
 		let problems = [];
