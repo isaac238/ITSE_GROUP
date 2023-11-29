@@ -45,7 +45,7 @@
 			<LabeledInput name="password" placeholder="Password" type="password" bind:value={password} required={true} />
 			<LabeledInput name="confirm-password" placeholder="Confirm Password" type="password" bind:value={confirmPassword} required={true} />
 			<button class="btn hover:bg-green-500 bg-slate-700 text-white" type="submit">Register</button>
-			<InputError {errors} />
+			<!-- <InputError {errors} /> -->
 
 			<div class="flex justify-center">
 				<input type="checkbox" class="checkbox checkbox-primary" />
