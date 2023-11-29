@@ -8,8 +8,6 @@ export const actions = {
 		const response = await auth.registerMember(data);
 
 		if (response.success) throw redirect(301, "/login");
-		else{
-			console.log(response.message)
-		}
+		else console.log(response.message)
 	}
 }
