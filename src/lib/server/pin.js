@@ -1,14 +1,25 @@
 import crypto from "crypto";
 import { PIN_ENCRYPTION_KEY } from "$env/static/private";
-import { getPocketbase } from "./database_handler";
 
 export default class Pin {
+	constructor(pb) {
+		this.pb = pb;
+	}
+
 	// Public methods
-	static async create({ DOB }) {
+	async create(DOB) {
 		try {
-			const pb = getPocketbase();
-            const pin = await Pin.#generateEncryptedPin(DOB);
-            const record = await pb.collection("pins").create(pin);
+            const plainTextPin = this.#generatePin(DOB);
+			const pinValid = this.#isValid(plainTextPin, DOB);
+
+			while (!pinValid) {
+				plainTextPin = this.#generatePin(DOB);
+				pinValid = this.#isValid(plainTextPin, DOB);
+			}
+
+			const pin = this.#encryptPin(plainTextPin);
+
+            const record = await this.pb.collection("pins").create(pin);
 
             return { success: true, message: "Pin created", body: record };
         } catch (error) {
@@ -17,15 +28,14 @@ export default class Pin {
         }
     }
 
-    static async get() {
-        const pb = getPocketbase();
-        const user = pb.authStore.model;
+    async get() {
+        const user = this.pb.authStore.model;
 
         if (!user) return null;
 
         try {
-            const pinRecord = await pb.collection("pins").getOne(user.pin);
-            const pin = Pin.#decryptPin(
+            const pinRecord = await this.pb.collection("pins").getOne(user.pin);
+            const pin = this.#decryptPin(
                 pinRecord.pin,
                 pinRecord.iv,
                 pinRecord.tag
@@ -40,9 +50,7 @@ export default class Pin {
 
 
 	// Private methods
-    static async #isValid(pinPlainText, DOB) {
-        const pb = getPocketbase();
-
+    async #isValid(plainTextPin, DOB) {
         try {
             const dob = new Date(DOB);
             const month = dob.getMonth();
@@ -55,11 +63,11 @@ export default class Pin {
                 .toISOString()
                 .replace("T", " ");
 
-            const potentialConflicts = await pb.collection("users").getFullList({
+            const potentialConflicts = await this.pb.collection("users").getFullList({
                 filter: `DOB >= "${minDate}" && DOB < "${maxDate}" && pin != ""`,
             });
 
-			const alreadyExists = potentialConflicts.some((user) => Pin.#decryptPin(user.pin.pin, user.pin.iv, user.pin.tag) == pinPlainText);
+			const alreadyExists = potentialConflicts.some((user) => this.#decryptPin(user.pin.pin, user.pin.iv, user.pin.tag) == plainTextPin);
 
 			return !alreadyExists;
 
@@ -69,16 +77,7 @@ export default class Pin {
         }
     }
 
-    static async #generateEncryptedPin(birthday) {
-        const pin = this.#generatePin(birthday);
-        console.log("VALID: " + (await this.#isValid(pin, birthday)));
-
-        if (!this.#isValid(pin, birthday)) await generateEncryptedPin(birthday);
-
-        return this.#encryptPin(pin);
-    }
-
-    static #generatePin(birthday) {
+    #generatePin(birthday) {
         var year = birthday.toString().split("-")[0].substring(2, 4);
         var month = birthday.toString().split("-")[1];
 
@@ -88,7 +87,7 @@ export default class Pin {
         return year + month + random;
     }
 
-    static #encryptPin(pin) {
+    #encryptPin(pin) {
         const iv = crypto.randomBytes(12).toString("base64");
         const cipher = crypto.createCipheriv(
             "aes-256-gcm",
@@ -108,7 +107,7 @@ export default class Pin {
         };
     }
 
-    static #decryptPin(encrypted, iv, tag) {
+    #decryptPin(encrypted, iv, tag) {
         tag = Buffer.from(tag, "base64");
         const decipher = crypto.createDecipheriv(
             "aes-256-gcm",
