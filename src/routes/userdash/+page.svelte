@@ -41,16 +41,20 @@
   <div
     class="md:hidden flex snap-x snap-mandatory overflow-x-auto p-4 space-x-4 bg-neutral w-screen flex-grow"
   >
-    <MobileItem
-      title="Component Title"
-      subtitle="Subtitle"
-      description="description"
-    />
+    <MobileItem title="Component Title" subtitle="Subtitle" description="description"/>
+    <MobileItem title="Component Title" subtitle="Subtitle" description="description"/>
+    <MobileItem title="Component Title" subtitle="Subtitle" description="description"/>
+    <MobileItem title="Component Title" subtitle="Subtitle" description="description"/>
+    <MobileItem title="Component Title" subtitle="Subtitle" description="description"/>
   </div>
 
   <div
     class="hidden md:flex flex-wrap items-center w-4/6 h-5/6 rounded-xl overflow-y-auto gap-7 p-4"
   >
+    <DesktopItem title="Title" subtitle="Subtitle" description="Description" />
+    <DesktopItem title="Title" subtitle="Subtitle" description="Description" />
+    <DesktopItem title="Title" subtitle="Subtitle" description="Description" />
+    <DesktopItem title="Title" subtitle="Subtitle" description="Description" />
     <DesktopItem title="Title" subtitle="Subtitle" description="Description" />
   </div>
 </div>
