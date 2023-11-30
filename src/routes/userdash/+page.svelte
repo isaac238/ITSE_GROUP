@@ -36,9 +36,9 @@
     <input id="my-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content">
         <div
-            class="w-screen h-screen flex flex-col items-center bg-transparent"
+            class="w-screen h-screen flex flex-col items-center justify-center bg-transparent"
         >
-            <div class="flex justify-center w-full">
+            <div class="flex justify-center items-center w-full">
                 {#if isMobile}
                     <!-- Mobile View -->
                     <div
@@ -68,7 +68,7 @@
                 {:else}
                     <!-- Desktop View -->
                     <div
-                        class="flex flex-wrap items-center w-4/6 h-5/6 rounded-xl overflow-y-auto gap-7 p-4"
+                        class="flex flex-wrap items-center w-[82rem] h-[50rem] rounded-xl overflow-y-auto gap-7 p-4"
                     >
                         <DesktopItem
                             title="Title"
