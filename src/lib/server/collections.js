@@ -43,7 +43,7 @@ export default class Collections {
 const getSubtitle = (table, record) => {
 	if (table == "workout_log" || table == "meal_log") {
 		const dateCreated = new Date(record.created);
-		return "Created on: " + dateCreated.toLocaleDateString() + " at " + dateCreated.toLocaleTimeString().substring(0, 5);
+		return "Created on: " + dateCreated.toLocaleDateString() + " at " + dateCreated.toLocaleTimeString().substring(0, dateCreated.toLocaleTimeString().lastIndexOf(":"));
 	}
 
 	if (table == "workout_plan" || table == "meal_plan") {
