@@ -72,7 +72,7 @@
                     >
                         <DesktopItem
                             title="Title"
-                            subtitle="Subtitle"
+                            subtitle="Monday Workout Plan with Weights, involving back."
                             description="Description"
                         />
                         <DesktopItem
