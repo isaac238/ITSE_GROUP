@@ -62,7 +62,7 @@
 
 <div class="drawer">
     <input id="my-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerChecked}>
-    <div class="drawer-content h-[100svh] flex flex-col">
+    <div class="drawer-content h-[100dvh] flex flex-col">
 		<h1 class="py-3 px-4 md:p-4 bg-transparent text-xl md:text-3xl font-bold">{$currentTable.split("_").map((x) => {return x[0].toUpperCase() + x.substring(1, x.length)}).join(" ")}</h1>
         <div class="w-screen flex flex-col items-center justify-center bg-transparent flex-grow">
             <div class="flex justify-center items-center w-full h-full">
