@@ -47,7 +47,7 @@
     $: isMobile = $screenWidth < 768;
 </script>
 
-<span class="inline-flex fixed bottom-10 left-8 z-10 gap-3">
+<span class="inline-flex fixed bottom-5 left-5 md:bottom-10 md:left-8 z-10 gap-3">
 <label id="drawer-activate" for="my-drawer" class="btn btn-primary bg-white text-black hover:text-white hover:bg-black drawer-button z-10 px-4 py-2 rounded-lg cursor-pointer border-none"> Menu </label>
 <button id="new-record" class="btn btn-primary bg-white text-black hover:text-white hover:bg-black px-4 py-2 rounded-lg cursor-pointer border-none text-2xl"><iconify-icon icon="mdi:create-new-folder"/></button>
 <button id="new-record" class="btn btn-primary bg-white text-black hover:text-white hover:bg-black px-4 py-2 rounded-lg cursor-pointer border-none text-2xl"><iconify-icon icon="mdi:information"/></button>
@@ -55,13 +55,13 @@
 
 <div class="drawer">
     <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content">
-		<h1 class="p-4 text-3xl font-bold">{$currentTable.split("_").map((x) => {return x[0].toUpperCase() + x.substring(1, x.length)}).join(" ")}</h1>
-        <div class="w-screen flex flex-col items-center justify-center bg-transparent">
-            <div class="flex justify-center items-center w-full">
+    <div class="drawer-content h-screen flex flex-col">
+		<h1 class="p-2 md:p-4 bg-neutral md:bg-transparent text-xl md:text-3xl font-bold">{$currentTable.split("_").map((x) => {return x[0].toUpperCase() + x.substring(1, x.length)}).join(" ")}</h1>
+        <div class="w-screen flex flex-col items-center justify-center bg-transparent flex-grow">
+            <div class="flex justify-center items-center w-full h-full">
                 {#if isMobile}
                     <!-- Mobile View -->
-                    <div class="md:hidden flex snap-x snap-mandatory overflow-x-auto p-4 space-x-4 bg-neutral w-screen" >
+                    <div class="md:hidden flex snap-x snap-mandatory overflow-x-auto p-4 space-x-4 bg-neutral w-screen h-full" >
 					{#each collectionData as record} 
 						<MobileItem title={record.name} subtitle={record.subtitle}/>
 						<MobileItem title={record.name} subtitle={record.subtitle}/>
