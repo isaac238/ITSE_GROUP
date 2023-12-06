@@ -32,10 +32,10 @@
         </div>
 
         <div
-            class="w-screen h-[93vh] overflow-y-scroll bg-slate-700 flex itmes-center flex-col"
+            class="w-screen h-[93vh] overflow-y-scroll bg-slate-700 flex items-center flex-col"
         >
             <div
-                class="w-[90vw] h-[5rem] my-3 p-5 mx-auto flex items-center bg-gradient-to-r from-blue-400 to-blue-700 text-white shadow-lg rounded-lg gap-4"
+                class="relative w-[90vw] h-[5rem] my-3 p-5 mx-auto flex items-center bg-gradient-to-r from-blue-400 to-blue-700 text-white shadow-lg rounded-lg gap-4"
             >
                 <h1 class="text-lg">Workout Name</h1>
                 <h1 class="text-lg">5x10</h1>
@@ -46,10 +46,10 @@
                     class="checkbox ml-auto"
                 />
             </div>
-            <button
-                class="btn btn-primary w-[90vw] mx-auto h-[4rem] mt-3 shadow-lg"
-                >Log Workout</button
-            >
+
+			<!-- This is the log button, it goes below all conditionals. Do not include it in any svelte conditionals.-->
+
+            <button class="btn btn-primary w-[90vw] h-[4rem] my-3 shadow-lg absolute bottom-0">Log Workout</button>
 
             <!-- {#each workout as item}
                 {#if item.type == "Weight"}
