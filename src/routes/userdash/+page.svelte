@@ -10,12 +10,9 @@
     const screenWidth = writable(0);
 	const currentTable = writable("workout_log");
 	let collectionData = data.collectionsData[$currentTable];
-	console.log(collectionData);
 	$: collectionData = data.collectionsData[$currentTable];
 
     onMount(() => {
-		document.addEventListener("keydown", onKeyDown);
-		document.addEventListener("keyup", onKeyUp);
         const updateScreenWidth = () => {
             screenWidth.set(window.innerWidth);
         };
@@ -31,7 +28,7 @@
 
 	let hasActivated = false;
 
-	function onKeyUp(e) {
+	function onKeyUp() {
 		hasActivated = false;
 	}
 
@@ -47,6 +44,8 @@
     $: isMobile = $screenWidth < 768;
 </script>
 
+<svelte:window on:keydown={onKeyDown} on:keyup={onKeyUp} />
+
 <span class="inline-flex fixed bottom-5 left-5 md:bottom-10 md:left-8 z-10 gap-3">
 <label id="drawer-activate" for="my-drawer" class="btn btn-primary bg-white text-black hover:text-white hover:bg-black drawer-button z-10 px-4 py-2 rounded-lg cursor-pointer border-none"> Menu </label>
 <button id="new-record" class="btn btn-primary bg-white text-black hover:text-white hover:bg-black px-4 py-2 rounded-lg cursor-pointer border-none text-2xl"><iconify-icon icon="mdi:create-new-folder"/></button>
@@ -54,14 +53,14 @@
 </span>
 
 <div class="drawer">
-    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+    <input id="my-drawer" type="checkbox" class="drawer-toggle">
     <div class="drawer-content h-screen flex flex-col">
-		<h1 class="p-2 md:p-4 bg-neutral md:bg-transparent text-xl md:text-3xl font-bold">{$currentTable.split("_").map((x) => {return x[0].toUpperCase() + x.substring(1, x.length)}).join(" ")}</h1>
+		<h1 class="py-3 px-4 md:p-4 bg-transparent text-xl md:text-3xl font-bold">{$currentTable.split("_").map((x) => {return x[0].toUpperCase() + x.substring(1, x.length)}).join(" ")}</h1>
         <div class="w-screen flex flex-col items-center justify-center bg-transparent flex-grow">
             <div class="flex justify-center items-center w-full h-full">
                 {#if isMobile}
                     <!-- Mobile View -->
-                    <div class="md:hidden flex snap-x snap-mandatory overflow-x-auto p-4 space-x-4 bg-neutral w-screen h-full" >
+                    <div class="md:hidden flex snap-x snap-mandatory overflow-x-auto p-4 space-x-4 w-screen h-full" >
 					{#each collectionData as record} 
 						<MobileItem title={record.name} subtitle={record.subtitle}/>
 						<MobileItem title={record.name} subtitle={record.subtitle}/>
@@ -93,7 +92,7 @@
             aria-label="close sidebar"
             class="drawer-overlay"
         />
-        <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content flex flex-col items-start">
+        <ul class="menu p-4 w-full md:w-72 min-h-full bg-gradient-to-t from-gray-800 to-gray-950 border-r border-r-white text-base-content flex flex-col items-start">
             <!-- Sidebar content here -->
 			{#if data.user}
 				<span class="inline-flex items-center justify-center gap-2 mb-5 mt-5 px-4">
