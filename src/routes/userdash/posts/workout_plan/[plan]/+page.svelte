@@ -102,7 +102,6 @@
 				<h1 class="text-white text-xl">5x10</h1>
 				<h1 class="text-white text-xl">20kg</h1>
 			</div>
-				
 		</div>
 	</div>
 {/if}
