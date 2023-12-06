@@ -1,67 +1,110 @@
 <script>
-	import Nav from '../../components/nav.svelte';
-    import DashItem from '../../components/dashitem.svelte';
-	import 'iconify-icon';
+    import { writable } from "svelte/store";
+    import { onMount } from "svelte";
+    import Nav from "../../components/nav.svelte";
+    import MobileItem from "../../components/MobileItem.svelte";
+    import DesktopItem from "../../components/DesktopItem.svelte";
 
-	export let data;
-	const user = data.user;
-	console.log(user);
+    export let data; //Importing data so page isn't static, for route guarding (DO NOT DELETE)..
 
-    let items = [
-    {
-      title: 'Item 1',
-      content: 'This is the content for Item 1.',
-    },
-    {
-      title: 'Item 2',
-      content: 'This is the content for Item 2.',
-    },
-    {
-      title: 'Item 3',
-      content: 'This is the content for Item 3.',
-    },
-    {
-        title: 'Item 4',
-        content: 'This is the content for Item 4',
-    },
-    {
-        title: 'Item 4',
-        content: 'This is the content for Item 4',
-    },
-  ];
+    const screenWidth = writable(0);
+
+    onMount(() => {
+        const updateScreenWidth = () => {
+            screenWidth.set(window.innerWidth);
+        };
+
+        updateScreenWidth();
+
+        window.addEventListener("resize", updateScreenWidth);
+
+        return () => {
+            window.removeEventListener("resize", updateScreenWidth);
+        };
+    });
+
+    $: isMobile = $screenWidth < 768;
 </script>
 
-<Nav/>
-<div class="relative w-screen h-screen bg-neutral-200"> <!-- Set the width and height of the parent div -->
-    <div class="absolute inset-0 m-5 rounded-xl flex gap-4">
-        <div class="w-1/6 rounded-xl p-10 bg-neutral-100 shadow-lg flex flex-col justify-between">
-            <ul>
-              <li class="pb-10"><a href="/userdash" class="text-purple-500">Dashboard</a></li>
-              <li class="pb-10"><a href="/workoutplanner" class="hover:text-purple-500 text-neutral-800">Workout Plans</a></li>
-            </ul>
-            <ul class="self-end w-[100%]">
-                <li>
-                    <a href="/logout" class="text-neutral-800 flex items-center hover:text-red-400">
-                      <iconify-icon icon="mdi:logout"/>
-                      <span class="ml-2">Logout</span>
-                    </a>
-                  </li>
-            </ul>
-          </div>
-          
-          <div class="w-5/6 bg-neutral-100 rounded-xl shadow-lg flex flex-wrap justify-items-start">
-            <div class="w-[100%] rounded-xl flex flex-wrap h-fit gap-10 m-10">
-                {#each items as item}
-                    <DashItem>
-                        <h1 class="text-white">{item.title}</h1>
-                        <p class="text-white">{item.content}</p>
-                    </DashItem>
-                {/each}
+<label
+    for="my-drawer"
+    class="btn btn-primary bg-white text-black hover:text-white hover:bg-black drawer-button fixed bottom-10 left-10 z-10 px-4 py-2 rounded-lg cursor-pointer border-none"
+    >Menu</label
+>
+
+<div class="drawer">
+    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content">
+        <div
+            class="w-screen h-screen flex flex-col items-center justify-center bg-transparent"
+        >
+            <div class="flex justify-center items-center w-full">
+                {#if isMobile}
+                    <!-- Mobile View -->
+                    <div
+                        class="md:hidden flex snap-x snap-mandatory overflow-x-auto p-4 space-x-4 bg-neutral w-screen h-screen"
+                    >
+                        <MobileItem
+                            title="Weight Workout"
+                            subtitle="Monday Workout Plan with Weights, involving back."
+                            description="Back and arms split."
+                        />
+                        <MobileItem
+                            title="Component Title"
+                            subtitle="Subtitle"
+                            description="description"
+                        />
+                        <MobileItem
+                            title="Component Title"
+                            subtitle="Subtitle"
+                            description="description"
+                        />
+                        <MobileItem
+                            title="Component Title"
+                            subtitle="Subtitle"
+                            description="description"
+                        />
+                    </div>
+                {:else}
+                    <!-- Desktop View -->
+                    <div
+                        class="flex flex-wrap items-center w-[82rem] h-[50rem] rounded-xl overflow-y-auto gap-7 p-4"
+                    >
+                        <DesktopItem
+                            title="Title"
+                            subtitle="Subtitle"
+                            description="Description"
+                        />
+                        <DesktopItem
+                            title="Title"
+                            subtitle="Subtitle"
+                            description="Description"
+                        />
+                        <DesktopItem
+                            title="Title"
+                            subtitle="Subtitle"
+                            description="Description"
+                        />
+                        <DesktopItem
+                            title="Title"
+                            subtitle="Subtitle"
+                            description="Description"
+                        />
+                    </div>
+                {/if}
             </div>
-            
         </div>
     </div>
-  </div>
-  
-<style>
-</style>
+    <div class="drawer-side">
+        <label
+            for="my-drawer"
+            aria-label="close sidebar"
+            class="drawer-overlay"
+        />
+        <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+            <!-- Sidebar content here -->
+            <li><a>Sidebar Item 1</a></li>
+            <li><a>Sidebar Item 2</a></li>
+        </ul>
+    </div>
+</div>
