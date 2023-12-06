@@ -21,7 +21,8 @@ export const handle = (async ({ event, resolve }) => {
 
 	event.locals.pb = pb;
 	event.locals.user = event.locals.pb.authStore.model;
-	event.locals.user.avatar = pb.files.getUrl(event.locals.user, event.locals.user.avatar);
+	if (event.locals.user)
+		event.locals.user.avatar = pb.files.getUrl(event.locals.user, event.locals.user.avatar);
 
 	const trainerOnlyRoutes = ["/trainerdash"];
 	const memberOnlyRoutes = ["/userdash"];
