@@ -8,9 +8,14 @@
     export let data; //Importing data so page isn't static, for route guarding (DO NOT DELETE)..
 
     const screenWidth = writable(0);
+
 	const currentTable = writable("workout_log");
+
 	let collectionData = data.collectionsData[$currentTable];
 	$: collectionData = data.collectionsData[$currentTable];
+
+	let drawerChecked;
+	let menuString = "Menu";
 
     onMount(() => {
         const updateScreenWidth = () => {
@@ -33,13 +38,14 @@
 	}
 
 	function onKeyDown(e) {
-		const drawer = document.querySelector(".drawer-toggle");
-
 		if (e.key === "Escape" && !hasActivated) {
-			drawer.checked = !drawer.checked;
+			drawerChecked = !drawerChecked;
 			hasActivated = true;
 		}
 	}
+
+
+	$: menuString = (drawerChecked) ? "Close" : "Menu";
 
     $: isMobile = $screenWidth < 768;
 </script>
@@ -47,14 +53,16 @@
 <svelte:window on:keydown={onKeyDown} on:keyup={onKeyUp} />
 
 <span class="inline-flex fixed bottom-5 left-5 md:bottom-10 md:left-8 z-10 gap-3">
-<label id="drawer-activate" for="my-drawer" class="btn btn-primary bg-white text-black hover:text-white hover:bg-black drawer-button z-10 px-4 py-2 rounded-lg cursor-pointer border-none"> Menu </label>
+<label  id="drawer-activate" for="my-drawer" class="btn btn-primary bg-white text-black hover:text-white hover:bg-black drawer-button z-10 px-4 py-2 rounded-lg cursor-pointer border-none">
+	{menuString}
+</label>
 <button id="new-record" class="btn btn-primary bg-white text-black hover:text-white hover:bg-black px-4 py-2 rounded-lg cursor-pointer border-none text-2xl"><iconify-icon icon="mdi:create-new-folder"/></button>
 <button id="new-record" class="btn btn-primary bg-white text-black hover:text-white hover:bg-black px-4 py-2 rounded-lg cursor-pointer border-none text-2xl"><iconify-icon icon="mdi:information"/></button>
 </span>
 
 <div class="drawer">
-    <input id="my-drawer" type="checkbox" class="drawer-toggle">
-    <div class="drawer-content h-screen flex flex-col">
+    <input id="my-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerChecked}>
+    <div class="drawer-content h-[100svh] flex flex-col">
 		<h1 class="py-3 px-4 md:p-4 bg-transparent text-xl md:text-3xl font-bold">{$currentTable.split("_").map((x) => {return x[0].toUpperCase() + x.substring(1, x.length)}).join(" ")}</h1>
         <div class="w-screen flex flex-col items-center justify-center bg-transparent flex-grow">
             <div class="flex justify-center items-center w-full h-full">
