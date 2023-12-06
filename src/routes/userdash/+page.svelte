@@ -103,8 +103,13 @@
         />
         <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
             <!-- Sidebar content here -->
-            <li><a>Sidebar Item 1</a></li>
-            <li><a>Sidebar Item 2</a></li>
+            
+            <li><a>Workout Plans</a></li>
+            <li><a>Workout Logs</a></li>
+            <li><a>Nutrition Plans</a></li>
+            <li><a>Nutrition Log</a></li>
+            <li><a href="/">Back to Home Page</a></li>
+			<li><a href="../logout/">Logout</a></li>
         </ul>
     </div>
 </div>
