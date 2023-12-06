@@ -24,7 +24,7 @@
 </script>
 
 {#if isMobile}
-    <div class="w-screen h-screen bg-black">
+    <div class="w-screen h-screen bg-slate-800">
         <div class="w-screen h-[7vh] flex items-center justify-center">
             <h1 class="max-w-screen text-2xl text-white font-semibold">
                 Workout Name
@@ -90,4 +90,19 @@
             {/each} -->
         </div>
     </div>
+{:else}
+    <div class="relative w-screen h-screen flex items-center justify-center bg-slate-800 ">
+		<div class="w-2/4 h-3/4 text-black rounded-lg overflow-y-scroll">
+			<div class="w-full h-[5rem] rounded-lg bg-slate-900 shadow-lg flex flex-row items-center justify-center">
+				<h1 class="text-white font-semibold text-3xl flex flex-row ml-10">Workout Name</h1>
+				<button class="btn btn-primary shadow-lg ml-auto mr-4">Log Workout</button>	
+			</div>
+			<div class="w-full h-[5rem] mx-auto my-3 rounded-lg bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center gap-10">
+				<h1 class="text-white text-xl">Dumbbell Curls</h1>
+				<h1 class="text-white text-xl">5x10</h1>
+				<h1 class="text-white text-xl">20kg</h1>
+			</div>
+				
+		</div>
+	</div>
 {/if}
