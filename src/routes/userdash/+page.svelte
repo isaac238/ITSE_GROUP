@@ -92,7 +92,7 @@
             aria-label="close sidebar"
             class="drawer-overlay"
         />
-        <ul class="menu p-4 w-full md:w-72 min-h-full bg-gradient-to-t from-gray-800 to-gray-950 border-r border-r-white text-base-content flex flex-col items-start">
+        <ul class="menu p-4 w-full md:w-72 min-h-full h-screen bg-gradient-to-t from-gray-800 to-gray-950 border-r border-r-white text-base-content flex flex-col items-start">
             <!-- Sidebar content here -->
 			{#if data.user}
 				<span class="inline-flex items-center justify-center gap-2 mb-5 mt-5 px-4">
