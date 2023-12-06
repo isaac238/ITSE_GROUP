@@ -35,7 +35,7 @@ export default class Auth {
 
 	async registerMember(formData) {
 		if (!this.#validateRegister(formData)) return {success: false, message: "Invalid form data!"};
-		let pinRecord;
+		let pinRecord = false;
 		try {
 			const pin = new Pin(this.pb);
 			const pinCreated = await pin.create(formData.get('birthdate'));
