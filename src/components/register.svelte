@@ -33,7 +33,7 @@
 </dialog>
 
 <main class="w-screen h-screen flex items-center justify-center">
-	<form method="post" class="card w-[25%] bg-base-300 p-10" use:enhance={() => {
+	<form method="post" class="card w-[95%] md:w-[60%] lg:w-[30%] bg-base-300 p-10" use:enhance={() => {
 	return async ({update}) => {
 		update({ reset: false });
 		}
