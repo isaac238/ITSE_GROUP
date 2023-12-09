@@ -1,6 +1,9 @@
 <script>
     import Nav from "../components/nav.svelte";
     import background from '$lib/assets/background.jpg'
+    import card1 from '$lib/assets/card1.jpg'
+    import card2 from '$lib/assets/card2.jpg'
+    import card3 from '$lib/assets/card3.jpg'
 </script>
 
 <Nav />
@@ -37,7 +40,7 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
     </p>
     <div class="grid grid-cols-3 justify-items-center gap-y-10">
         <div class="card w-96 h-fit bg-base-100 shadow-2xl">
-            <figure><img src="src\lib\assets\card1.jpg" alt="Man doing a dumbbell bicep curl" /></figure>
+            <figure><img src={card1} alt="Man doing a dumbbell bicep curl" /></figure>
             <div class="card-body">
             <h2 class="card-title">Weights!</h2>
             <p>
@@ -61,7 +64,7 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
             </div>
         </div>
         <div class="card w-96 h-fit bg-base-100 shadow-2xl">
-            <figure><img src="src\lib\assets\card2.jpg" alt="Woman running on treadmill"/></figure>
+            <figure><img src={card2} alt="Woman running on treadmill"/></figure>
             <div class="card-body">
             <h2 class="card-title">Cardio!</h2>
             <p>
@@ -83,11 +86,11 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
             </div>
         </div>
         <div class="card w-96 h-fit bg-base-100 shadow-xl">
-            <figure><img src="src\lib\assets\card3.jpg" alt="Woman working out with personal trainer" /></figure>
+            <figure><img src={card3} alt="Woman working out with personal trainer"/></figure>
             <div class="card-body">
             <h2 class="card-title">Personal Trainers!</h2>
             <p>
-                ModernFit Gym has some of the best personal trainers in all of Sheffield! We offer one-on-one sessions
+                ModernFit Gym has some of the best personal trainers the world has to offer! We provide one-on-one sessions
                 with our trainers to help guide you with targeted workouts, ensuring proper form and motivation. As a 
                 member of our gym, you will have access to our online system where your trainer can assign you highly
                  efficient, personalised workout plans, tailored exactly to your goals!              
