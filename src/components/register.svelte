@@ -1,12 +1,11 @@
 <script>
 	import InputError from "./InputError.svelte";
 	import LabeledInput from "./LabeledInput.svelte";
-    import Notifactions from "./Notifactions.svelte";
 	import Policies from "./Policies.svelte";
-
-
 	import RegisterValidation from "$lib/registerValidation.js";
+
 	import {enhance} from "$app/forms";
+    import NotifcationCentre from "./NotifcationCentre.svelte";
 
 	let firstName = "";
 	let surname = "";
@@ -14,8 +13,7 @@
 	let birthdate = "";
 	let password = "";
 	let confirmPassword = "";
-	let errors = [];
-
+	let errors =[]
 	let maxDate = new Date()
 	maxDate.setFullYear(maxDate.getFullYear() - 16);
 	
@@ -27,11 +25,11 @@
 	...RegisterValidation.surnameValidation(surname).problems,
 	...RegisterValidation.ageValidation(birthdate).problems,
 	];
+	let count = 0;
 </script>
 
-<div>
-	<Notifactions notificationType="warning" message="this is a sample" />
-
+<div class="absoloute">
+	<NotifcationCentre errors={errors}/>
 </div>
 
 

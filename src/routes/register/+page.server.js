@@ -1,5 +1,6 @@
 import { redirect } from "@sveltejs/kit";
 import Auth from "$lib/server/auth";
+import { errorsStore } from "../../lib/store.js";
 
 export const actions = {
 	default: async ({ request, locals }) => {
@@ -8,6 +9,6 @@ export const actions = {
 		const response = await auth.registerMember(data);
 
 		if (response.success) throw redirect(301, "/login");
-		else console.log(response.message)
+		else errorsStore.update(errs=>[...errs,response.message])
 	}
 }
