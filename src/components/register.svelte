@@ -33,7 +33,7 @@
 </dialog>
 
 <main class="w-screen h-screen flex items-center justify-center">
-	<form method="post" class="card w-[25%] bg-base-300 p-10" use:enhance={() => {
+	<form method="post" class="card w-[95%] md:w-[60%] lg:w-[30%] bg-base-300 p-10" use:enhance={() => {
 	return async ({update}) => {
 		update({ reset: false });
 		}
@@ -49,7 +49,7 @@
 			<LabeledInput name="password" placeholder="Password" type="password" bind:value={password} required={true} />
 			<LabeledInput name="confirm-password" placeholder="Confirm Password" type="password" bind:value={confirmPassword} required={true} />
 			<button class="btn hover:bg-green-500 bg-slate-700 text-white" type="submit">Register</button>
-			<!-- <InputError {errors} /> -->
+			<!--<InputError {errors} />-->
 			<div class="flex justify-center">
 				<input type="checkbox" class="checkbox checkbox-primary" required/>
 				<p class="pl-4">Do you agree to the <span onclick="showModal()" class="text-indigo-600 hover:underline cursor-pointer">T&C and Privacy Policy</span></p>
