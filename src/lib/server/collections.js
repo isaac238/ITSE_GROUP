@@ -1,6 +1,18 @@
+import Utils from "../utils.js";
+
 export default class Collections {
 	constructor(pb) {
 		this.pb = pb;
+	}
+
+	async createRecord(collection, data) {
+		try {
+			const record = await this.pb.collection(collection).create(data);
+			return record;
+		} catch (error) {
+			console.log(error)
+			return undefined;
+		}
 	}
 
 	async getAllLogsAndPlans() {
@@ -18,8 +30,16 @@ export default class Collections {
 					expand: collectionsAndExpansions[collection],
 				});
 				data.forEach(record => {
-					record.subtitle = getSubtitle(collection, record);
+					record.subtitle = Utils.getSubtitle(collection, record);
+					if (collection == "workout_log") {
+						record.name = new Date(record.created).toLocaleDateString();
+					}
 				});
+
+				if (collection === "meal_log")
+					data.sort((record1, record2) => new Date(record2.eaten_at) + new Date(record1.eaten_at));
+				else
+					data.sort((record1, record2) => new Date(record2.created) - new Date(record1.created));
 				response[collection] = data;
 			}
 		} catch (error) {
@@ -37,17 +57,5 @@ export default class Collections {
 			console.log(error);
 			return undefined;
 		}
-	}
-}
-
-const getSubtitle = (table, record) => {
-	if (table == "workout_log" || table == "meal_log") {
-		const dateCreated = new Date(record.created);
-		return "Created on: " + dateCreated.toLocaleDateString() + " at " + dateCreated.toLocaleTimeString().substring(0, dateCreated.toLocaleTimeString().lastIndexOf(":"));
-	}
-
-	if (table == "workout_plan" || table == "meal_plan") {
-		const dateFor = new Date(record.plan_date);
-		return "Plan for: " + dateFor.toLocaleDateString();
 	}
 }

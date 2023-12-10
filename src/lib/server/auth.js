@@ -1,6 +1,6 @@
 import RegisterValidation from '../registerValidation';
 import Pin from './pin';
-import Utils from './utils';
+import Utils from '../utils';
 
 export default class Auth {
 	constructor(pb) {
@@ -12,14 +12,14 @@ export default class Auth {
 		const password = formData.get('password');
 
 		if (!RegisterValidation.passwordValidation(password).valid)
-			return {success: false, message: "Invalid password!"};
+			return { success: false, message: "Invalid password!" };
 
 		try {
 			await this.pb.collection('users').authWithPassword(email, password);
-			return {success: true, message: "Logged in"};
+			return { success: true, message: "Logged in" };
 		} catch (error) {
 			console.log(error);
-			return {success: false, message: "Error occured"};
+			return { success: false, message: "Error occured" };
 		}
 	}
 
@@ -34,7 +34,7 @@ export default class Auth {
 	}
 
 	async registerMember(formData) {
-		if (!this.#validateRegister(formData)) return {success: false, message: "Invalid form data!"};
+		if (!this.#validateRegister(formData)) return { success: false, message: "Invalid form data!" };
 		try {
 			const pin = new Pin(this.pb);
 			const pinCreated = await pin.create(formData.get('birthdate'));
@@ -54,31 +54,31 @@ export default class Auth {
 
 			await this.pb.collection('users').create(data);
 
-			return {success: true, message: "Registered!"};
-		} catch(error) {
-			if (!RegisterValidation.dbPasswordValid(error)) return {success:false,message:error.data.data.password.message};
-			if (!RegisterValidation.dbEmailValid(error)) return {success: false, message:error.data.data.email.message};
+			return { success: true, message: "Registered!" };
+		} catch (error) {
+			if (!RegisterValidation.dbPasswordValid(error)) return { success: false, message: error.data.data.password.message };
+			if (!RegisterValidation.dbEmailValid(error)) return { success: false, message: error.data.data.email.message };
 			console.log(error);
-			return {success:false,message:"Something else went wrong check the console for details"};
+			return { success: false, message: "Something else went wrong check the console for details" };
 		}
 	}
 
 	async requestPasswordReset(formData) {
 		try {
 			await this.pb.collection('users').requestPasswordReset(formData.get('email'));
-			return {success:true,message:"Reset Password Email Sent!"};
-		} catch(error) {
+			return { success: true, message: "Reset Password Email Sent!" };
+		} catch (error) {
 			console.log(error.data)
-			return {success:false,message:"Something went wrong check the console for details"}
-    	}
-  	}
-
-	async logout() {
-		if (!this.pb.authStore.model) return {success: false, message: "Not logged in!"};
-		await this.pb.authStore.clear();
-		return {success: true, message: "Logged out!"};
+			return { success: false, message: "Something went wrong check the console for details" }
+		}
 	}
 
-	
+	async logout() {
+		if (!this.pb.authStore.model) return { success: false, message: "Not logged in!" };
+		await this.pb.authStore.clear();
+		return { success: true, message: "Logged out!" };
+	}
+
+
 
 }
