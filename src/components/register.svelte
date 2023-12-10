@@ -28,7 +28,7 @@
 	let count = 0;
 </script>
 
-<div class="absolute">
+<div class="absoloute">
 	<NotificationCentre errors/>
 </div>
 

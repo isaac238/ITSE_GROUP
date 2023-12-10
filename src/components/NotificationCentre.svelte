@@ -11,6 +11,8 @@
 
     let store =[]
     errorsStore.subscribe(val=>errors=[val])
+
+    console.log(errors)
 </script>
 
 
