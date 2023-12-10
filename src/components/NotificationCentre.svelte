@@ -34,7 +34,9 @@
       </div>
     {/if} -->
 
+
     {#each errors as error}
         <Error message={error}/>
     {/each}
+
 </div>

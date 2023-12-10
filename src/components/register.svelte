@@ -5,7 +5,7 @@
 	import RegisterValidation from "$lib/registerValidation.js";
 
 	import {enhance} from "$app/forms";
-    import NotifcationCentre from "./NotifcationCentre.svelte";
+    import NotificationCentre from "./NotificationCentre.svelte";
 
 	let firstName = "";
 	let surname = "";
@@ -28,8 +28,8 @@
 	let count = 0;
 </script>
 
-<div class="absoloute">
-	<NotifcationCentre errors={errors}/>
+<div class="absolute">
+	<NotificationCentre errors/>
 </div>
 
 
