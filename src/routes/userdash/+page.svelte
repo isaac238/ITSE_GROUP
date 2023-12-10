@@ -141,7 +141,6 @@
 		});
 
 		const respJSON = await response.json();
-		console.log(respJSON);
 
 		if (respJSON === true) {
 			collectionsData.update((prev) => {return {
