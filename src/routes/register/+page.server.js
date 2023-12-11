@@ -12,7 +12,9 @@ export const actions = {
 			// pre-made code (not tested errors yet)
 			// successStore.addNotification(response.message)
 			throw redirect(301, "/login");}
-		// else errorsStore.addNotification(response.message);
-		console.log(response)
+		else {
+			console.log(response)
+			errorsStore.addNotification(response);}
+
 	}
 }
