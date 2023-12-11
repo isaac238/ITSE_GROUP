@@ -14,8 +14,13 @@ const pb = newPocketbaseConnection();
 const pin = new Pin(pb);
 
 describe('Testing pin class', () => {
+	it('Checks isValid function', async () => {
+		const success = await pin.isValid("18071234", "2004-07-18");
+		expect(success).toBe(true);
+	});
+
 	it('Attempts to create a pin in the db', async () => {
-		newPin = await pin.create("2004/07/18");
+		newPin = await pin.create("2004-07-18");
 		expect(newPin.success).toBe(true);
 	});
 

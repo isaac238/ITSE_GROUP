@@ -1,4 +1,9 @@
 import crypto from "crypto";
+
+	it('Checks isValid function after creation', async () => {
+		const success = await pin.isValid(newPin.plainText, "2004-07-18");
+		expect(success).toBe(false);
+	});
 import { PIN_ENCRYPTION_KEY } from "$env/static/private";
 
 export default class Pin {
@@ -10,11 +15,11 @@ export default class Pin {
 	async create(DOB) {
 		try {
             const plainTextPin = this.#generatePin(DOB);
-			const pinValid = this.#isValid(plainTextPin, DOB);
+			const pinValid = this.isValid(plainTextPin, DOB);
 
 			while (!pinValid) {
 				plainTextPin = this.#generatePin(DOB);
-				pinValid = this.#isValid(plainTextPin, DOB);
+				pinValid = this.isValid(plainTextPin, DOB);
 			}
 
 			const pin = this.#encryptPin(plainTextPin);
@@ -31,7 +36,6 @@ export default class Pin {
     async get(pinId) {
         try {
             const pinRecord = await this.pb.collection("pins").getOne(pinId);
-			console.log(pinRecord);
             const pin = this.#decryptPin(
                 pinRecord.pin,
                 pinRecord.iv,
@@ -47,7 +51,7 @@ export default class Pin {
 
 
 	// Private methods
-    async #isValid(plainTextPin, DOB) {
+    async isValid(plainTextPin, DOB) {
         try {
             const dob = new Date(DOB);
             const month = dob.getMonth();
@@ -62,12 +66,10 @@ export default class Pin {
 
             const potentialConflicts = await this.pb.collection("users").getFullList({
                 filter: `DOB >= "${minDate}" && DOB < "${maxDate}" && pin != ""`,
+				expand: `pin`,
             });
 
-			if (potentialConflicts.length > 0)
-				console.log(potentialConflicts[0]);
 			const alreadyExists = potentialConflicts.some((user) => this.#decryptPin(user.expand.pin.pin, user.expand.pin.iv, user.expand.pin.tag) == plainTextPin);
-
 			return !alreadyExists;
 
         } catch (e) {
@@ -107,10 +109,6 @@ export default class Pin {
     }
 
     #decryptPin(encrypted, iv, tag) {
-		console.log("PIN: " + encrypted);
-		console.log("IV: " + iv);
-		console.log("Tag: " + tag);
-
         tag = Buffer.from(tag, "base64");
         const decipher = crypto.createDecipheriv(
             "aes-256-gcm",
