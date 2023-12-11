@@ -65,6 +65,8 @@ export default class Pin {
 				expand: "pin",
             });
 
+			if (potentialConflicts.length > 0)
+				console.log(potentialConflicts[0]);
 			const alreadyExists = potentialConflicts.some((user) => this.#decryptPin(user.expand.pin.pin, user.expand.pin.iv, user.expand.pin.tag) == plainTextPin);
 
 			return !alreadyExists;
@@ -106,6 +108,10 @@ export default class Pin {
     }
 
     #decryptPin(encrypted, iv, tag) {
+		console.log("PIN: " + encrypted);
+		console.log("IV: " + iv);
+		console.log("Tag: " + tag);
+
         tag = Buffer.from(tag, "base64");
         const decipher = crypto.createDecipheriv(
             "aes-256-gcm",
