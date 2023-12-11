@@ -35,9 +35,11 @@ export default class Auth {
 
 	async registerMember(formData) {
 		if (!this.#validateRegister(formData)) return {success: false, message: "Invalid form data!"};
+		let pinRecord = false;
 		try {
 			const pin = new Pin(this.pb);
 			const pinCreated = await pin.create(formData.get('birthdate'));
+			pinRecord = pinCreated.body;
 
 			let data = {
 				"email": formData.get('email'),
@@ -48,7 +50,7 @@ export default class Auth {
 				"password": formData.get('password'),
 				"passwordConfirm": formData.get('confirm-password'),
 				"avatar": await Utils.imageFromUrl("https://api.iconify.design/mdi/user.svg?download=1"),
-				"pin": pinCreated.body.id,
+				"pin": pinRecord.id,
 				"role": "member",
 			};
 
@@ -56,6 +58,7 @@ export default class Auth {
 
 			return {success: true, message: "Registered!"};
 		} catch(error) {
+			if (pinRecord) await this.pb.collection('pins').delete(pinRecord.id);
 			if (!RegisterValidation.dbPasswordValid(error)) return {success:false,message:error.data.data.password.message};
 			if (!RegisterValidation.dbEmailValid(error)) return {success: false, message:error.data.data.email.message};
 			console.log(error);
