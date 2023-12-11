@@ -65,10 +65,9 @@ export default class Pin {
 
             const potentialConflicts = await this.pb.collection("users").getFullList({
                 filter: `DOB >= "${minDate}" && DOB < "${maxDate}" && pin != ""`,
-				expand: "pin",
             });
 
-			const alreadyExists = potentialConflicts.some((user) => this.#decryptPin(user.expand.pin.pin, user.expand.pin.iv, user.expand.pin.tag) == plainTextPin);
+			const alreadyExists = potentialConflicts.some((user) => this.#decryptPin(user.pin.pin, user.pin.iv, user.pin.tag) == plainTextPin);
 
 			return !alreadyExists;
 
