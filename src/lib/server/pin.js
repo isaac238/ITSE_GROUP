@@ -1,9 +1,4 @@
 import crypto from "crypto";
-
-	it('Checks isValid function after creation', async () => {
-		const success = await pin.isValid(newPin.plainText, "2004-07-18");
-		expect(success).toBe(false);
-	});
 import { PIN_ENCRYPTION_KEY } from "$env/static/private";
 
 export default class Pin {
