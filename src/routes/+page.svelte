@@ -146,8 +146,8 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
         <tr>
           <th></th>
           <th class="text-lg text-white">Months</th>
-          <th class="text-lg text-white">Suscription Fee</th>
-          <th class="text-lg text-white">12 Month Total Price</th>
+          <th class="text-lg text-white">Suscription Fee Per Month</th>
+          <th class="text-lg text-white">Total Price</th>
         </tr>
       </thead>
       <tbody>
@@ -155,7 +155,7 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
           <th></th>
             <td>1 Month</td>
             <td>£14.99</td>
-            <td>£179.88</td>
+            <td>£14.99</td>
             <td>    
                 <a href="/register"
                 class="btn bg-white mb-3 text-black hover:bg-black hover:text-white shadow-2xl border-none"
@@ -167,7 +167,7 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
             <th></th>
             <td>6 Months</td>
             <td>£13.49</td>
-            <td>£161.88</td>
+            <td>£80.94</td>
             <td>
                 <a href="/register"
                 class="btn bg-white mb-3 text-black hover:bg-black hover:text-white shadow-2xl border-none"
