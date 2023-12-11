@@ -10,7 +10,7 @@
   
 
     let store =[]
-    errorsStore.subscribe(val=>errors=[val])
+    errorsStore.subscribe(val=>store=val)
 
     console.log(errors)
 </script>
@@ -38,7 +38,7 @@
 
 
     {#each errors as error}
-        <Error message={error}/>
+        <Error/>
     {/each}
 
 </div>
