@@ -3,7 +3,6 @@
 	import LabeledInput from "./LabeledInput.svelte";
 	import Policies from "./Policies.svelte";
 	import RegisterValidation from "$lib/registerValidation.js";
-
 	import {enhance} from "$app/forms";
     import NotificationCentre from "./NotificationCentre.svelte";
 
@@ -15,6 +14,7 @@
 	let confirmPassword = "";
 	let errors =[]
 	let maxDate = new Date()
+
 	maxDate.setFullYear(maxDate.getFullYear() - 16);
 	
 	$: errors = [
@@ -25,11 +25,11 @@
 	...RegisterValidation.surnameValidation(surname).problems,
 	...RegisterValidation.ageValidation(birthdate).problems,
 	];
-	let count = 0;
+
 </script>
 
 <div class="absoloute">
-	<NotificationCentre errors/>
+	<NotificationCentre />
 </div>
 
 
@@ -55,7 +55,7 @@
 			<LabeledInput name="password" placeholder="Password" type="password" bind:value={password} required={true} />
 			<LabeledInput name="confirm-password" placeholder="Confirm Password" type="password" bind:value={confirmPassword} required={true} />
 			<button class="btn hover:bg-green-500 bg-slate-700 text-white" type="submit">Register</button>
-			<!--<InputError {errors} />-->
+			<InputError {errors} />
 			<div class="flex justify-center">
 				<input type="checkbox" class="checkbox checkbox-primary" required/>
 				<p class="pl-4">Do you agree to the <span onclick="showModal()" class="text-indigo-600 hover:underline cursor-pointer">T&C and Privacy Policy</span></p>

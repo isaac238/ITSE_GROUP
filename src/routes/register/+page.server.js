@@ -1,4 +1,4 @@
-import { redirect } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 import Auth from "$lib/server/auth";
 import { errorsStore } from "../../lib/store.js";
 
@@ -8,7 +8,11 @@ export const actions = {
 		const auth = new Auth(locals.pb);
 		const response = await auth.registerMember(data);
 
-		if (response.success) throw redirect(301, "/login");
-		else errorsStore.update(errs=>[...errs,response.message])
+		if (response.success) {
+			// pre-made code (not tested errors yet)
+			// successStore.addNotification(response.message)
+			throw redirect(301, "/login");}
+		// else errorsStore.addNotification(response.message);
+		console.log(response)
 	}
 }
