@@ -31,6 +31,7 @@ export default class Pin {
     async get(pinId) {
         try {
             const pinRecord = await this.pb.collection("pins").getOne(pinId);
+			console.log(pinRecord);
             const pin = this.#decryptPin(
                 pinRecord.pin,
                 pinRecord.iv,
