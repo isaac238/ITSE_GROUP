@@ -68,7 +68,7 @@ export default class Pin {
 				expand: "pin",
             });
 
-			const alreadyExists = potentialConflicts.some((user) => this.#decryptPin(user.pin.pin, user.pin.iv, user.pin.tag) == plainTextPin);
+			const alreadyExists = potentialConflicts.some((user) => this.#decryptPin(user.expand.pin.pin, user.expand.pin.iv, user.expand.pin.tag) == plainTextPin);
 
 			return !alreadyExists;
 
