@@ -42,7 +42,7 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
         Learn More About Us Below!
     </p>
     <div class="grid grid-cols-3 justify-items-center gap-y-12">
-        <div class="card w-96 bg-base-100 shadow-2xl">
+        <div class="card w-96 bg-base-100 border-2 border-slate-700 shadow-2xl">
             <figure><img src={card1} alt="Man doing a dumbbell bicep curl" /></figure>
             <div class="card-body">
             <h2 class="card-title">Weights!</h2>
@@ -66,7 +66,7 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
                 </div>
             </div>
         </div>
-        <div class="card w-96 bg-base-100 shadow-2xl">
+        <div class="card w-96 bg-base-100 border-2 border-slate-700 shadow-2xl">
             <figure><img src={card2} alt="Woman running on treadmill"/></figure>
             <div class="card-body">
             <h2 class="card-title">Cardio!</h2>
@@ -88,7 +88,7 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
                 </div>
             </div>
         </div>
-        <div class="card w-96 bg-base-100 shadow-xl">
+        <div class="card w-96 bg-base-100 border-2 border-slate-700 shadow-xl">
             <figure><img src={card3} alt="Woman working out with personal trainer"/></figure>
             <div class="card-body">
             <h2 class="card-title">Personal Trainers!</h2>
@@ -100,7 +100,7 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
             </p>
             </div>
         </div>
-        <div class="card w-96 bg-base-100 shadow-xl">
+        <div class="card w-96 bg-base-100 border-2 border-slate-700 shadow-xl">
             <figure><img src={card4} alt="Vegetables" /></figure>
             <div class="card-body">
             <h2 class="card-title">Meal Planning Made Easy!</h2>
@@ -113,7 +113,7 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
             </p>
             </div>
         </div>
-        <div class="card w-96 bg-base-100 shadow-xl">
+        <div class="card w-96 bg-base-100 border-2 border-slate-700 shadow-xl">
             <figure><img src={card5} alt="Chicken and vegetables"/></figure>
             <div class="card-body">
             <h2 class="card-title">Meal Tracking!</h2>
@@ -125,7 +125,7 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
             </p>
             </div>
         </div>
-        <div class="card w-96 bg-base-100 shadow-xl">
+        <div class="card w-96 bg-base-100 border-2 border-slate-700 shadow-xl">
             <figure><img src={card6} alt="Notebook"/></figure>
             <div class="card-body">
             <h2 class="card-title">Workout Tracking!</h2>
@@ -139,4 +139,42 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
             </div>
         </div>
     </div>
+</div>
+<div class="flex justify-center">
+    <a href="/register"
+    class="btn bg-white mb-2 text-black hover:bg-black hover:text-white shadow-2xl border-none"
+    >Join Us Now!
+    </a>
+</div>
+<div class="overflow-x-auto mb-10 ml-auto mr-auto w-1/3 border-2 border-slate-700 rounded-md">
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="text-lg">Months</th>
+          <th class="text-lg">Suscription Fee</th>
+          <th class="text-lg">% Discount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hover">
+          <th></th>
+          <td>1 Month</td>
+          <td>14.99£</td>
+          <td>N/A</td>
+        </tr>
+        <tr class="hover">
+          <th></th>
+          <td>6 Months</td>
+          <td>13.49£</td>
+          <td>10% Discount</td>
+        </tr>
+        <tr class="hover">
+          <th></th>
+          <td>12 Months</td>
+          <td>11.99£</td>
+          <td>20% Discount</td>
+        </tr>
+      </tbody>
+    </table>
 </div>
