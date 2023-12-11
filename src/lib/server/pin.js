@@ -21,20 +21,16 @@ export default class Pin {
 
             const record = await this.pb.collection("pins").create(pin);
 
-            return { success: true, message: "Pin created", body: record };
+            return { success: true, message: "Pin created", body: record, plainText: plainTextPin };
         } catch (error) {
             console.log(error);
             return { success: false, message: "Error occured" };
         }
     }
 
-    async get() {
-        const user = this.pb.authStore.model;
-
-        if (!user) return null;
-
+    async get(pinId) {
         try {
-            const pinRecord = await this.pb.collection("pins").getOne(user.pin);
+            const pinRecord = await this.pb.collection("pins").getOne(pinId);
             const pin = this.#decryptPin(
                 pinRecord.pin,
                 pinRecord.iv,
