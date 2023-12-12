@@ -5,6 +5,7 @@
     import DesktopItem from "../../components/DesktopItem.svelte";
 	import NewMealLogModal from "../../components/NewMealLogModal.svelte";
 	import DeleteItemModal from "../../components/DeleteItemModal.svelte";
+	import UserdashInformation from "../../components/UserdashInformation.svelte";
 	import Utils from "$lib/utils.js"
 	import "iconify-icon";
 
@@ -79,7 +80,7 @@
 
 	const showNewMealLogModal = () => {
 		mealLogName = "";
-		mealLogEatenAt = "";
+		mealLogEatenAt = new Date().toISOString().slice(0, 16);
 		document.getElementById("new-meal-log-modal").showModal();
 	}
 
@@ -163,6 +164,10 @@
 	<DeleteItemModal callback={sendDeleteRequest}/>
 </dialog>
 
+<dialog id="userdash-information-modal" class="modal">
+	<UserdashInformation/>
+</dialog>
+
 
 <header class="bg-transparent py-3 px-5">
 <h1 class="bg-transparent text-xl md:text-3xl font-black">Modern Fit <iconify-icon icon="mdi:weight-lifter"/></h1>
@@ -182,7 +187,7 @@
 							<MobileItem clickEvent={startNewRecordRequest} title={newLogTitle} subtitle={newLogSubtitle} button="Create" from="from-green-500" to="to-emerald-600"/>
 						{/if}
 						{#each collectionData as record} 
-							{#if new Date(record.created).toLocaleDateString() === new Date().toLocaleDateString() && $currentTable === "workout_log"}
+							{#if record.name === new Date().toLocaleDateString() && $currentTable === "workout_log"}
 								<MobileItem deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
 							{:else if $currentTable.split("_")[1] === "log"}
 								<MobileItem deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle}/>
@@ -198,7 +203,7 @@
 							<DesktopItem clickEvent={startNewRecordRequest} title={newLogTitle} subtitle={newLogSubtitle} button="Create" from="from-green-500" to="to-emerald-600"/>
 						{/if}
 						{#each collectionData as record}
-							{#if new Date(record.created).toLocaleDateString() === new Date().toLocaleDateString() && $currentTable === "workout_log"}
+							{#if record.name === new Date().toLocaleDateString() && $currentTable === "workout_log"}
 								<DesktopItem deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
 							{:else if $currentTable.split("_")[1] === "log"}
 								<DesktopItem deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle}/>
@@ -233,10 +238,13 @@
     </div>
 </div>
 
-<span class="inline-flex fixed bottom-6 left-5 md:bottom-10 md:left-8 z-10 gap-3 h-[3.5rem]">
+<span class="inline-flex fixed bottom-6 left-5 md:bottom-10 md:left-3 z-10 gap-3 h-[3.5rem]">
 <label  id="drawer-activate" for="my-drawer" class="h-full btn btn-primary bg-white text-black hover:text-white hover:bg-black drawer-button z-10 p-4 rounded-lg cursor-pointer border-none">
 	{menuString}
 </label>
 
-<button id="new-record" class="h-full btn btn-primary bg-white text-black hover:text-white hover:bg-black p-4 rounded-lg cursor-pointer border-none text-2xl inline-flex justify-center items-center"><iconify-icon icon="mdi:information"/></button>
+<span class="tooltip" data-tip="Information">
+<button on:click={() => document.getElementById("userdash-information-modal").showModal()} class="h-full btn btn-primary bg-white text-black hover:text-white hover:bg-black p-4 rounded-lg cursor-pointer border-none text-2xl inline-flex justify-center items-center"><iconify-icon icon="mdi:information"/></button>
+</span>
+		
 </span>
