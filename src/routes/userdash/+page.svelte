@@ -100,6 +100,8 @@
 			headers: { 'Content-Type': 'application/json' },
 		});
 
+		if (!response.ok) return;
+
 		const record = await response.json();
 		record.subtitle = Utils.getSubtitle($currentTable, record);
 
