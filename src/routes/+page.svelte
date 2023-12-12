@@ -146,7 +146,7 @@ Please do not use Vanilla CSS when creating this page, utility classes or tailwi
         <tr>
           <th></th>
           <th class="text-lg text-white">Months</th>
-          <th class="text-lg text-white">Suscription Fee Per Month</th>
+          <th class="text-lg text-white">Price/Month</th>
           <th class="text-lg text-white">Total Price</th>
         </tr>
       </thead>
