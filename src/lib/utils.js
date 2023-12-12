@@ -8,8 +8,9 @@ export default class Utils {
 	static getSubtitle(table, record) {
 
 		if (table === "workout_log") {
-			const dateCreated = new Date(record.created);
-			return dateCreated.toDateString() + "'s Workout";
+			let [day, month, year] = record.name.split("/");
+			const dateOfWorkout = new Date(year, month - 1, day);
+			return dateOfWorkout.toDateString() + "'s Workout";
 
 		}
 

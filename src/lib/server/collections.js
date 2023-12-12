@@ -32,12 +32,15 @@ export default class Collections {
 				data.forEach(record => {
 					record.subtitle = Utils.getSubtitle(collection, record);
 					if (collection == "workout_log") {
-						record.name = new Date(record.created).toLocaleDateString();
+						let [day, month, year] = record.name.split("/");
+						record.name = new Date(year, month - 1, day).toLocaleDateString();
 					}
 				});
 
 				if (collection === "meal_log")
 					data.sort((record1, record2) => new Date(record2.eaten_at) + new Date(record1.eaten_at));
+				if (collection === "workout_log")
+					data.sort((record1, record2) => new Date(record2.name) - new Date(record1.name));
 				else
 					data.sort((record1, record2) => new Date(record2.created) - new Date(record1.created));
 				response[collection] = data;
