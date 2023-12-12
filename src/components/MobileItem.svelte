@@ -18,6 +18,8 @@
 	</span>
 	<button on:click={clickEvent} class="btn btn-default w-full bg-white text-black border-none hover:bg-black hover:text-white mt-4">{button}</button>
 	{#if deleteEvent !== ""}
-		<button on:click={deleteEvent} class="absolute bottom-2 right-2 w-fit p-4 inline-flex items-center justify-center btn btn-default bg-red-500 text-white h-fit border border-white hover:bg-red-800 hover:text-gray-50" aria-label="Delete this item"><iconify-icon class="text-xl" icon="mdi:bin"/></button>
+		<span class="tooltip absolute bottom-2 right-2" data-tip="Delete Item">
+			<button on:click={deleteEvent} class="w-fit p-4 inline-flex items-center justify-center btn btn-default bg-red-500 text-white h-fit border border-white hover:bg-red-800 hover:text-gray-50" aria-label="Delete this item"><iconify-icon class="text-xl" icon="mdi:bin"/></button>
+		</span>
 	{/if}
 </div>
