@@ -8,6 +8,6 @@ export const actions = {
 		const auth = new Auth(locals.pb);
 		const response = await auth.login(data);
 		if (response.success) throw redirect(301, "/userdash")
-		else errorsStore.update(errs=>[...errs,response.message]);
+		else errorsStore.addNotification(response.message);
 	}
 }

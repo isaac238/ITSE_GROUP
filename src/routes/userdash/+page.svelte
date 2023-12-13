@@ -8,6 +8,8 @@
 	import UserdashInformation from "../../components/UserdashInformation.svelte";
 	import Utils from "$lib/utils.js"
 	import "iconify-icon";
+	import NotificationCentre from "../../components/NotificationCentre.svelte";
+	import {errorsStore,successStore} from "../../lib/store.js"
 
     export let data; //Importing data so page isn't static, for route guarding (DO NOT DELETE)..
 
@@ -100,13 +102,16 @@
 			headers: { 'Content-Type': 'application/json' },
 		});
 
-		if (!response.ok) return;
-
+		if (!response.ok){
+			errorsStore.addNotification("Error creating record! Try again or contact support!");
+			return;}
+		
+		successStore.addNotification("Record created!");
 		const record = await response.json();
 		record.subtitle = Utils.getSubtitle($currentTable, record);
 
 		collectionsData.update((prev) => {return {
-		...prev,
+		...prev, 
 		[$currentTable]: [...prev[$currentTable], record],
 		}});
 
@@ -145,14 +150,18 @@
 
 		const respJSON = await response.json();
 
-		if (respJSON === true) {
-			collectionsData.update((prev) => {return {
+		if (respJSON !== true) {	
+			errorsStore.addNotification("There was an error deleting this record! Try again or contact support!")
+			return
+		}
+		
+		collectionsData.update((prev) => {return {
 			...prev,
 			[$currentTable]: [...prev[$currentTable].filter((record) => record.id !== itemToDelete)],
 			}});
-
-		}
 		itemToDelete = null;
+		successStore.addNotification("Deleted record successfully!")
+
 	}
 </script>
 
@@ -250,3 +259,5 @@
 </span>
 		
 </span>
+
+<NotificationCentre/>
