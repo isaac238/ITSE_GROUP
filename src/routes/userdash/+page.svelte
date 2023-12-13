@@ -1,6 +1,7 @@
 <script>
     import { writable } from "svelte/store";
     import { onMount } from "svelte";
+	import { goto } from "$app/navigation";
     import MobileItem from "../../components/MobileItem.svelte";
     import DesktopItem from "../../components/DesktopItem.svelte";
 	import NewMealLogModal from "../../components/NewMealLogModal.svelte";
@@ -25,7 +26,7 @@
 	let todaysWorkoutLogExists;
 
 	$: todaysWorkoutLogExists = $collectionsData["workout_log"].some((log) => {
-		return new Date(log.created).toLocaleDateString() === new Date().toLocaleDateString();
+		return log.name === new Date().toLocaleDateString();
 	});
 
 	$: {
@@ -152,6 +153,11 @@
 		}
 		itemToDelete = null;
 	}
+
+	const goToItem = (id) => {
+		console.log("Going to: " + `/userdash/posts/${$currentTable}/${id}`);
+		goto(`/userdash/posts/${$currentTable}/${id}`);
+	}
 </script>
 
 <svelte:window on:keydown={onKeyDown} on:keyup={onKeyUp} />
@@ -188,11 +194,11 @@
 						{/if}
 						{#each collectionData as record} 
 							{#if record.name === new Date().toLocaleDateString() && $currentTable === "workout_log"}
-								<MobileItem deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
+								<MobileItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
 							{:else if $currentTable.split("_")[1] === "log"}
-								<MobileItem deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle}/>
+								<MobileItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle}/>
 							{:else}
-								<MobileItem title={record.name} subtitle={record.subtitle}/>
+								<MobileItem clickEvent={() => goToItem(record.id)} title={record.name} subtitle={record.subtitle}/>
 							{/if}
 						{/each}
                     </div>
@@ -204,11 +210,11 @@
 						{/if}
 						{#each collectionData as record}
 							{#if record.name === new Date().toLocaleDateString() && $currentTable === "workout_log"}
-								<DesktopItem deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
+								<DesktopItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
 							{:else if $currentTable.split("_")[1] === "log"}
-								<DesktopItem deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle}/>
+								<DesktopItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle}/>
 							{:else}
-								<DesktopItem title={record.name} subtitle={record.subtitle}/>
+								<DesktopItem clickEvent={() => goToItem(record.id)} title={record.name} subtitle={record.subtitle}/>
 							{/if}
 						{/each}
                     </div>
