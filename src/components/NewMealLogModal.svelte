@@ -5,7 +5,6 @@
 	export let eatenAt;
 	export let name;
 	export let callback;
-	$: console.log(eatenAt);
 
 	const handleSubmit = () => {
 		console.log(name);
