@@ -12,6 +12,6 @@ export async function POST({ locals, request }) {
 		return new Response(JSON.stringify(record), { status: 200 });
 	} catch (error) {
 		console.log(error)
-		return new Response(undefined, { status: 444 });
+		return new Response(JSON.stringify(undefined), { status: 444 });
 	}
 }
