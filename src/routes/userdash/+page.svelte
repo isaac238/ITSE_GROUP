@@ -158,6 +158,16 @@
 		console.log("Going to: " + `/userdash/posts/${$currentTable}/${id}`);
 		goto(`/userdash/posts/${$currentTable}/${id}`);
 	}
+
+	let filterDate = "";
+	$: {
+	console.log(filterDate);
+	if (filterDate !== "") {
+		collectionData = $collectionsData[$currentTable].filter((record) => record.name.includes(new Date(filterDate).toLocaleDateString()));
+	} else {
+		collectionData = $collectionsData[$currentTable];
+	}
+	} 
 </script>
 
 <svelte:window on:keydown={onKeyDown} on:keyup={onKeyUp} />
@@ -186,6 +196,10 @@
     <input id="my-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerChecked}>
     <div class="drawer-content h-full flex flex-col">
             <div class="w-screen flex flex-col bg-transparent flex-grow flex-shrink-0 justify-center items-center h-full">
+				<div class="flex items-center justify-center gap-4 w-2/4">
+					<h1>Select a specific date:</h1>
+					<input type="date" class="w-fit px-4 rounded-lg p-2" bind:value={filterDate}/>
+				</div>
                 {#if isMobile}
                     <!-- Mobile View -->
                     <div class="md:hidden flex snap-x snap-mandatory overflow-x-auto p-4 space-x-4 w-screen h-full" >
