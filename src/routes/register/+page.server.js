@@ -9,11 +9,11 @@ export const actions = {
 		const response = await auth.registerMember(data);
 
 		if (response.success) {
-			successStore.addNotification(response)
+			successStore.addNotification(response.message)
 			throw redirect(301, "/login");}
 		else {
-			console.log(response)
-			errorsStore.addNotification(response);}
+			console.log(response.message)
+			return errorsStore.addNotification(response.message);}
 
 	}
 }

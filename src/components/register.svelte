@@ -28,11 +28,7 @@
 
 </script>
 
-
 	<NotificationCentre />
-
-
-
 
 <dialog id="t&cs_modal" class="modal">
 	<Policies/>

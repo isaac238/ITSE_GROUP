@@ -6,6 +6,7 @@ export const errorsStore = createErrorNotificationsStore();
 export const successStore = createSuccessNotificationsStore();
 export const warningsStore = createWarningNotificationsStore();
 
+
 // Custom error store
 function createErrorNotificationsStore(){
 const {subscribe,set,update} = writable([])
@@ -13,7 +14,10 @@ const {subscribe,set,update} = writable([])
     return {
         subscribe,
         // Add notification update method
-        addNotification: (notificationMessage) => update((prevVal)=>[...prevVal,notificationMessage]),
+        addNotification: (notificationMessage) => {
+            update((prevVal)=>[...prevVal,notificationMessage])
+            
+        },
         // Remove notification update method
         removeNotification: (newArray) => update(()=>newArray)
     }
