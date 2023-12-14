@@ -28,9 +28,9 @@
 
 </script>
 
-<div class="absoloute">
+
 	<NotificationCentre />
-</div>
+
 
 
 

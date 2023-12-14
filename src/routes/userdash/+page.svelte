@@ -186,6 +186,7 @@
 	{$currentTable.split("_").map((x) => {return x[0].toUpperCase() + x.substring(1, x.length)}).join(" ")}
 </p>
 </header>
+<NotificationCentre/>
 
 <div class="drawer flex-grow">
     <input id="my-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerChecked}>
@@ -259,5 +260,3 @@
 </span>
 		
 </span>
-
-<NotificationCentre/>

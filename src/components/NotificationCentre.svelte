@@ -7,25 +7,37 @@
   import Warning from "./notifications/Warning.svelte"
 
   // exports
-  
-  console.log($errorsStore)
+
+  let arr 
+
+  function RemoveError(i,type){
+    console.log("Remove error")
+    switch(type){
+      case "error":
+        arr = $errorsStore;
+        arr.pop(i)
+        errorsStore.removeNotification(arr)
+        break;
+      case "success":
+        arr = $successStore;
+        arr.pop(i)
+        successStore.removeNotification(arr)
+
+        break;
+    }
+  }
+
 </script>
 
-<div>
-    {#each $errorsStore as error }
-        <Error message={error}/>
-    {/each}
+<div class="absoloute">
 
-</div>
-
-<div>
-  {#each $successStore as success }
-    <Success message={success}/>
+  {#each $errorsStore as error,i }
+    <Error message={error} callback={()=>{RemoveError(i+1,"error")}}/>
   {/each}
-</div>
-
-<div>
-  {#each $warningsStore as warnings }
+  {#each $successStore as success,i }
+    <Success message={success} callback={()=>{RemoveError(i+1,"success")}}/>
+  {/each}
+  {#each $warningsStore as warnings,i }
   <Warning message={warnings}/>
   {/each}
 </div>
