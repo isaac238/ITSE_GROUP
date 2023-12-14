@@ -1,8 +1,29 @@
 <script>
-    import LabeledInput from "../../components/LabeledInput.svelte";
+    // imports
 
+    // Components
+    import LabeledInput from "../../components/LabeledInput.svelte";
+    import NotificationCentre from "../../components/NotificationCentre.svelte";
+
+    // Libraries
+    import { successStore } from "../../lib/store";
+
+    // exports
+
+    export let data;
+    const isFromRegister = data.isFromRegister;
+
+    console.log($successStore);
+    if(isFromRegister){
+        successStore.addNotification("Registered Successfully!")
+    }
+    
 
 </script>
+
+<NotificationCentre/>
+
+
 <main class="w-screen h-screen flex items-center justify-center">
   <form method="post" class="card w-[95%] md:w-[30%] bg-base-300 p-10">
       <h1 class="text-2xl font-bold mb-8">Login</h1>

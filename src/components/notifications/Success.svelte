@@ -5,6 +5,9 @@
     // exports
     export let message;
     export let callback = ""
+    export let timer = ""
+
+    timer();
 </script>
 
 <div role="alert" class="alert alert-success " >
