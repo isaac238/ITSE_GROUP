@@ -4,9 +4,10 @@
 
     // exports    
     export let message;
-    export let callback =""
-
-
+    export let callback = "";
+    export let timer = "";
+    
+    timer();
 </script>
 
 <div role="alert" class="alert alert-error border-1 border-[#a53f3f] m-2 shadow-md">

@@ -16,7 +16,6 @@ const {subscribe,set,update} = writable([])
         // Add notification update method
         addNotification: (notificationMessage) => {
             update((prevVal)=>[...prevVal,notificationMessage])
-            
         },
         // Remove notification update method
         removeNotification: (newArray) => update(()=>newArray)

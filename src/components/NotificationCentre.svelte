@@ -11,7 +11,6 @@
   let arr 
 
   function RemoveError(i,type){
-    console.log("Remove error")
     switch(type){
       case "error":
         arr = $errorsStore;
@@ -22,22 +21,27 @@
         arr = $successStore;
         arr.pop(i)
         successStore.removeNotification(arr)
-
         break;
     }
   }
 
+  function RemoveTimer(i){
+    setTimeout(()=>{
+      RemoveError(i,"error")
+    },10000)
+  }
+
 </script>
 
+<!-- Render -->
 <div class="absoloute">
-
   {#each $errorsStore as error,i }
-    <Error message={error} callback={()=>{RemoveError(i+1,"error")}}/>
+    <Error message={error} timer={()=>{RemoveTimer(i+1)}} callback={()=>{RemoveError(i+1,"error")}}/>
   {/each}
   {#each $successStore as success,i }
-    <Success message={success} callback={()=>{RemoveError(i+1,"success")}}/>
+    <Success message={success} timer={()=>{RemoveTimer(i+1)}} callback={()=>{RemoveError(i+1,"success")}}/>
   {/each}
   {#each $warningsStore as warnings,i }
-  <Warning message={warnings}/>
+    <Warning message={warnings} timer={()=>{RemoveTimer(i+1)}} callback={()=>{RemoveError(i+1,"success")}}/>
   {/each}
 </div>
