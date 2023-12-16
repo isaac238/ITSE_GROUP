@@ -1,6 +1,11 @@
 <script>
-export let errors = [];
+	// imports
+
+	// exports
+	export let errors = [];
 </script>
+
+<!-- Render -->
 
 <div>
 	<ul class="list-disc list-inside text-red-500">

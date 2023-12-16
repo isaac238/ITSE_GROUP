@@ -1,8 +1,10 @@
+// Register page server.js
+
+// imports
 import {redirect } from "@sveltejs/kit";
 import Auth from "$lib/server/auth";
 
-
-
+// exports
 export const actions = {
 	default: async ({ request, locals }) => {
 		const data = await request.formData();

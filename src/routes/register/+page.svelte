@@ -39,6 +39,8 @@
     }}
 </script>
 
+<!-- Render -->
+
 {#if form !== null }
     <NotificationCentre/>
 {/if}

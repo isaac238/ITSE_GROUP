@@ -1,12 +1,18 @@
 
 <script>
   // imports 
+  
+  // Libraries
   import { errorsStore,successStore,warningsStore } from "../lib/store.js"
+  
+  // Components
   import Error from "./notifications/Error.svelte";
   import Success from "./notifications/Success.svelte"
   import Warning from "./notifications/Warning.svelte"
 
   // exports
+
+  // 
 
   let arr 
 
@@ -34,6 +40,7 @@
 </script>
 
 <!-- Render -->
+
 <div class="absoloute">
   {#each $errorsStore as error,i }
     <Error message={error} timer={()=>{RemoveTimer(i+1)}} callback={()=>{RemoveError(i+1,"error")}}/>

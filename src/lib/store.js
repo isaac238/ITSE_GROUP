@@ -1,4 +1,6 @@
 // imports
+
+// Libraries
 import { writable } from "svelte/store";
 
 // exports
@@ -7,35 +9,41 @@ export const successStore = createSuccessNotificationsStore();
 export const warningsStore = createWarningNotificationsStore();
 
 
-// Custom error store
-function createErrorNotificationsStore(){
-const {subscribe,set,update} = writable([])
+// Create custom error store
+function createErrorNotificationsStore() {
+    const { subscribe, set, update } = writable([])
 
     return {
         subscribe,
-        // Add notification update method
+        // Add notification method
         addNotification: (notificationMessage) => {
-            update((prevVal)=>[...prevVal,notificationMessage])
+            update((prevVal) => [...prevVal, notificationMessage])
         },
-        // Remove notification update method
-        removeNotification: (newArray) => update(()=>newArray)
+        // Remove notification method
+        removeNotification: (newArray) => update(() => newArray)
     }
 }
 
-function createSuccessNotificationsStore(){
-    const{subscribe,set,update} = writable([])
-    return{
+// Create custom success store
+function createSuccessNotificationsStore() {
+    const { subscribe, set, update } = writable([])
+    return {
         subscribe,
-        addNotification:(notificationMessage)=>update((prevVal)=>[...prevVal,notificationMessage]),
-        removeNotification: (newArray) => update(()=>newArray)
+        // Add notification method
+        addNotification: (notificationMessage) => update((prevVal) => [...prevVal, notificationMessage]),
+        // Remove notification method
+        removeNotification: (newArray) => update(() => newArray)
     }
 }
 
-function createWarningNotificationsStore(){
-    const{subscribe,set,update} = writable([])
-    return{
+// Create custom warning store
+function createWarningNotificationsStore() {
+    const { subscribe, set, update } = writable([])
+    return {
         subscribe,
-        addNotification:(notificationMessage)=>update((prevVal)=>[...prevVal,notificationMessage]),
-        removeNotification: (newArray) => update(()=>newArray)
+        // Add notification method
+        addNotification: (notificationMessage) => update((prevVal) => [...prevVal, notificationMessage]),
+        // Remove notification method
+        removeNotification: (newArray) => update(() => newArray)
     }
 }

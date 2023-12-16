@@ -1,6 +1,12 @@
+// Login page server.js
+
+// imports
+
 import { redirect } from "@sveltejs/kit";
 import Auth from "$lib/server/auth";
 import { errorsStore } from "../../lib/store.js";
+
+// exports
 
 export async function load({ url }) {
 	const params = new URLSearchParams(url.search);

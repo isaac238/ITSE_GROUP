@@ -1,18 +1,25 @@
 <script>
+	// imports
+
+	// Libraries
     import { writable } from "svelte/store";
     import { onMount } from "svelte";
+	import Utils from "$lib/utils.js"
+	import "iconify-icon";
+	import {errorsStore,successStore} from "../../lib/store.js"
+
+	// Components
     import MobileItem from "../../components/MobileItem.svelte";
     import DesktopItem from "../../components/DesktopItem.svelte";
 	import NewMealLogModal from "../../components/NewMealLogModal.svelte";
 	import DeleteItemModal from "../../components/DeleteItemModal.svelte";
 	import UserdashInformation from "../../components/UserdashInformation.svelte";
-	import Utils from "$lib/utils.js"
-	import "iconify-icon";
 	import NotificationCentre from "../../components/NotificationCentre.svelte";
-	import {errorsStore,successStore} from "../../lib/store.js"
 
+	// exports
     export let data; //Importing data so page isn't static, for route guarding (DO NOT DELETE)..
 
+	//
     const screenWidth = writable(0);
 
 	const currentTable = writable("workout_log");

@@ -1,3 +1,4 @@
+
 import RegisterValidation from '../registerValidation';
 import Pin from './pin';
 import Utils from '../utils';
