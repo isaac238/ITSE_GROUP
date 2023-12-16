@@ -10,7 +10,7 @@ import { errorsStore } from "../../lib/store.js";
 
 export async function load({ url }) {
 	const params = new URLSearchParams(url.search);
-	return {isFromRegister: params.get("register")}
+	return {isFromRegister: params.get("redirected")}
 }
 
 export const actions = {
