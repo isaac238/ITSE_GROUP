@@ -4,7 +4,7 @@
 
 import { redirect } from "@sveltejs/kit";
 import Auth from "$lib/server/auth";
-import { errorsStore } from "../../lib/store.js";
+import { notifStore } from "../../lib/store.js";
 
 // exports
 
@@ -19,6 +19,6 @@ export const actions = {
 		const auth = new Auth(locals.pb);
 		const response = await auth.login(data);
 		if (response.success) throw redirect(301, "/userdash")
-		else errorsStore.addNotification(response.message);
+		else notifStore.addError(response.message);
 	}
 }

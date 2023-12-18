@@ -158,7 +158,7 @@
 		const respJSON = await response.json();
 
 		if (respJSON !== true) {	
-			errorsStore.addNotification("There was an error deleting this record! Try again or contact support!")
+			notifStore.addError("There was an error deleting this record! Try again or contact support!")
 			return
 		}
 		

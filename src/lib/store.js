@@ -17,7 +17,7 @@ function createNotificationStore() {
         subscribe,
 
         // Remove notification method
-        removeNotification: (item) => update((prevVal) => prevVal.filter((notification) => notification !== item)),
+        removeNotification: (itemIdx) => update((prevVal) => prevVal.filter((_, idx) => idx !== itemIdx)),
 
 		addError: (message) => addNotification({message: message, type: "error"}),
 		addWarning: (message) => addNotification({message: message, type: "warning"}),
