@@ -163,7 +163,7 @@
 	$: {
 	console.log(filterDate);
 	if (filterDate !== "") {
-		collectionData = $collectionsData[$currentTable].filter((record) => record.name.includes(new Date(filterDate).toLocaleDateString()));
+		collectionData = $collectionsData[$currentTable].filter((record) => record.name.includes(filterDate));
 	} else {
 		collectionData = $collectionsData[$currentTable];
 	}
@@ -196,9 +196,9 @@
     <input id="my-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerChecked}>
     <div class="drawer-content h-full flex flex-col">
             <div class="w-screen flex flex-col bg-transparent flex-grow flex-shrink-0 justify-center items-center h-full">
-				<div class="flex items-center justify-center gap-4 w-2/4">
-					<h1>Select a specific date:</h1>
-					<input type="date" class="w-fit px-4 rounded-lg p-2" bind:value={filterDate}/>
+				<div class="flex items-center justify-center flex-col md:flex-row gap-4 lg:w-2/4">
+					<h1>Search for a specific entry by name:</h1>
+					<input type="text" placeholder="e.g. 2023" class="w-fit px-4 rounded-lg p-2" bind:value={filterDate}/>
 				</div>
                 {#if isMobile}
                     <!-- Mobile View -->
@@ -218,7 +218,7 @@
                     </div>
                 {:else}
                     <!-- Desktop View -->
-                    <div class="flex flex-wrap items-center justify-center h-full rounded-xl overflow-y-auto gap-7 p-4" >
+                    <div class="flex flex-wrap items-center justify-center h-fit rounded-xl overflow-y-auto gap-7 p-5" >
 						{#if $currentTable === "meal_log" || ($currentTable === "workout_log" && !todaysWorkoutLogExists)}
 							<DesktopItem clickEvent={startNewRecordRequest} title={newLogTitle} subtitle={newLogSubtitle} button="Create" from="from-green-500" to="to-emerald-600"/>
 						{/if}
