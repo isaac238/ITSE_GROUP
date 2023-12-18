@@ -13,8 +13,8 @@
 <main>
     <div class="hero min-h-screen" style="background-image: url({background});">
         <div class="hero-overlay bg-opacity-60" />
-        <div class="hero-content text-center text-neutral-content"> 
-            <div class="max-w-md text-white">
+        <div class="hero-content h-full flex-col place-content-evenly text-center text-neutral-content"> 
+            <div class="max-w-md mt-auto text-white">
                 <h1 class="mb-5 text-5xl font-bold">Welcome to ModernFit Gym</h1>
                 <p class="mb-5">
                     Elevate Your Strength! Overcome Your Limits!
@@ -24,14 +24,14 @@
                     >Join Us Now!
                 </a>
             </div> 
+            <p class="mb-28 mt-auto justify-text-center text-white text-2xl">
+                Learn More About Us Below!
+            </p>
         </div>  
     </div> 
     <div class="relative -top-20"> 
-        <p class="mb-5 relative flex justify-evenly -top-10 text-white text-2xl">
-            Learn More About Us Below!
-        </p>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-y-12">
-            <div class="card w-96 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl">
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl">
                 <figure><img src={card1} alt="Man doing a dumbbell bicep curl"/></figure>
                 <div class="card-body">
                 <h2 class="card-title">Weights!</h2>
@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card w-96 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl">
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl">
                 <figure><img src={card2} alt="Woman running on treadmill"/></figure>
                 <div class="card-body">
                 <h2 class="card-title">Cardio!</h2>
@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div> 
-            <div class="card w-96 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
                 <figure><img src={card3} alt="Woman working out with personal trainer"/></figure>
                 <div class="card-body">
                 <h2 class="card-title">Personal Trainers!</h2>
@@ -89,7 +89,7 @@
                 </p>
                 </div>
             </div>
-            <div class="card w-96 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
                 <figure><img src={card4} alt="Vegetables" /></figure>
                 <div class="card-body">
                 <h2 class="card-title">Meal Planning Made Easy!</h2>
@@ -102,7 +102,7 @@
                 </p>
                 </div>
             </div>
-            <div class="card w-96 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
                 <figure><img src={card5} alt="Chicken and vegetables"/></figure>
                 <div class="card-body">
                 <h2 class="card-title">Meal Tracking!</h2>
@@ -114,7 +114,7 @@
                 </p>
                 </div>
             </div>
-            <div class="card w-96 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
                 <figure><img src={card6} alt="Notebook"/></figure>
                 <div class="card-body">
                 <h2 class="card-title">Workout Tracking!</h2>
@@ -129,7 +129,7 @@
             </div>
         </div>
     </div>  
-    <div class="overflow-x-auto mb-10 ml-auto mr-auto lg:w-1/3 border-2 border-slate-700 rounded-md">
+    <div class="overflow-x-auto mb-10 ml-auto mr-auto lg:w-1/3 w-11/12 border-2 border-slate-700 rounded-md">
         <table class="table">
         <thead>
             <tr>
