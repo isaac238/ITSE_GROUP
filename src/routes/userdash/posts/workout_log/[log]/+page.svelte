@@ -30,14 +30,14 @@
 		const deleteResponseJSON = await deleteResponse.json();
 		console.log("Delete Response");
 		console.log(deleteResponseJSON);
-		const relationField = `${itemToDelete.collectionName.split("_")[0]}_workouts`;
+		const relationField = itemToDelete.collectionName.split("_")[0];
 
-		if (deleteResponseJSON == true && itemToDelete.collectionName.split("_")[0] == "weight") {
+		if (deleteResponseJSON == true && relationField == "weight") {
 			weight_workouts = weight_workouts.filter((item) => item.id != itemToDelete.id);
 		}
 
-		if (deleteResponseJSON == true && itemToDelete.collectionName.split("_")[0] == "cardio") {
-			weight_workouts = cardio_workouts.filter((item) => item.id != itemToDelete.id);
+		if (deleteResponseJSON == true && relationField == "cardio") {
+			cardio_workouts = cardio_workouts.filter((item) => item.id != itemToDelete.id);
 		}
 		itemToDelete = null;
 	}
