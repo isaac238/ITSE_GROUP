@@ -10,31 +10,27 @@ export default class Pin {
 	async create(DOB) {
 		try {
             const plainTextPin = this.#generatePin(DOB);
-			const pinValid = this.#isValid(plainTextPin, DOB);
+			const pinValid = this.isValid(plainTextPin, DOB);
 
 			while (!pinValid) {
 				plainTextPin = this.#generatePin(DOB);
-				pinValid = this.#isValid(plainTextPin, DOB);
+				pinValid = this.isValid(plainTextPin, DOB);
 			}
 
 			const pin = this.#encryptPin(plainTextPin);
 
             const record = await this.pb.collection("pins").create(pin);
 
-            return { success: true, message: "Pin created", body: record };
+            return { success: true, message: "Pin created", body: record, plainText: plainTextPin };
         } catch (error) {
             console.log(error);
             return { success: false, message: "Error occured" };
         }
     }
 
-    async get() {
-        const user = this.pb.authStore.model;
-
-        if (!user) return null;
-
+    async get(pinId) {
         try {
-            const pinRecord = await this.pb.collection("pins").getOne(user.pin);
+            const pinRecord = await this.pb.collection("pins").getOne(pinId);
             const pin = this.#decryptPin(
                 pinRecord.pin,
                 pinRecord.iv,
@@ -50,7 +46,7 @@ export default class Pin {
 
 
 	// Private methods
-    async #isValid(plainTextPin, DOB) {
+    async isValid(plainTextPin, DOB) {
         try {
             const dob = new Date(DOB);
             const month = dob.getMonth();
@@ -65,10 +61,10 @@ export default class Pin {
 
             const potentialConflicts = await this.pb.collection("users").getFullList({
                 filter: `DOB >= "${minDate}" && DOB < "${maxDate}" && pin != ""`,
+				expand: `pin`,
             });
 
-			const alreadyExists = potentialConflicts.some((user) => this.#decryptPin(user.pin.pin, user.pin.iv, user.pin.tag) == plainTextPin);
-
+			const alreadyExists = potentialConflicts.some((user) => this.#decryptPin(user.expand.pin.pin, user.expand.pin.iv, user.expand.pin.tag) == plainTextPin);
 			return !alreadyExists;
 
         } catch (e) {
