@@ -6,8 +6,8 @@
 	export let data;
 
 	const recordData = data.recordData;
-	const weight_workouts = recordData.expand.weight_workouts;
-	const cardio_workouts = recordData.expand.cardio_workouts;
+	let weight_workouts = recordData.weight_workouts.length > 0 ? recordData.expand.weight_workouts : [];
+	let cardio_workouts = recordData.cardio_workouts.length > 0 ? recordData.expand.cardio_workouts : [];
 
 	let allWeightWorkoutsCompleted;
 	let allCardioWorkoutsCompleted;
