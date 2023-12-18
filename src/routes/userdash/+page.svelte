@@ -6,7 +6,7 @@
     import { onMount } from "svelte";
 	import Utils from "$lib/utils.js"
 	import "iconify-icon";
-	import {errorsStore,successStore} from "../../lib/store.js"
+	import { notifStore } from "../../lib/store.js"
 
 	// Components
     import MobileItem from "../../components/MobileItem.svelte";
@@ -110,10 +110,10 @@
 		});
 
 		if (!response.ok){
-			errorsStore.addNotification("Error creating record! Try again or contact support!");
+			notifStore.addError("Error creating record! Try again or contact support!");
 			return;}
 		
-		successStore.addNotification("Record created!");
+		notifStore.addSuccess("Record created!");
 		const record = await response.json();
 		record.subtitle = Utils.getSubtitle($currentTable, record);
 
@@ -167,7 +167,7 @@
 			[$currentTable]: [...prev[$currentTable].filter((record) => record.id !== itemToDelete)],
 			}});
 		itemToDelete = null;
-		successStore.addNotification("Deleted record successfully!")
+		notifStore.addSuccess("Deleted record successfully!")
 
 	}
 </script>

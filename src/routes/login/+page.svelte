@@ -6,14 +6,14 @@
     import NotificationCentre from "../../components/NotificationCentre.svelte";
 
     // Libraries
-    import { successStore } from "../../lib/store.js";
+    import { notifStore } from "../../lib/store.js";
 
     // exports
 
     export let data;
     const isFromRegister = data.isFromRegister;
     if (isFromRegister) {
-        successStore.addNotification("Registered Successfully!");
+        notifStore.addSuccess("Registered Successfully!");
     }
 </script>
 

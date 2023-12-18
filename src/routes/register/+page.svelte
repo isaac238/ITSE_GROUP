@@ -10,7 +10,7 @@
     // Libraries
 	import RegisterValidation from "$lib/registerValidation.js";
 	import {enhance} from "$app/forms";
-    import {errorsStore} from "../../lib/store";
+    import {notifStore} from "../../lib/store";
     
     // exports
     export let form
@@ -35,7 +35,7 @@
 	...RegisterValidation.ageValidation(birthdate).problems,
 	];
     $: {if(form !== null){
-        errorsStore.addNotification(form)
+        notifStore.addError(form);
     }}
 </script>
 

@@ -41,7 +41,7 @@
 
 <!-- Render -->
 
-<div class="absoloute">
+<div>
   {#each $errorsStore as error,i }
     <Error message={error} timer={()=>{RemoveTimer(i+1)}} callback={()=>{RemoveError(i+1,"error")}}/>
   {/each}

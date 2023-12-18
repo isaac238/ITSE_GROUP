@@ -4,46 +4,25 @@
 import { writable } from "svelte/store";
 
 // exports
-export const errorsStore = createErrorNotificationsStore();
-export const successStore = createSuccessNotificationsStore();
-export const warningsStore = createWarningNotificationsStore();
+
+export const notifStore = createNotificationStore();
 
 
-// Create custom error store
-function createErrorNotificationsStore() {
-    const { subscribe, set, update } = writable([])
+const addNotification = (notificationMessage) => update((prevVal) => [...prevVal, notificationMessage]);
+
+function createNotificationStore() {
+    const { subscribe, update } = writable([]);
 
     return {
         subscribe,
-        // Add notification method
-        addNotification: (notificationMessage) => {
-            update((prevVal) => [...prevVal, notificationMessage])
-        },
+
         // Remove notification method
-        removeNotification: (newArray) => update(() => newArray)
+        removeNotification: (item) => update((prevVal) => prevVal.filter((notification) => notification !== item)),
+
+		addError: (message) => addNotification({message: message, type: "error"}),
+		addWarning: (message) => addNotification({message: message, type: "warning"}),
+		addSuccess: (message) => addNotification({message: message, type: "success"})
     }
 }
 
-// Create custom success store
-function createSuccessNotificationsStore() {
-    const { subscribe, set, update } = writable([])
-    return {
-        subscribe,
-        // Add notification method
-        addNotification: (notificationMessage) => update((prevVal) => [...prevVal, notificationMessage]),
-        // Remove notification method
-        removeNotification: (newArray) => update(() => newArray)
-    }
-}
 
-// Create custom warning store
-function createWarningNotificationsStore() {
-    const { subscribe, set, update } = writable([])
-    return {
-        subscribe,
-        // Add notification method
-        addNotification: (notificationMessage) => update((prevVal) => [...prevVal, notificationMessage]),
-        // Remove notification method
-        removeNotification: (newArray) => update(() => newArray)
-    }
-}
