@@ -1,3 +1,5 @@
+<!-- Forgot Password.svelte -->
+
 <script>
   // exports
   export let form;
