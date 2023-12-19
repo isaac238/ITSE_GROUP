@@ -5,7 +5,7 @@
     import { notifStore } from "../lib/store.js";
 
     // Components
-    import Notification from "./notifications/Notification.svelte";
+    import Notification from "./Notification.svelte";
 
     function RemoveTimer(i) {
         setTimeout(() => {
