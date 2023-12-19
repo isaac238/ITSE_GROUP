@@ -10,6 +10,7 @@
 </script>
 
 <Nav/> 
+<html lang="en" class="scroll-smooth"/>
 <main>
     <div class="hero min-h-screen" style="background-image: url({background});">
         <div class="hero-overlay bg-opacity-60" />
@@ -19,18 +20,19 @@
                 <p class="mb-5">
                     Elevate Your Strength! Overcome Your Limits!
                 </p>
-                <a href="/register"
+                <a href="#subscriptions"
                     class="btn bg-white text-black hover:bg-black hover:text-white shadow-2xl border-none"
                     >Join Us Now!
                 </a>
             </div> 
-            <p class="mb-28 mt-auto justify-text-center text-white text-2xl">
-                Learn More About Us Below!
-            </p>
+            <a href="#cards"
+                class="mb-28 mt-auto justify-text-center text-white text-2xl"
+                >Learn more about us below!
+            </a>
         </div>  
     </div> 
     <div class="relative -top-20"> 
-        <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-y-12">
+        <div id="cards" class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-y-12">
             <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl">
                 <figure><img src={card1} alt="Man doing a dumbbell bicep curl"/></figure>
                 <div class="card-body">
@@ -129,54 +131,69 @@
             </div>
         </div>
     </div>  
-    <div class="overflow-x-auto mb-10 ml-auto mr-auto lg:w-1/3 w-11/12 border-2 border-slate-700 rounded-md">
-        <table class="table">
-        <thead>
-            <tr>
-            <th></th>
-            <th class="text-lg text-white">Months</th>
-            <th class="text-lg text-white">Price/Month</th>
-            <th class="text-lg text-white">Total Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="hover">
-            <th></th>
-                <td>1 Month</td>
-                <td>£14.99</td>
-                <td>£14.99</td>
-                <td>    
+    <div id="subscriptions" class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-y-12 mb-10">
+        <div class="card w-3/4 lg:w-7/12 bg-base-100 lg:hover:border-slate-300 lg:hover:scale-105 shadow-xl border-2 border-slate-700 rounded-md">
+            <div class="card-body">
+                <h2 class="card-title text-white underline decoration-1 underline-offset-8">1 Month Plan</h2>
+                <p>Available For:</p>
+                <p class="text-white text-xl">£14.99 Per Month<p>
+                <p>£14.99 <strong>Total</strong>, 0% Discount</p>
+                <p>£179.88 <strong>Total</strong> if subscribed to this plan for 12 months</p>
+                <ul class="list-disc ml-5 mb-8">
+                    <li>Full Access To Gym</li>
+                    <li>A Personal Trainer</li>
+                    <li>All online resources and tools</li>
+                </ul>
+                <div class="card-actions justify-end">
                     <a href="/register"
                     class="btn bg-white mb-3 text-black hover:bg-black hover:text-white shadow-2xl border-none"
                     >Choose Plan
                     </a>
-                </td>
-            </tr>
-            <tr class="hover">
-                <th></th>
-                <td>6 Months</td>
-                <td>£13.49</td>
-                <td>£80.94</td>
-                <td>
+                </div>
+            </div>
+        </div>
+        <div class="card w-3/4 lg:w-7/12 bg-base-100 lg:hover:border-slate-300 lg:hover:scale-105 shadow-xl border-2 border-slate-700 rounded-md">
+            <div class="card-body">
+                <h2 class="card-title text-white underline decoration-1 underline-offset-8">6 Month Plan</h2>
+                <p>Available For:</p>
+                <p class="text-white text-xl">£13.49 Per Month<p>
+                <p>£80.94 <strong>Total</strong>, 10% Discount</p>
+                <p>£161.88 <strong>Total</strong> if subscribed to this plan for 12 months</p>
+                <ul class="list-disc ml-5 mb-8">
+                    <li>Full Access To Gym</li>
+                    <li>A Personal Trainer</li>
+                    <li>All online resources and tools</li>
+                    <li>Access to the gym sauna</li>
+                </ul>
+                <div class="card-actions justify-end">
                     <a href="/register"
                     class="btn bg-white mb-3 text-black hover:bg-black hover:text-white shadow-2xl border-none"
                     >Choose Plan
                     </a>
-                </td>
-            </tr>
-            <tr class="hover">
-            <th></th>
-            <td>12 Months</td>
-            <td>£11.99</td>
-            <td>£143.88</td>
-            <td>
-                <a href="/register"
-                class="btn bg-white mb-3 text-black hover:bg-black hover:text-white shadow-2xl border-none"
-                >Choose Plan
-                </a>
-            </td>
-            </tr>
-        </tbody>
-        </table>
+                </div>
+            </div>
+        </div>
+        <div class="card w-3/4 lg:w-7/12 bg-base-100 lg:hover:border-slate-300 lg:hover:scale-105 shadow-xl border-2 border-slate-700 rounded-md">
+            <div class="card-body">
+                <h2 class="card-title text-white underline decoration-1 underline-offset-8">12 Month Plan</h2>
+                <p>Available For:</p>
+                <p class="text-white text-xl">£11.99 Per Month<p>
+                <p>£143.88 <strong>Total</strong>, 20% Discount</p>
+                <p class="text-white">Save up to £36 by subscribing for 12 months!</p>
+                <ul class="list-disc ml-5 mb-8">
+                    <li>Full Access To Gym</li>
+                    <li>A Personal Trainer</li>
+                    <li>All online resources and tools</li>
+                    <li>Access to the gym sauna</li>
+                    <li>Free monthly newsletter, including many healthy recipes to try out</li>
+                </ul>
+                <div class="card-actions justify-end">
+                    <a href="/register"
+                    class="btn bg-white mb-3 text-black hover:bg-black hover:text-white shadow-2xl border-none"
+                    >Choose Plan
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
