@@ -12,7 +12,6 @@
 	// Variables
 	const type = notification.type;
 	const message = notification.message;
-	const classString = "w-[25%] alert mx-5 mt-5 shadow-md";
 
 	const isSuccess = type == "success";
 	const isWarning = type == "warning";
