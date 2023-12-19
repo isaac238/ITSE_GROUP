@@ -12,9 +12,11 @@ export const actions = {
 		const response = await auth.registerMember(data);
 
 		if (response.success) {
-			throw redirect(301, "/login?register=true");}
+			throw redirect(301, "/login?register=true");
+		}
 		else {
-			return response.message}
+			return response.message;
+		}
 	}
 }
 

@@ -34,9 +34,12 @@
 	...RegisterValidation.surnameValidation(surname).problems,
 	...RegisterValidation.ageValidation(birthdate).problems,
 	];
-    $: {if(form !== null){
-        notifStore.addError(form);
-    }}
+
+    $: {
+		if (form !== null) {
+			notifStore.addError(form);
+		}
+	}
 </script>
 
 <!-- Render -->

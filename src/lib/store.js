@@ -8,10 +8,11 @@ import { writable } from "svelte/store";
 export const notifStore = createNotificationStore();
 
 
-const addNotification = (notificationMessage) => update((prevVal) => [...prevVal, notificationMessage]);
 
 function createNotificationStore() {
     const { subscribe, update } = writable([]);
+
+	const addNotification = (notificationMessage) => update((prevVal) => [...prevVal, notificationMessage]);
 
     return {
         subscribe,
@@ -24,5 +25,3 @@ function createNotificationStore() {
 		addSuccess: (message) => addNotification({message: message, type: "success"})
     }
 }
-
-

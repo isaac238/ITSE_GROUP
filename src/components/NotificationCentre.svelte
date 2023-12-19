@@ -16,13 +16,12 @@
 
 <!-- Render -->
 
-<div>
-    {#each notifStore as notification, i}
+<div class="flex flex-col items-end absolute w-full z-10">
+    {#each $notifStore as notification, i}
         <Notification
-            message={notification.message}
-            type={notification.type}
-            timer={() => RemoveTimer(i) }
-            callback={() => notifStore.removeNotification(i) }
+			{ notification }
+            timer={ () => RemoveTimer(i) }
+            callback={ () => notifStore.removeNotification(i) }
         />
     {/each}
 </div>
