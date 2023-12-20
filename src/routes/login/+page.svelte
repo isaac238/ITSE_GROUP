@@ -1,4 +1,5 @@
 <!-- Login.svelte -->
+
 <script>
     // imports
 
@@ -8,22 +9,39 @@
 
     // Libraries
     import { notifStore } from "../../lib/store.js";
+	import {enhance} from "$app/forms";
 
     // exports
+    export let form;
+    // export let data;
+    
+    // Register on load is broken 
 
-    export let data;
-    const isFromRegister = data.isFromRegister;
-    if (isFromRegister) {
-        notifStore.addSuccess("Registered Successfully!");
-    }
+    // const isFromRegister = data.isFromRegister;
+    // if (isFromRegister) {
+    //     notifStore.addSuccess("Registered Successfully!");
+    // }
+
+
+    $: {
+		if (form !== null) {
+			notifStore.addError(form);
+		}
+	}
 </script>
 
 <!-- Render -->
 
-<NotificationCentre />
+{#if form !== null}
+    <NotificationCentre/>
+{/if}
 
 <main class="w-screen h-screen flex items-center justify-center">
-    <form method="post" class="card w-[95%] md:w-[30%] bg-base-300 p-10">
+    <form method="post" class="card w-[95%] md:w-[30%] bg-base-300 p-10" use:enhance={() => {
+        return async ({update}) => {
+            update({ reset: false });
+            }
+        }}>
         <h1 class="text-2xl font-bold mb-8">Login</h1>
         <div class="form-control gap-2 mb-4">
             <LabeledInput name="email" placeholder="Email" type="email" />

@@ -2,23 +2,28 @@
 
 // imports
 
+// Libraries
 import { redirect } from "@sveltejs/kit";
 import Auth from "$lib/server/auth";
-import { notifStore } from "../../lib/store.js";
 
 // exports
 
-export async function load({ url }) {
-	const params = new URLSearchParams(url.search);
-	return {isFromRegister: params.get("redirected")}
-}
+// This feature won't work as noted in /login/+page.svelte
+
+// export async function load({ url }) {
+// 	const params = new URLSearchParams(url.search);
+// 	console.log(params.get("redirected"))
+// 	console.log(params)
+// 	return {isFromRegister: params.get("redirected")}
+// }
 
 export const actions = {
 	default: async ({ request, locals }) => {
 		const data = await request.formData();
 		const auth = new Auth(locals.pb);
 		const response = await auth.login(data);
-		if (response.success) throw redirect(301, "/userdash")
-		else notifStore.addError(response.message);
+		if (response.success) throw redirect(301, "/userdash");
+		
+		else return response.message;
 	}
 }

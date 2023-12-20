@@ -1,3 +1,4 @@
+<!-- Register.svelte -->
 <script>
 	// imports
 
@@ -13,7 +14,7 @@
     import {notifStore} from "../../lib/store";
     
     // exports
-    export let form
+    export let form;
 
 	let firstName = "";
 	let surname = "";

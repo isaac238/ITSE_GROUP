@@ -18,9 +18,9 @@ export default class Auth {
 		try {
 			await this.pb.collection('users').authWithPassword(email, password);
 			return { success: true, message: "Logged in" };
-		} catch (error) {
-			console.log(error);
-			return { success: false, message: "Error occured" };
+		}
+		catch (error) {
+			return { success: false, message: error.response.message };
 		}
 	}
 

@@ -1,6 +1,8 @@
 // Register page server.js
 
 // imports
+
+// Libraries
 import {redirect } from "@sveltejs/kit";
 import Auth from "$lib/server/auth";
 
@@ -12,7 +14,8 @@ export const actions = {
 		const response = await auth.registerMember(data);
 
 		if (response.success) {
-			throw redirect(301, "/login?register=true");
+			throw (redirect(301, "/login"))
+			// throw redirect(301, "/login?redirected=true");
 		}
 		else {
 			return response.message;
