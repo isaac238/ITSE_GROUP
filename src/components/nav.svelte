@@ -1,3 +1,7 @@
+<script>
+	import 'iconify-icon';
+</script>
+
 <div class="navbar bg-base-100">
   <div class="navbar-start">
     <div class="dropdown">
@@ -14,7 +18,7 @@
     </div>
   </div>
   <div class="navbar-center">
-    <a href="/" class="btn btn-ghost text-xl">ModernFit Gym</a>
+    <a href="/" class="btn btn-ghost text-xl">ModernFit Gym<iconify-icon icon="mdi:weight-lifter"/></a>
   </div>
   <div class="navbar-end">
   </div>
