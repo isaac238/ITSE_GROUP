@@ -21,6 +21,8 @@ export const handle = (async ({ event, resolve }) => {
 
 	event.locals.pb = pb;
 	event.locals.user = event.locals.pb.authStore.model;
+	if (event.locals.user)
+		event.locals.user.avatar = pb.files.getUrl(event.locals.user, event.locals.user.avatar);
 
 	const trainerOnlyRoutes = ["/trainerdash"];
 	const memberOnlyRoutes = ["/userdash"];
@@ -31,7 +33,7 @@ export const handle = (async ({ event, resolve }) => {
 	const routeIsTrainerOnly = trainerOnlyRoutes.includes(event.url.pathname);
 	const routeIsMemberOnly = memberOnlyRoutes.includes(event.url.pathname);
 
-	if (!isTrainer && routeIsTrainerOnly)  throw redirect(302, "/");
+	if (!isTrainer && routeIsTrainerOnly) throw redirect(302, "/");
 	if (!isMember && routeIsMemberOnly) throw redirect(302, "/");
 
 	const response = await resolve(event);

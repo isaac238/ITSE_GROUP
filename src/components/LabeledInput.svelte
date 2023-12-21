@@ -7,10 +7,18 @@
 	export let value = "";
 	export let required = false;
 	export let max = "";
+	
+	let input;
 
 	const setRequired = (node) => {
 		node.required = required
 	}
+
+	$: {
+		if (type != "password" && input != undefined)
+			input.value = value;
+	}
+	
 </script>
 
 <label for={name} class="flex flex-col gap-2">
@@ -18,6 +26,6 @@
 	{#if type == "password"}
 		<PasswordInput name={name} bind:value placeholder={placeholder} required={true} />
 	{:else}
-		<input id={name} max={max} type={type} use:setRequired on:input={(e) => value = e.target.value} placeholder={placeholder} name={name} class="w-full input input-bordered focus:outline focus:outline-1 focus:outline-white focus:border-none focus:ring-0" />
+		<input bind:this={input} id={name} max={max} type={type} use:setRequired on:input={(e) => value = e.target.value} placeholder={placeholder} name={name} class="w-full input input-bordered focus:outline focus:outline-1 focus:outline-white focus:border-none focus:ring-0" />
 	{/if}
 </label>
