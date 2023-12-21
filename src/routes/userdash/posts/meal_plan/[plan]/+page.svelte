@@ -22,7 +22,7 @@
 			method: "POST",
 			body: JSON.stringify({
 				"collection": "meal_log",
-				"query": `name='${new Date(recordData.plan_date).toLocaleDateString()}'`,
+				"query": `name='${recordData.name}'`,
 			}),
 			headers: { 'Content-Type': 'application/json' },
 		});
@@ -41,6 +41,7 @@
 					"user": recordData.user,
 					"name": recordData.name,
 					"foods": recordData.foods,
+					"eaten_at": new Date(),
 				},
 			}),
 			headers: { 'Content-Type': 'application/json' },
@@ -83,9 +84,7 @@
 		let updated = await updateLog(logAlreadyExists);
 		console.log(updated);
 
-		if (updated) {
-			goto("/userdash/posts/meal_log/" + updated.id);
-		}
+		if (updated) { goto("/userdash/posts/meal_log/" + updated.id); }
 	}
 </script>
 
@@ -105,12 +104,12 @@
 	</div>
 
 	<span class="tooltip md:mr-4 md:relative absolute bottom-0 w-screen md:w-fit" data-tip={logTip}>
-		<button on:click={() => logPlan()} class="w-11/12 h-16 my-3 md:my-0 md:h-fit md:w-fit btn btn-primary shadow-lg" disabled={disabled}>Log This Plan</button>	
+		<button on:click={() => logPlan()} class="w-11/12 h-16 my-3 md:my-0 md:h-fit md:w-fit btn btn-primary shadow-lg" disabled={disabled}>Log This Meal</button>	
 	</span>
 </div>
 
 <div class="w-screen md:w-3/4 p-3 md:p-0 rounded-lg place-self-center">
-	{#each foods as fooditem}
-		<MealPlanFooditem {fooditem} bind:complete={fooditem.complete}/>
+	{#each foods as food}
+		<MealPlanFooditem {food} bind:complete={food.complete}/>
 	{/each}
 </div>

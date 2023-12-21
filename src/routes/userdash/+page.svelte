@@ -163,12 +163,12 @@
 
 	let filterDate = "";
 	$: {
-	console.log(filterDate);
-	if (filterDate !== "") {
-		collectionData = $collectionsData[$currentTable].filter((record) => record.name.includes(filterDate));
-	} else {
-		collectionData = $collectionsData[$currentTable];
-	}
+		console.log(filterDate);
+		if (filterDate !== "") {
+			collectionData = $collectionsData[$currentTable].filter((record) => record.name.includes(filterDate));
+		} else {
+			collectionData = $collectionsData[$currentTable];
+		}
 	} 
 </script>
 

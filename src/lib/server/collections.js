@@ -19,8 +19,8 @@ export default class Collections {
 		const collectionsAndExpansions = {
 			"workout_log": "weight_workouts,cardio_workouts",
 			"workout_plan": "weight_workouts,cardio_workouts",
-			"meal_log": "foods",
-			"meal_plan": "foods",
+			"meal_log": "foods,foods.fooditem",
+			"meal_plan": "foods,foods.fooditem",
 		}
 		const response = {}
 
@@ -62,8 +62,8 @@ export default class Collections {
 			const expand = {
 				"workout_log": "weight_workouts,cardio_workouts",
 				"workout_plan": "weight_workouts,cardio_workouts",
-				"meal_log": "foods",
-				"meal_plan": "foods",
+				"meal_log": "foods,foods.fooditem",
+				"meal_plan": "foods,foods.fooditem",
 			}
 			const record = await this.pb.collection(collection).getOne(id, {
 				expand: expand[collection]
