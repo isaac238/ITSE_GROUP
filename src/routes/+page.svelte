@@ -131,6 +131,9 @@
             </div>
         </div>
     </div>  
+    <div class="mb-10">
+        <h1 class="mb-5 text-5xl font-bold text-white text-center">Subscription Plans</h1>
+    </div>
     <div id="subscriptions" class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-y-12 mb-10">
         <div class="card w-3/4 lg:w-7/12 bg-base-100 lg:hover:border-slate-300 lg:hover:scale-105 shadow-xl border-2 border-slate-700 rounded-md">
             <div class="card-body">
