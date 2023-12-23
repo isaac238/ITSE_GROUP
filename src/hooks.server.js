@@ -29,6 +29,9 @@ export const handle = (async ({ event, resolve }) => {
 
     const isTrainer = event.locals.user ? event.locals.user.role.includes("trainer") : false;
     const isMember = event.locals.user ? event.locals.user.role.includes("member") : false;
+	
+	event.locals.isTrainer = isTrainer;
+	event.locals.isMember = isMember;
 
 	const routeIsTrainerOnly = trainerOnlyRoutes.includes(event.url.pathname);
 	const routeIsMemberOnly = memberOnlyRoutes.includes(event.url.pathname);
