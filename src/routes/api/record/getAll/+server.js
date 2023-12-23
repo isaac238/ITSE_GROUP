@@ -4,7 +4,7 @@ export async function POST({ locals, request }) {
 	const { collection} = body;
 	const pb = locals.pb;
     try {
-        const record = pb.collection(collection).getList();
+        const record = await pb.collection(collection).getFullList();
         return new Response(JSON.stringify(record), {status: 200});
     } catch (error) {
 		console.log(error)

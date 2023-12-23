@@ -81,13 +81,18 @@
 
 	const showNewFoodModal = async() => {
 		console.log("Opening modal new food");
+
+		// GET all food items from foodItem - Promise request
 		const response = await fetch("/api/record/getAll", {
 			method: "POST",
 			headers: {"Content-Type": "application/json"},
 			body: (JSON.stringify({"collection": "foodItem"}))
 		})
+
         const respJSON = await response.json(); 
 		console.log(respJSON);
+
+		// Reset food modal state
 		newFoodModalState = {
 			"step": 0,
 			"fooditem": {
