@@ -1,3 +1,5 @@
+<!-- Userdash - Meal Log - Slug -->
+
 <script>
 	import DeleteItemModal from "../../../../../components/DeleteItemModal.svelte";
     import MealLogFooditem from "../../../../../components/MealLogFooditem.svelte";
@@ -47,6 +49,7 @@
 		// Use records/create api endpoint to create new portion_fooditem record with the fooditemID and portion variables from modal
 	}
 
+	
 	const newFoodModalCallback = () => {
 		// Get state from newFoodModalState variable;
 		if (newFoodModalState.fooditem.id == undefined) {
@@ -62,7 +65,6 @@
 		itemToDelete = item;
 		document.getElementById("delete-item-modal").showModal();
 	}
-
 
 	let newFoodModalState = {
 		"step": 0,
