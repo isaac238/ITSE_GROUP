@@ -12,22 +12,6 @@
 	let foods = recordData.foods.length > 0 ? recordData.expand.foods : [];
 	let itemToDelete;
 
-	let newFoodModalState = {
-		"step": 0,
-		"fooditem": {
-			"name": "",
-			"calories_in_g": "",
-			"protein_in_g": "",
-			"carbs_in_g": "",
-			"fats_in_g": "",
-			"sugar_in_g": "",
-		},
-		"portion": "",
-		"foodListFilter": "",
-	};
-
-	// Callbacks
-
 	const sendDeleteRequest = async () => {
 		const deleteResponse = await fetch(`/api/record/delete`, {
 			method: "POST",
@@ -52,22 +36,21 @@
 		itemToDelete = null;
 	}
 
+	const addNewFoodItem = (fooditem) => {
+		console.log("Adding new food item");
+		console.log(fooditem);
+		// Use records/create api endpoint to create new fooditem record with the fooditem object from modal
+	}
+
+	const addNewPortionFooditem = (fooditemID, portion) => {
+		console.log("Adding new portion_fooditem");
+		console.log(fooditemID);
+		console.log(portion);
+		// Use records/create api endpoint to create new portion_fooditem record with the fooditemID and portion variables from modal
+	}
+
 	const newFoodModalCallback = () => {
-		// Get state from newFoodModalState variable;
-
-		// REQUEST TEMPLATE: 
-		// const response = await fetch /api/getAll
-		// method: "POST"
-		// headers: {
-		// "Content-Type": "application/json"
-		// body: JSON.stringify(
-		// "collection": $currentTable,
-		// )
-		// }）：
-		// const respJSON = await response. json();
-
-
-			
+		//Get state from newFoodModalState variable;
 		if (newFoodModalState.fooditem.id == undefined) {
 			// ID undefined so as not in DB yet so create new fooditem record
 			// Return the new fooditem record from this function so the id can be passed into addNewPortionFooditem
@@ -77,17 +60,34 @@
 		addNewPortionFooditem(newFoodModalState.fooditem.id, newFoodModalState.portion);
 	}
 
-	// Modals
-
 	const showDeleteModal = (item) => {
 		itemToDelete = item;
 		document.getElementById("delete-item-modal").showModal();
 	}
 
-	const showNewFoodModal = () => {
+	let newFoodModalState = {
+		"step": 0,
+		"fooditem": {
+			"name": "",
+			"calories_in_g": "",
+			"protein_in_g": "",
+			"carbs_in_g": "",
+			"fats_in_g": "",
+			"sugar_in_g": "",
+		},
+		"portion": "",
+		"foodListFilter": "",
+	};
+
+	const showNewFoodModal = async() => {
 		console.log("Opening modal new food");
-		
-		// Reset newFoodModalState
+		const response = await fetch("/api/record/getAll", {
+			method: "POST",
+			headers: {"Content-Type": "application/json"},
+			body: (JSON.stringify({"collection": "foodItem"}))
+		})
+        const respJSON = await response.json(); 
+		console.log(respJSON);
 		newFoodModalState = {
 			"step": 0,
 			"fooditem": {
@@ -103,35 +103,15 @@
 		};
 		document.getElementById("new-food-modal").showModal();
 	}
-
-	// Requests
-
-	const addNewFoodItem = (fooditem) => {
-		console.log("Adding new food item");
-		console.log(fooditem);
-		// Use records/create api endpoint to create new fooditem record with the fooditem object from modal
-	}
-
-	const addNewPortionFooditem = (fooditemID, portion) => {
-		console.log("Adding new portion_fooditem");
-		console.log(fooditemID);
-		console.log(portion);
-		// Use records/create api endpoint to create new portion_fooditem record with the fooditemID and portion variables from modal
-	}
 </script>
-
-<!-- Render Modal -->
 
 <dialog id="delete-item-modal" class="modal">
 	<DeleteItemModal callback={sendDeleteRequest}/>
 </dialog>
 
-<!-- New Food Modal -->
 <dialog id="new-food-modal" class="modal">	
 	<NewFoodModal bind:newFoodModalState callback={newFoodModalCallback} />
 </dialog>
-
-<!-- Main Render -->
 
 <header class="py-3 px-5">
 <h1 class="bg-transparent text-xl md:text-3xl font-black">Modern Fit <iconify-icon icon="mdi:weight-lifter"/></h1>
