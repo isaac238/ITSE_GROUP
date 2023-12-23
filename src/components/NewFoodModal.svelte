@@ -180,47 +180,47 @@
 				<h1 class="font-bold">Macros per 100g</h1>
 				<LabeledInput
 					bind:value={newFoodModalState.fooditem.calories_in_g}
-					name="Calories (Kcal)"
+					name="Calories"
 					type="number"
 					min="0"
 					step="1"
-					placeholder="Calories"
+					placeholder="Calories (Kcal)"
 					required={true}
 				/>
 				<LabeledInput
 					bind:value={newFoodModalState.fooditem.protein_in_g}
-					name="Protein (g)"
+					name="Protein"
 					type="number"
 					min="0"
 					step="0.1"
-					placeholder="Protein"
+					placeholder="Protein (g)"
 					required={true}
 				/>
 				<LabeledInput
 					bind:value={newFoodModalState.fooditem.carbs_in_g}
-					name="Carbs (g)"
+					name="Carbs"
 					type="number"
 					min="0"
 					step="0.1"
-					placeholder="Carbs"
+					placeholder="Carbs (g)"
 					required={true}
 				/>
 				<LabeledInput
 					bind:value={newFoodModalState.fooditem.fats_in_g}
-					name="Fats (g)"
+					name="Fats"
 					type="number"
 					min="0"
 					step="0.1"
-					placeholder="Fats"
+					placeholder="Fats (g)"
 					required={true}
 				/>
 				<LabeledInput
 					bind:value={newFoodModalState.fooditem.sugar_in_g}
-					name="Sugar (g)"
+					name="Sugar"
 					type="number"
 					min="0"
 					step="0.1"
-					placeholder="Sugar"
+					placeholder="Sugar (g)"
 					required={true}
 				/>
 			{/if}
@@ -229,11 +229,11 @@
 			{#if (newFoodModalState.step == 1 && !createNewFood) || (newFoodModalState.step == 2 && createNewFood)}
 				<LabeledInput
 					bind:value={newFoodModalState.portion}
-					name="Portion (g)"
+					name="Portion"
 					type="number"
 					min="0"
 					step="1"
-					placeholder="Portion"
+					placeholder="Portion (g)"
 					required={true}
 				/>
 			{/if}

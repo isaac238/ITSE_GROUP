@@ -21,7 +21,7 @@
 </script>
 
 <label for={name} class="flex flex-col gap-2">
-	<span class="text-sm tracking-normal w-full">{placeholder} <span class="text-red-400">*</span></span>
+	<span class="text-sm tracking-normal w-full">{placeholder}<span class="text-red-400">*</span></span>
 	{#if type == "password"}
 		<PasswordInput name={name} bind:value placeholder={placeholder} required={true} />
 	{:else}
