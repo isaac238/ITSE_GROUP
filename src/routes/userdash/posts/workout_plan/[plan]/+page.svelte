@@ -1,8 +1,14 @@
 <script>
+	// Imports
+	import { goto } from "$app/navigation";
+	import Utils from "$lib/utils.js";
+
+
+	// Component Imports
     import WeightWorkoutPlan from "../../../../../components/WeightWorkoutPlan.svelte";
     import CardioWorkoutPlan from "../../../../../components/CardioWorkoutPlan.svelte";
-	import { goto } from "$app/navigation";
 
+	// Props
 	export let data;
 
 	const recordData = data.recordData;
@@ -11,71 +17,70 @@
 
 	let allWeightWorkoutsCompleted;
 	let allCardioWorkoutsCompleted;
-
 	let disabled;
-	let logTip;
 
 	$:  allWeightWorkoutsCompleted = weight_workouts.every((workout) => workout.complete);
 	$:  allCardioWorkoutsCompleted = cardio_workouts.every((workout) => workout.complete);
 	$: disabled = !(allWeightWorkoutsCompleted && allCardioWorkoutsCompleted);
+
+	let logTip;
 	$: logTip = disabled ? "You must complete all workouts before logging this plan." : `Add all workouts to ${new Date(recordData.plan_date).toLocaleDateString()}'s' log.`;
 
-	const getLog = async () => {
+	async function getLog() {
 		console.log("Checking for existing log");
-		const response = await fetch("/api/record/search", {
-			method: "POST",
-			body: JSON.stringify({
-				"collection": "workout_log",
-				"query": `name='${new Date(recordData.plan_date).toLocaleDateString()}'`,
-			}),
-			headers: { 'Content-Type': 'application/json' },
-		});
+
+		const requestBody = {
+			"collection": "workout_log",
+			"query": `name='${new Date(recordData.plan_date).toLocaleDateString()}'`,
+		};
+
+		const response = await Utils.sendPostRequest("/api/record/search", requestBody);
 
 		const responseJSON = await response.json();
 		return responseJSON != null ? responseJSON : false;
 	}
 
-	const createLog = async () => {
+	async function createLog() {
 		console.log("Creating new log");
-		const response = await fetch("/api/record/create", {
-			method: "POST",
-			body: JSON.stringify({
-				"collection": "workout_log",
-				"data": {
-					"user": recordData.user,
-					"name": new Date(recordData.plan_date).toLocaleDateString(),
-					"weight_workouts": recordData.weight_workouts,
-					"cardio_workouts": recordData.cardio_workouts,
-				},
-			}),
-			headers: { 'Content-Type': 'application/json' },
-		});
+
+		const requestBody = {
+			"collection": "workout_log",
+			"data": {
+				"user": recordData.user,
+				"name": new Date(recordData.plan_date).toLocaleDateString(),
+				"weight_workouts": recordData.weight_workouts,
+				"cardio_workouts": recordData.cardio_workouts,
+			},
+		};
+
+		const response = await Utils.sendPostRequest("/api/record/create", requestBody);
 
 		const responseJSON = await response.json();
 		return responseJSON != undefined ? responseJSON : false;
 	}
 
-	const updateLog = async (log) => {
+	async function updateLog(log) {
 		console.log("Updating existing log");
-		const response = await fetch("/api/record/update", {
-			method: "POST",
-			body: JSON.stringify({
-				"collection": "workout_log",
-				"recordID": log.id,
-				"data": {
-					"weight_workouts": [...new Set([...recordrecordData.weight_workouts, ...log.weight_workouts])],
-					"cardio_workouts": [...new Set([...recordrecordData.cardio_workouts, ...log.cardio_workouts])],
-				},
-			}),
-			headers: { 'Content-Type': 'application/json' },
-		});
+
+		const weightWorkoutSet = new Set([...recordData.weight_workouts, ...log.weight_workouts]);
+		const cardioWorkoutSet = new Set([...recordData.cardio_workouts, ...log.cardio_workouts]);
+
+		const requestBody = {
+			"collection": "workout_log",
+			"recordID": log.id,
+			"data": {
+				"weight_workouts": [...weightWorkoutSet],
+				"cardio_workouts": [...cardioWorkoutSet],
+			},
+		};
+
+		const response = await Utils.sendPostRequest("/api/record/update", requestBody);
 
 		const responseJSON = await response.json();
-		console.log(responseJSON);
 		return responseJSON != undefined ? responseJSON : false;
 	}
 
-	const logPlan = async () => {
+	async function logPlan() {
 		const logAlreadyExists = await getLog();
 		console.log(logAlreadyExists);
 
