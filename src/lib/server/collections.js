@@ -5,6 +5,13 @@ export default class Collections {
 		this.pb = pb;
 	}
 
+	static collectionsAndExpansions = {
+		"workout_log": "weight_workouts,cardio_workouts",
+		"workout_plan": "weight_workouts,cardio_workouts",
+		"meal_log": "foods,foods.foodItem",
+		"meal_plan": "foods,foods.foodItem",
+	};
+
 	async createRecord(collection, data) {
 		try {
 			const record = await this.pb.collection(collection).create(data);
@@ -16,12 +23,7 @@ export default class Collections {
 	}
 
 	async getAllLogsAndPlans() {
-		const collectionsAndExpansions = {
-			"workout_log": "weight_workouts,cardio_workouts",
-			"workout_plan": "weight_workouts,cardio_workouts",
-			"meal_log": "foods,foods.fooditem",
-			"meal_plan": "foods,foods.fooditem",
-		}
+		const collectionsAndExpansions = Collections.collectionsAndExpansions;
 		const response = {}
 
 		try {
@@ -40,12 +42,7 @@ export default class Collections {
 				if (collection === "meal_log")
 					data.sort((record1, record2) => new Date(record2.eaten_at) + new Date(record1.eaten_at));
 				if (collection === "workout_log")
-					data.sort((record1, record2) => {
-						let [day1, month1, year1] = record1.name.split("/");
-						let [day2, month2, year2] = record2.name.split("/");
-
-						return new Date(year2, month2 - 1, day2) - new Date(year1, month1 - 1, day1);
-					});
+					data.sort((record1, record2) => Utils.workoutLogComparator(record1, record2));
 				else
 					data.sort((record1, record2) => new Date(record2.created) - new Date(record1.created));
 				response[collection] = data;
@@ -59,15 +56,10 @@ export default class Collections {
 
 	async getRecord(collection, id) {
 		try {
-			const expand = {
-				"workout_log": "weight_workouts,cardio_workouts",
-				"workout_plan": "weight_workouts,cardio_workouts",
-				"meal_log": "foods,foods.foodItem",
-				"meal_plan": "foods,foods.foodItem",
-				"users": "trainees",
-			}
+			const collectionsAndExpansions = Collections.collectionsAndExpansions;
+
 			const record = await this.pb.collection(collection).getOne(id, {
-				expand: expand[collection]
+				expand: collectionsAndExpansions[collection]
 			});
 			return record;
 		} catch (error) {
