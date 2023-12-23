@@ -15,6 +15,7 @@
 		}
 	}
 
+	
 	// Get all current fooditems from db using searchAll api endpoint
 	// let allCurrentFoodItems = [
 	// 	// Read these from db instead of using these placeholders
@@ -57,7 +58,7 @@
 	// ];
 
 	let allCurrentFoodItems = [];
-
+	
 	const emptyFooditem = {
 		name: "",
 		calories_in_g: "",
@@ -68,6 +69,9 @@
 	};
 
 	let maxStep = 1;
+
+	let createNewFood = false;
+	let showFoodList = false;
 
 	const incrementStep = () => {
 		if (newFoodModalState.step < maxStep) newFoodModalState.step++;
@@ -93,9 +97,6 @@
 		}
 	};
 
-	let createNewFood = false;
-	let showFoodList = false;
-
 	const createNewFoodClicked = () => {
 		createNewFood = true;
 		maxStep = 2;
@@ -107,9 +108,10 @@
 		}, 1);
 	};
 
-	$: if (newFoodModalState.step == 0 && fooditemIsValid())
-		createNewFood = false;
+
+	$: if (newFoodModalState.step == 0 && fooditemIsValid()) createNewFood = false;
 	$: showFoodList = newFoodModalState.foodListFilter != "" ? true : false;
+
 </script>
 
 <!-- Render -->
@@ -125,17 +127,15 @@
 		>
 			<!-- STEP 1 -->
 			{#if newFoodModalState.step == 0}
-				<label for="foodType" class="text-white"
-					>Choose a Food Type</label
-				>
+				<label for="foodType" class="text-white">Choose a Food Type</label>
 				<div>
 					<LabeledInput
 						bind:value={newFoodModalState.foodListFilter}
 						name="foodType"
 						type="text"
 						placeholder="Food Name"
-						required={true}
-					/>
+						required={true}/>
+
 					{#if showFoodList}
 						<div class=" flex flex-col items-center mt-4 gap-2 overflow-y-scroll min-h-fit max-h-28">
 							{#each allCurrentFoodItems as fooditem}

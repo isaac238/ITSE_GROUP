@@ -5,3 +5,4 @@ export async function load({ locals }) {
 	const collectionsData = await collections.getAllLogsAndPlans();
 	return { user: locals.user, collectionsData };
 }
+

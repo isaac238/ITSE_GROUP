@@ -54,6 +54,20 @@
 
 	const newFoodModalCallback = () => {
 		// Get state from newFoodModalState variable;
+
+		// REQUEST TEMPLATE: 
+		// const response = await fetch /api/getAll
+		// method: "POST"
+		// headers: {
+		// "Content-Type": "application/json"
+		// body: JSON.stringify(
+		// "collection": $currentTable,
+		// )
+		// }）：
+		// const respJSON = await response. json();
+
+
+			
 		if (newFoodModalState.fooditem.id == undefined) {
 			// ID undefined so as not in DB yet so create new fooditem record
 			// Return the new fooditem record from this function so the id can be passed into addNewPortionFooditem

@@ -3,7 +3,10 @@
 
 	export let workoutModalObject
 	export let callback;
+
+	
 	let maxStep = 1;
+
 	$: console.log(workoutModalObject);
 
 	const incrementStep = () => {
