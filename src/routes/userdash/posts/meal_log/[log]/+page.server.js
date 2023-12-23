@@ -5,6 +5,7 @@ export async function load({ locals, params }) {
 	const collections = new Collections(locals.pb);
 	const recordID = params.log;
 	const recordData = await collections.getRecord("meal_log", recordID);
+
 	console.log(recordData);
 
 	if (recordData === undefined) {
