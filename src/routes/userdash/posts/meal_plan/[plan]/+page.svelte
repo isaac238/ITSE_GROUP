@@ -1,76 +1,79 @@
 <script>
+	// Imports
 	import { goto } from "$app/navigation";
+	import Utils from "$lib/utils.js";
+
+	// Component Imports
     import MealPlanFooditem from "../../../../../components/MealPlanFooditem.svelte";
 
+	// Props
 	export let data;
 
 	const recordData = data.recordData;
 	let foods = recordData.foods.length > 0 ? recordData.expand.foods : [];
 
 	let allFoodsEaten;
-
 	let disabled;
 	let logTip;
 
-	$:  allFoodsEaten = foods.every((food) => food.complete);
+	$: allFoodsEaten = foods.every((food) => food.complete);
 	$: disabled = !allFoodsEaten;
 	$: logTip = disabled ? "You must eat this meal before logging this plan." : `Log this meal as ${recordData.name} log.`;
 
-	const getLog = async () => {
+	async function getLog() {
 		console.log("Checking for existing log");
-		const response = await fetch("/api/record/search", {
-			method: "POST",
-			body: JSON.stringify({
-				"collection": "meal_log",
-				"query": `name='${recordData.name}'`,
-			}),
-			headers: { 'Content-Type': 'application/json' },
-		});
+
+		const requestBody = {
+			"collection": "meal_log",
+			"query": `name='${recordData.name}'`,
+		}
+
+		const response = await Utils.sendPostRequest("/api/record/search", requestBody);
 
 		const responseJSON = await response.json();
 		return responseJSON != null ? responseJSON : false;
 	}
 
-	const createLog = async () => {
+	async function createLog() {
 		console.log("Creating new log");
-		const response = await fetch("/api/record/create", {
-			method: "POST",
-			body: JSON.stringify({
-				"collection": "meal_log",
-				"data": {
-					"user": recordData.user,
-					"name": recordData.name,
-					"foods": recordData.foods,
-					"eaten_at": new Date(),
-				},
-			}),
-			headers: { 'Content-Type': 'application/json' },
-		});
+
+		const requestBody = {
+			"collection": "meal_log",
+			"data": {
+				"user": recordData.user,
+				"name": recordData.name,
+				"foods": recordData.foods,
+				"eaten_at": new Date(),
+			},
+		};
+
+		const response = await Utils.sendPostRequest("/api/record/create", requestBody);
 
 		const responseJSON = await response.json();
 		return responseJSON != undefined ? responseJSON : false;
 	}
 
-	const updateLog = async (log) => {
+	async function updateLog(log) {
 		console.log("Updating existing log");
-		const response = await fetch("/api/record/update", {
-			method: "POST",
-			body: JSON.stringify({
-				"collection": "meal_log",
-				"recordID": log.id,
-				"data": {
-					"foods": [...new Set([...recordrecordData.foods, ...log.foods])],
-				},
-			}),
-			headers: { 'Content-Type': 'application/json' },
-		});
+
+		const foodSet = new Set([...record.foods, ...log.foods]);
+
+		const requestBody = {
+			"collection": "meal_log",
+			"recordID": log.id,
+			"data": {
+				"foods": [...foodSet],
+			},
+		};
+
+		const response = await Utils.sendPostRequest("/api/record/update", requestBody);
 
 		const responseJSON = await response.json();
 		console.log(responseJSON);
 		return responseJSON != undefined ? responseJSON : false;
 	}
 
-	const logPlan = async () => {
+	async function logPlan() {
 		const logAlreadyExists = await getLog();
 		console.log(logAlreadyExists);
 
