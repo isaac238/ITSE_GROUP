@@ -6,6 +6,7 @@
 	// exports
 	export let callback;
 	export let newFoodModalState;
+	export let foods;
 
 	$: console.log(newFoodModalState);
 
