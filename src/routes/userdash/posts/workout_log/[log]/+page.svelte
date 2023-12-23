@@ -1,13 +1,19 @@
 <script>
+	// Imports
+	import 'iconify-icon';
+	import Utils from "$lib/utils.js"
+
+	// Component Imports
     import WeightWorkoutLog from "../../../../../components/WeightWorkoutLog.svelte";
     import CardioWorkoutLog from "../../../../../components/CardioWorkoutLog.svelte";
     import DeleteItemModal from "../../../../../components/DeleteItemModal.svelte";
     import NewWorkoutModal from "../../../../../components/NewWorkoutModal.svelte";
-	import 'iconify-icon';
 
+	// Props
 	export let data;
 
 	const recordData = data.recordData;
+
 	let [ day, month, year ] = recordData.name.split("/");
 	const logDate = new Date(year, month - 1, day);
 
@@ -15,143 +21,85 @@
 	let cardio_workouts = recordData.cardio_workouts.length > 0 ? recordData.expand.cardio_workouts : [];
 
 	let itemToDelete;
-	const sendDeleteRequest = async () => {
-		const deleteResponse = await fetch(`/api/record/delete`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				"collection": itemToDelete.collectionName,
-				"id": itemToDelete.id,
-			}),
-		});
+	let workoutModalState;
 
-		const deleteResponseJSON = await deleteResponse.json();
-		console.log("Delete Response");
-		console.log(deleteResponseJSON);
+
+	// DELETE MODAL FUNCTIONS
+
+	function deleteCallback(responseJSON) {
+		if (!responseJSON) return;
+
 		const relationField = itemToDelete.collectionName.split("_")[0];
 
-		if (deleteResponseJSON == true && relationField == "weight") {
-			weight_workouts = weight_workouts.filter((item) => item.id != itemToDelete.id);
-		}
+		if (relationField == "weight") weight_workouts = weight_workouts.filter((item) => item.id != itemToDelete.id);
+		if (relationField == "cardio") cardio_workouts = cardio_workouts.filter((item) => item.id != itemToDelete.id);
 
-		if (deleteResponseJSON == true && relationField == "cardio") {
-			cardio_workouts = cardio_workouts.filter((item) => item.id != itemToDelete.id);
-		}
 		itemToDelete = null;
 	}
 
-	const showDeleteModal = (item) => {
+	function showDeleteModal(item) {
 		itemToDelete = item;
 		document.getElementById("delete-item-modal").showModal();
 	}
 
-	let workoutModalObject = {
-		step: 0,
-		exercise: "",
-		weight_kg: "",
-		sets: "",
-		reps: "",
-		duration: "",
-		calories: "",
-		distance: "",
-		type: "",
+
+
+
+	// NEW WORKOUT MODAL FUNCTIONS
+
+	function clearWorkoutModalState() {
+		workoutModalState = {
+			step: 0,
+			exercise: "",
+			weight_kg: "",
+			sets: "",
+			reps: "",
+			durationInSeconds: "",
+			caloriesBurned: "",
+			distanceMiles: "",
+			type: "",
+		};
 	}
 
-	const showNewWorkoutModal = () => {
-
-		workoutModalObject.step = 0;
-		workoutModalObject.exercise = "";
-		workoutModalObject.weight_kg = "";
-		workoutModalObject.sets = "";
-		workoutModalObject.reps = "";
-		workoutModalObject.duration = "";
-		workoutModalObject.calories = "";
-		workoutModalObject.distance = "";
-		workoutModalObject.type = "";
-
+	function showNewWorkoutModal() {
+		clearWorkoutModalState();
 		console.log("Opening modal workout");
-		console.log(workoutModalObject);
 		document.getElementById("new-workout-modal").showModal();
 	}
 
-	const sendNewWorkoutRequest = async () => {
-		let requestData = {};
+	async function newWorkoutCallback(createdRecord) {
 		let updateResponseJSON;
-		let createResponseJSON;
+		let requestData = {};
 
-		if (workoutModalObject.type == "weight") {
-			const {step, duration, calories, distance, type, ...remainingData} = workoutModalObject;
-			requestData = remainingData;
-		}
+		if (!createdRecord) return;
 
-		if (workoutModalObject.type == "cardio") {
-			const {step, weight_kg, sets, reps, type, ...remainingData} = workoutModalObject;
-			requestData = remainingData;
-		}
+		if (workoutModalState.type == "weight") requestData = {[`weight_workouts`]: [...weight_workouts.map((item) => item.id), createdRecord.id]};
+		if (workoutModalState.type == "cardio") requestData = {[`cardio_workouts`]: [...cardio_workouts.map((item) => item.id), createdRecord.id]};
 
-		const createResponse = await fetch(`/api/record/create`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				"collection": `${workoutModalObject.type}_workout`,
-				"data": {...requestData, "complete": true},
-			}),
-		});
+		const requestBody = {
+			"collection": "workout_log",
+			"recordID": recordData.id,
+			"data": requestData,
+		};
 
-		createResponseJSON = await createResponse.json();
-
-		if (createResponseJSON != undefined) {
-			if (workoutModalObject.type == "weight") {
-				requestData = {[`weight_workouts`]: [...weight_workouts.map((item) => item.id), createResponseJSON.id]};
-			}
-
-			if (workoutModalObject.type == "cardio") {
-				requestData = {[`cardio_workouts`]: [...cardio_workouts.map((item) => item.id), createResponseJSON.id]};
-			}
-
-			const updateResponse = await fetch('/api/record/update', {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					"collection": "workout_log",
-					"recordID": recordData.id,
-					"data": requestData,
-				}),
-			});
-
-			updateResponseJSON = await updateResponse.json();
-		}
+		const updateResponse = await Utils.sendPostRequest('/api/record/update', requestBody);
+		updateResponseJSON = await updateResponse.json();
 
 		console.log("createResponseJSON");
-		console.log(createResponseJSON);
+		console.log(createdRecord);
 
 		console.log("updateResponseJSON");
 		console.log(updateResponseJSON);
 
-		console.log(workoutModalObject.type);
-		if (updateResponseJSON != undefined && workoutModalObject.type == "weight") {
-			weight_workouts = [...weight_workouts, createResponseJSON];
-		}
-
-		if (updateResponseJSON != undefined && workoutModalObject.type == "cardio") {
-			cardio_workouts = [...cardio_workouts, createResponseJSON];
-		}
+		if (updateResponse.ok && workoutModalState.type == "weight") weight_workouts = [...weight_workouts, createdRecord];
+		if (updateResponse.ok && workoutModalState.type == "cardio") cardio_workouts = [...cardio_workouts, createdRecord];
 	}
+
+	clearWorkoutModalState();
 </script>
 
-<dialog id="delete-item-modal" class="modal">
-	<DeleteItemModal callback={sendDeleteRequest}/>
-</dialog>
-
-<dialog id="new-workout-modal" class="modal">	
-	<NewWorkoutModal bind:workoutModalObject callback={() => sendNewWorkoutRequest()}/>
-</dialog>
+<DeleteItemModal callback={deleteCallback} bind:itemToDelete/>
+<NewWorkoutModal bind:workoutModalState callback={newWorkoutCallback}/>
 
 <header class="py-3 px-5">
 <h1 class="bg-transparent text-xl md:text-3xl font-black">Modern Fit <iconify-icon icon="mdi:weight-lifter"/></h1>
