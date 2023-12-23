@@ -40,9 +40,15 @@
 
 	// FOOD MODAL FUNCTIONS
 
-	const addNewFoodItem = (fooditem) => {
+	const addNewFoodItem = async (fooditem) => {
 		console.log("Adding new food item");
 		console.log(fooditem);
+		//  {"food":"chicken","price":4.00}
+		const requestBody = {
+			"collection": "foodItem",
+			"data": fooditem
+		};
+		const response = await Utils.sendPostRequest("/api/record/create", requestBody);
 		// Use records/create api endpoint to create new fooditem record with the fooditem object from modal
 	}
 
@@ -58,7 +64,7 @@
 	const newFoodModalCallback = () => {
 		//Get state from newFoodModalState variable;
 		const isANewFoodItem = newFoodModalState.fooditem.id == undefined;
-
+		console.log("callback:",newFoodModalState)
 		if (isANewFoodItem) {
 			// ID undefined so as not in DB yet so create new fooditem record
 			// Return the new fooditem record from this function so the id can be passed into addNewPortionFooditem
