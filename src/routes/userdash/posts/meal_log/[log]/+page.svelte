@@ -2,6 +2,8 @@
 
 <script>
 	// Imports
+
+	// Libraries
 	import 'iconify-icon';
 	import Utils from "$lib/utils.js"
 
@@ -17,7 +19,7 @@
 	let foods = recordData.foods.length > 0 ? recordData.expand.foods : [];
 	let itemToDelete;
 	let newFoodModalState;
-
+	let allCurrentFoodItems = []
 
 	// DELETE MODAL FUNCTIONS
 
@@ -96,11 +98,12 @@
 	}
 
 	const showNewFoodModal = async() => {
-		const resp  = await getAllFoodItems();
+		allCurrentFoodItems  = await getAllFoodItems();
 		clearNewFoodModalState();
 		console.log("Opening modal new food");
 		document.getElementById("new-food-modal").showModal();
 	}
+
 
 	clearNewFoodModalState();
 </script>
@@ -108,7 +111,7 @@
 <DeleteItemModal callback={deleteCallback} bind:itemToDelete />
 
 <dialog id="new-food-modal" class="modal">	
-	<NewFoodModal bind:newFoodModalState callback={newFoodModalCallback} />
+	<NewFoodModal bind:newFoodModalState callback={newFoodModalCallback}  bind:allCurrentFoodItems />
 </dialog>
 
 <header class="py-3 px-5">

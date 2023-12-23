@@ -6,7 +6,7 @@
 	// exports
 	export let callback;
 	export let newFoodModalState;
-	export let foods;
+	export let allCurrentFoodItems;
 
 	$: console.log(newFoodModalState);
 
@@ -16,49 +16,7 @@
 		}
 	}
 
-	
-	// Get all current fooditems from db using searchAll api endpoint
-	// let allCurrentFoodItems = [
-	// 	// Read these from db instead of using these placeholders
-	// 	{
-	// 		"id": 1,
-	// 		"name": "Chicken Breast",
-	// 		"calories_in_g": 165,
-	// 		"protein_in_g": 31,
-	// 		"carbs_in_g": 0,
-	// 		"fats_in_g": 3.6,
-	// 		"sugar_in_g": 0,
-	// 	},
-	// 	{
-	// 		"id": 2,
-	// 		"name": "Chicken Thigh",
-	// 		"calories_in_g": 209,
-	// 		"protein_in_g": 26,
-	// 		"carbs_in_g": 0,
-	// 		"fats_in_g": 11,
-	// 		"sugar_in_g": 0,
-	// 	},
-	// 	{
-	// 		"id": 3,
-	// 		"name": "Broccoli",
-	// 		"calories_in_g": 34,
-	// 		"protein_in_g": 2.8,
-	// 		"carbs_in_g": 6,
-	// 		"fats_in_g": 0.4,
-	// 		"sugar_in_g": 1.7,
-	// 	},
-	// 	{
-	// 		"id": 4,
-	// 		"name": "Rice",
-	// 		"calories_in_g": 130,
-	// 		"protein_in_g": 2.7,
-	// 		"carbs_in_g": 28,
-	// 		"fats_in_g": 0.3,
-	// 		"sugar_in_g": 0,
-	// 	},
-	// ];
 
-	let allCurrentFoodItems = [];
 	
 	const emptyFooditem = {
 		name: "",
@@ -180,47 +138,47 @@
 				<h1 class="font-bold">Macros per 100g</h1>
 				<LabeledInput
 					bind:value={newFoodModalState.fooditem.calories_in_g}
-					name="Calories"
+					name="Calories (Kcal)"
 					type="number"
 					min="0"
 					step="1"
-					placeholder="Calories (Kcal)"
+					placeholder="Calories"
 					required={true}
 				/>
 				<LabeledInput
 					bind:value={newFoodModalState.fooditem.protein_in_g}
-					name="Protein"
+					name="Protein (g)"
 					type="number"
 					min="0"
 					step="0.1"
-					placeholder="Protein (g)"
+					placeholder="Protein"
 					required={true}
 				/>
 				<LabeledInput
 					bind:value={newFoodModalState.fooditem.carbs_in_g}
-					name="Carbs"
+					name="Carbs (g)"
 					type="number"
 					min="0"
 					step="0.1"
-					placeholder="Carbs (g)"
+					placeholder="Carbs"
 					required={true}
 				/>
 				<LabeledInput
 					bind:value={newFoodModalState.fooditem.fats_in_g}
-					name="Fats"
+					name="Fats (g)"
 					type="number"
 					min="0"
 					step="0.1"
-					placeholder="Fats (g)"
+					placeholder="Fats"
 					required={true}
 				/>
 				<LabeledInput
 					bind:value={newFoodModalState.fooditem.sugar_in_g}
-					name="Sugar"
+					name="Sugar (g)"
 					type="number"
 					min="0"
 					step="0.1"
-					placeholder="Sugar (g)"
+					placeholder="Sugar"
 					required={true}
 				/>
 			{/if}
@@ -229,11 +187,11 @@
 			{#if (newFoodModalState.step == 1 && !createNewFood) || (newFoodModalState.step == 2 && createNewFood)}
 				<LabeledInput
 					bind:value={newFoodModalState.portion}
-					name="Portion"
+					name="Portion (g)"
 					type="number"
 					min="0"
 					step="1"
-					placeholder="Portion (g)"
+					placeholder="Portion"
 					required={true}
 				/>
 			{/if}
