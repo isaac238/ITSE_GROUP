@@ -79,15 +79,19 @@
 		"foodListFilter": "",
 	};
 
-	const showNewFoodModal = async() => {
-		console.log("Opening modal new food");
+	const getAllFoodItems = async () => {
 		const response = await fetch("/api/record/getAll", {
 			method: "POST",
 			headers: {"Content-Type": "application/json"},
 			body: (JSON.stringify({"collection": "foodItem"}))
-		})
-        const respJSON = await response.json(); 
-		console.log(respJSON);
+		});
+
+		const responseJSON = await response.json();
+		console.log(responseJSON);
+		return responseJSON;
+	}
+
+	const clearNewFoodModalState = () => {
 		newFoodModalState = {
 			"step": 0,
 			"fooditem": {
@@ -101,6 +105,13 @@
 			"portion": "",
 			"foodListFilter": "",
 		};
+	}
+
+	const showNewFoodModal = async() => {
+		const resp  = await getAllFoodItems();
+		console.log(resp);
+		clearNewFoodModalState();
+		console.log("Opening modal new food");
 		document.getElementById("new-food-modal").showModal();
 	}
 </script>

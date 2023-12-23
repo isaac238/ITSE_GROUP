@@ -62,8 +62,9 @@ export default class Collections {
 			const expand = {
 				"workout_log": "weight_workouts,cardio_workouts",
 				"workout_plan": "weight_workouts,cardio_workouts",
-				"meal_log": "foods,foods.fooditem",
-				"meal_plan": "foods,foods.fooditem",
+				"meal_log": "foods,foods.foodItem",
+				"meal_plan": "foods,foods.foodItem",
+				"users": "trainees",
 			}
 			const record = await this.pb.collection(collection).getOne(id, {
 				expand: expand[collection]
