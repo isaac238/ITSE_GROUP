@@ -7,20 +7,15 @@
 
 	const clientsData = writable(data.clientData);
 
-	console.log($clientsData);
-	console.log($clientsData.trainees.workout_log);
-
-	const trainees = $clientsData.trainees;
-
-	console.log(trainees);
+	const trainees = $clientsData.expand.trainees;
 
 </script>
 
 <div class="h-screen w-screen flex justify-center items-center flex-col">
 	<h1 class="my-4 text-xl text-white">Client List:</h1>
 	<div class="w-[94%] md:w-1/3 h-[80%] rounded-xl flex flex-col items-center shadow-black overflow-y-auto">
-		{#each $clientsData.trainees as record}
-			<h1>{record}</h1>
+		{#each trainees as record}
+			<User name="{record.first_name} {record.surname}" link="trainerdash/{record.id}"/>
 		{/each}
 	</div>
 
