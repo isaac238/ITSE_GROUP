@@ -50,8 +50,10 @@
 	const handleSubmit = () => {
 		if (fooditemIsValid()) {
 			// create a new newFoodModalState.fooditem using newFoodModalState.fooditem object if id = undefined here or in callback
-			// use callback to create new portion_newFoodModalState.fooditem record based on newFoodModalState.fooditem id for reference to newFoodModalState.fooditem and portion variable for portion_in_g
+			// use callback to create new portion_newFoodModalState.fooditem record based on newFoodModalState.fooditem id for 
+			// reference to newFoodModalState.fooditem and portion variable for portion_in_g
 			callback();
+
 			document.getElementById("cancelButton").click();
 		}
 	};

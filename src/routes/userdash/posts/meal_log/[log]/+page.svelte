@@ -1,4 +1,5 @@
 <!-- Userdash - Meal Log - Slug -->
+	 
 
 <script>
 	// Imports
@@ -50,30 +51,65 @@
 		};
 		const response = await Utils.sendPostRequest("/api/record/create", requestBody);
 		// Use records/create api endpoint to create new fooditem record with the fooditem object from modal
+		return newFoodModalState.fooditem = await response.json();
 	}
 
 
-	const addNewPortionFooditem = (fooditemID, portion) => {
+	const addNewPortionFooditem = async (fooditemID, portion) => {
+	
 		console.log("Adding new portion_fooditem");
-		console.log(fooditemID);
-		console.log(portion);
 		// Use records/create api endpoint to create new portion_fooditem record with the fooditemID and portion variables from modal
+
+		const requestBody = {
+			"collection": "portion_fooditem",
+			"data": {
+				"foodItem": fooditemID,
+				"portion_in_g": portion,
+			},
+		};
+
+		const response = await Utils.sendPostRequest("/api/record/create", requestBody);
+		const responseJSON = await response.json();
+		
+		return responseJSON
 	}
 
 
-	const newFoodModalCallback = () => {
+	const newFoodModalCallback = async () => {
 		//Get state from newFoodModalState variable;
 		const isANewFoodItem = newFoodModalState.fooditem.id == undefined;
-		console.log("callback:",newFoodModalState)
+		
 		if (isANewFoodItem) {
 			// ID undefined so as not in DB yet so create new fooditem record
 			// Return the new fooditem record from this function so the id can be passed into addNewPortionFooditem
-			addNewFoodItem(newFoodModalState.fooditem);
+			newFoodModalState.fooditem = await addNewFoodItem(newFoodModalState.fooditem);
 		}
 
-		addNewPortionFooditem(newFoodModalState.fooditem.id, newFoodModalState.portion);
-	}
 
+		let portion = await addNewPortionFooditem(newFoodModalState.fooditem.id, newFoodModalState.portion);
+		
+		// Appends the new portion to the foods array so that the page renders it
+		foods = [...foods, portion];
+
+		// Updates the relations of this meal log
+		updateMealLog(portion.id);
+}
+
+	const updateMealLog = async (portionId) => {
+		const foodIds = foods.map((food) => food.id);
+
+		const requestBody = {
+			"collection": "meal_log",
+			"recordID": recordData.id,
+			"data": {"foods": foodIds},
+		}
+
+		const response = await Utils.sendPostRequest("/api/record/update", requestBody);
+		const responseJSON = await response.json();
+
+		return responseJSON;
+		
+	}
 
 	const getAllFoodItems = async () => {
 		const requestBody = {
@@ -139,6 +175,7 @@
 	</button>
 </div>
 
+<!-- Foods -->
 {#if foods.length <= 0}
 	<div class="w-screen flex-grow flex flex-col items-center justify-center gap-4">
 		<h1 class="text-lg md:text-2xl text-white font-semibold">
@@ -154,3 +191,95 @@
 	</div>
 {/if}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+		// singing fish (he is an excellent musical artist): https://www.youtube.com/watch?v=m3CjHPXmZbw
+		// fishing playlist (excellent tunes to go fishing to): https://www.youtube.com/watch?app=desktop&v=eiXlXFY1HJs
+		// best fish https://static.wikia.nocookie.net/nintendo/images/3/36/KingOfPond.jpg/revision/latest?cb=20110412223439&path-prefix=en
+		// nibble on this fish ;) https://static.wikia.nocookie.net/nintendo/images/4/40/Nibbler.jpg/revision/latest?cb=20110412221706&path-prefix=en
+		// erik's fish: https://www.zeldadungeon.net/wiki/images/5/50/Oot_fishing.jpg
+		// better fish
+		// james' fish
+		//					 	/\
+		//                    /  |
+		//                    \  o
+		//                _.-`/`-._
+		//    _         _/         \_         _
+		//   ) `-._   _/  /O\   /O\  \_   _.-` (
+		//  )      `-/    `-'   `-'    \-`      (
+		//  )     _.-|      ___        |-._     (
+		//   )_.-`   \   .-'   `-._    /   `-._(
+		//            \   `-.___.--`  /
+		//             "-._       _.-"
+		//                 "-._.-"
+
+		// ((#######(((((((((((((((((((##(((((((((((((((((((((((((((((((((((###%#%%%%%%###(
+		// (((#########(((((((((((((########################(((((//////////((##%%%%%%%%####
+		// (((((#######(((((((################%%%%%%%%%%%#((((((///////////////(##%%%%%%###
+		// (((########################%%%%%%%%%&&&&&%#((///////////////////////(((((###%%##
+		// #################%%%%%%%%%%%%%%&&&&%%#(///////////////((/////////((((((((((#####
+		// #%%%%%%%%%%%%%%%%%%%%%%&&&&&&%#(((((//////////////////////(((((((((////////(((##
+		// %%%%%%%%%%%%&&&&&&&&&&&&&&&%(////////////////////////**/(######((((///////////((
+		// &&&&&&&&&&&&&&&&&&&&&&&&&%//////////////////////////////(###%%%##(((((((((((((((
+		// &&&&&&&&&&&&&&&&&&&&&&&&%(/////////(((((((((((((/////(((((,*%&&%####((((((((((((
+		// &&&&&&&&&&&&&&&&&&&&&&&%(((///////((((((((((((((((((((###/,(&&&%#####(((((((((((
+		// &&&&&&&&&&&&&&&&&&&&&&%(///////////((((((((((((((((((####(/(&&%######(((((((((((
+		// &&&&&&&&&&&&&&&&&&&#/*********////////////(((##############%%########(((((((((((
+		// &&&&&&&&&&&&&&&&%/*,,********///////////////((############%%%%######((((((((((((
+		// &&&&&&&&&&&&@&&(,,,,*****/////////////((///////(#########((#######(((((((/((((((
+		// @@@@@@@@&&&&&&(****/////(((((((((((((((((((/***/(#######((((/(((/////((/////((((
+		// @@@@@@@@@@@@&&(**/(((((((#####%%%%%%&&%&&&%(/****/(#####((((((//////(((((((((((#
+		// @@@@@@@@@@@@@&(**//((((((((##%%%&&&&&&&&&&&%(/***/(((///////////((((((((((((####
+		// @@@@@@@@@@@@@&#///(((((((((((#%%%&&&&&&&&&&&#//**/((/******///((((##############
+		// @@@@@@@@@@@@@&%#///((((((((((#%%%%&&&&&&&&&%%(//*/((/*******/((#################
+		// @@@@@@@@@@@@@@&%#((((((((((((##%%%%%&&&&&%&%%#(//////***///((###%%%%%%%%%#######
+		// @@@@@@@@@@@@@@&@&&#(////(((((######%%%%%#####((///////(((((#####%%%%%%%%%%%%%##(
+		// @@@@@@@@@@@@@@@&&&&&%#(///((((####(((((((((((/////////(((((#####%%%%%%%%%%%%##(/
+		// @@@@@@@@@@@@@@@@&&&&&%#/*///((((((//////////////////////((######%%%%%%%%%%%%##(#
+		// @@@@@@@@@@@&@&&&&&&&&&#*,,**//////*******************///#%#####%%%%%%%%%%#######
+		// @@@@@@&&&&&&&&&&&&&&&&&#*,,,*******,,,********,,,,***//##%%%%%%%%%%%%%%%%%%%%%%%
+		// &&&&&&&&&&&&&&&&&&&&&&&%(*,,,,,,*,,,,,,,*****,,,,,**/(#%%%%%%%%%%%%%%%%%%%%%%%%%
+		// &&&&&&&&&&&&&&&&&&&&&&&&&#**,,,,,,,,,,,,,,,,,,,,,*/(%%&&&&&&&&&&&&&%%%%%%%%%%%%%
+		// &&&&&&&&&&&&&&&&&&&&&&&&&&#/*,,,,,,,....,,,,,,,**/%&&&@@@@@@@@@@@&&&&&&&&&&&&&&&
+		// &&&%%%%%%%%%%&&&&&&&&&&&&&&%#(/*,,,,,,,,,,,,*//(%&&@@@@@@@@@@@@@@@@@@@@@@@&&&&&&
+		// &&&%%%%%%%%%%%%%&&&&&&&&&&&&&&&&&&%%%%%##%%%&&&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&&&
+		// &&&%%%%%%&&&%%%%&&&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		// &&&&%%%%%%%&&&&&&&&&&&&&&&@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+														// 		ad88 88           88           
+														//   d8"   ""           88           
+														//   88                 88           
+														// MM88MMM 88 ,adPPYba, 88,dPPYba,   
+														//   88    88 I8[    "" 88P'    "8a  
+														//   88    88  `"Y8ba,  88       88  
+														//   88    88 aa    ]8I 88       88  
+														//   88    88 `"YbbdP"' 88       88 
+-->
