@@ -1,6 +1,6 @@
 <script>
 	export let food;
-	const fooditem = food.expand.fooditem
+	const fooditem = food.expand.foodItem
 	const name = fooditem.name;
 	const portion = food.portion_in_g;
 
