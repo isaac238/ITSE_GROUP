@@ -3,9 +3,8 @@
 	import {enhance} from "$app/forms";
 
 	// Component Imports
-	import InputError from "./InputError.svelte";
-	import LabeledInput from "./LabeledInput.svelte";
-	import Policies from "./Policies.svelte";
+	import LabeledInput from "../../components/LabeledInput.svelte";
+	import Policies from "../../components/Policies.svelte";
 	import RegisterValidation from "$lib/registerValidation.js";
 
 	let firstName = "";
