@@ -29,7 +29,7 @@
 	];
 
 	// Modal show definition
-	function showModal() {
+	function showTCModal() {
 		document.getElementById('t&cs_modal').showModal();
 	}
 </script>
@@ -60,7 +60,7 @@ return async ({update}) => {
 		<!--<InputError {errors} />-->
 		<div class="flex justify-center">
 			<input type="checkbox" class="checkbox checkbox-primary" required/>
-			<p class="pl-4">Do you agree to the <span onclick="showModal()" class="text-indigo-600 hover:underline cursor-pointer">T&C and Privacy Policy</span></p>
+			<p class="pl-4">Do you agree to the <span on:click={() => showTCModal()} class="text-indigo-600 hover:underline cursor-pointer">T&C and Privacy Policy</span></p>
 
 		</div>
 
