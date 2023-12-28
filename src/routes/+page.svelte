@@ -9,8 +9,6 @@
     import card6 from '$lib/assets/card6.jpg'
 </script>
 
-<Nav/> 
-<html lang="en" class="scroll-smooth"/>
 <main>
     <div class="hero min-h-screen" style="background-image: url({background});">
         <div class="hero-overlay bg-opacity-60" />

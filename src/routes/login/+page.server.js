@@ -22,6 +22,7 @@ export const actions = {
 		const data = await request.formData();
 		const auth = new Auth(locals.pb);
 		const response = await auth.login(data);
+		console.log(response);
 		if (response.success) throw redirect(301, "/userdash");
 		
 		else return response.message;
