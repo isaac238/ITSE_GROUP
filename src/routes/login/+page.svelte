@@ -1,6 +1,6 @@
 <script>
 	// Component Imports
-    import LabeledInput from "./LabeledInput.svelte";
+    import LabeledInput from "../../components/LabeledInput.svelte";
 </script>
 
 <form method="post" class="m-auto card w-[95%] md:w-[30%] bg-base-300 p-10">
