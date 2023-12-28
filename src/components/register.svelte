@@ -1,9 +1,12 @@
 <script>
+	// Imports
+	import {enhance} from "$app/forms";
+
+	// Component Imports
 	import InputError from "./InputError.svelte";
 	import LabeledInput from "./LabeledInput.svelte";
 	import Policies from "./Policies.svelte";
 	import RegisterValidation from "$lib/registerValidation.js";
-	import {enhance} from "$app/forms";
 
 	let firstName = "";
 	let surname = "";
@@ -24,14 +27,20 @@
 	...RegisterValidation.surnameValidation(surname).problems,
 	...RegisterValidation.ageValidation(birthdate).problems,
 	];
+
+	// Modal show definition
+	function showModal() {
+		document.getElementById('t&cs_modal').showModal();
+	}
 </script>
 
 
-
+<!-- Modals -->
 <dialog id="t&cs_modal" class="modal">
 	<Policies/>
 </dialog>
 
+<!-- Page Content -->
 <form method="post" class="mx-auto mt-4 card w-[95%] md:w-[60%] lg:w-[30%] bg-base-300 p-10" use:enhance={() => {
 return async ({update}) => {
 	update({ reset: false });
@@ -59,10 +68,3 @@ return async ({update}) => {
 	</div>
 	<p>Already have an account?<a href="/login" class="text-indigo-600 hover:underline pl-2">Login!</a></p>
 </form>
-
-	
-<script>
-	function showModal(){
-		document.getElementById('t&cs_modal').showModal()
-	}
-</script>
