@@ -28,11 +28,11 @@
 
 <!-- Render -->
 
-<div role="alert" class="w-[25%] alert mx-5 mt-5 shadow-md"
+<div role="alert" class="w-[90%] flex md:grid md:w-[40%] lg:w-[25%] alert mx-5 mt-5 shadow-md justify-between"
 class:alert-error={isError}
 class:alert-warning={isWarning}
 class:alert-success={isSuccess}>
-	<iconify-icon class="text-2xl" icon={icon}/>
-    <span>{type[0].toUpperCase() + type.substring(1, type.length)}: {message}</span>
-    <button on:click={() => callback()}><iconify-icon  icon="mdi:remove-bold"/></button>
+	<iconify-icon class="text-2xl my-auto" icon={icon}/>
+    <span class="my-auto">{type[0].toUpperCase() + type.substring(1, type.length)}: {message}</span>
+    <button on:click={() => callback()} class="my-auto"><iconify-icon  icon="mdi:remove-bold"/></button>
 </div>

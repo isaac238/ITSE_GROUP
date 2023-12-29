@@ -22,7 +22,7 @@
     
     if(isFromRegister){
         notifStore.clearAll()
-        notifStore.addSuccess("Logged in successfully!")
+        notifStore.addSuccess("Registered successfully!")
     }
 
     $:{
