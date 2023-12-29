@@ -10,7 +10,7 @@
     function RemoveTimer(i) {
         setTimeout(() => {
             notifStore.removeNotification(i);
-        }, 4000);
+        }, 7000);
     }
 </script>
 
