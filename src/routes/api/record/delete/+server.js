@@ -1,4 +1,4 @@
-import Collections from "../../../../lib/server/collections";
+import Collections from "$lib/server/collections";
 
 export async function POST({ locals, request }) {
 	const body = await request.json()

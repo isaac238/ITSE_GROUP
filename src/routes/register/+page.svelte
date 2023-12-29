@@ -1,5 +1,5 @@
 <script>
-    import Register from "../../components/register.svelte";
+    import Register from "$components/register.svelte";
 </script>
 
 <Register />

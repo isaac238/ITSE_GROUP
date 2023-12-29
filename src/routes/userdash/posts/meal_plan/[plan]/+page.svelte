@@ -4,7 +4,7 @@
 	import Utils from "$lib/utils.js";
 
 	// Component Imports
-    import MealPlanFooditem from "../../../../../components/MealPlanFooditem.svelte";
+    import MealPlanFooditem from "$components/MealPlanFooditem.svelte";
 
 	// Props
 	export let data;

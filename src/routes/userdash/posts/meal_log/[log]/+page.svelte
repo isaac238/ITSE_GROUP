@@ -7,9 +7,9 @@
 	import Utils from "$lib/utils.js"
 
 	// Component Imports
-	import DeleteItemModal from "../../../../../components/DeleteItemModal.svelte";
-    import MealLogFooditem from "../../../../../components/MealLogFooditem.svelte";
-    import NewFoodModal from "../../../../../components/NewFoodModal.svelte";
+	import DeleteItemModal from "$components/DeleteItemModal.svelte";
+    import MealLogFooditem from "$components/MealLogFooditem.svelte";
+    import NewFoodModal from "$components/NewFoodModal.svelte";
 
 	// Props
 	export let data;

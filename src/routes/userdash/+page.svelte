@@ -9,11 +9,11 @@
 	import "iconify-icon";
 
 	// Component Imports
-    import MobileItem from "../../components/MobileItem.svelte";
-    import DesktopItem from "../../components/DesktopItem.svelte";
-	import NewMealLogModal from "../../components/NewMealLogModal.svelte";
-	import DeleteItemModal from "../../components/DeleteItemModal.svelte";
-	import UserdashInformation from "../../components/UserdashInformation.svelte";
+    import MobileItem from "$components/MobileItem.svelte";
+    import DesktopItem from "$components/DesktopItem.svelte";
+	import NewMealLogModal from "$components/NewMealLogModal.svelte";
+	import DeleteItemModal from "$components/DeleteItemModal.svelte";
+	import UserdashInformation from "$components/UserdashInformation.svelte";
 
 	// Props
     export let data; 
