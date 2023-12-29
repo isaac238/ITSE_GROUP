@@ -2,8 +2,6 @@
 	 
 
 <script>
-	// Imports
-
 	// Libraries
 	import 'iconify-icon';
 	import Utils from "$lib/utils.js"
@@ -124,7 +122,7 @@
 	}
 
 	const clearNewFoodModalState = () => {
-		newFoodModalState = {
+		newFoodModalState = structuredClone({
 			"step": 0,
 			"fooditem": {
 				"name": "",
@@ -136,7 +134,7 @@
 			},
 			"portion": "",
 			"foodListFilter": "",
-		};
+		});
 	}
 
 	const showNewFoodModal = async() => {

@@ -64,7 +64,7 @@
 
 		let passedFoodItem = newFoodModalState.foodListFilter;
 		modalTitle = passedFoodItem;
-		newFoodModalState.fooditem = emptyFooditem;
+		newFoodModalState.fooditem = structuredClone(emptyFooditem);
 		newFoodModalState.foodListFilter = "";
 		
 		newFoodModalState.fooditem.name = passedFoodItem;
@@ -74,7 +74,13 @@
 		}, 1);
 	};
 
-	$: if (newFoodModalState.step == 0 && fooditemIsValid()) createNewFood = false;
+	$: {
+		if (newFoodModalState.step == 0 && fooditemIsValid() && createNewFood) {
+			createNewFood = false;
+			maxStep = 1;
+			newFoodModalState.fooditem = structuredClone(emptyFooditem);
+		} 
+	}	
 	$: showFoodList = newFoodModalState.foodListFilter != "" ? true : false;
 	
 
