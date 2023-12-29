@@ -7,7 +7,6 @@
 	import LabeledInput from "../../components/LabeledInput.svelte";
 	import Policies from "../../components/Policies.svelte";
   	import NotificationCentre from "../../components/NotificationCentre.svelte";
-	import RegisterValidation from "$lib/registerValidation.js";
 
     // Libraries
 	import RegisterValidation from "$lib/registerValidation.js";
