@@ -10,31 +10,34 @@
     // Libraries
     import { notifStore } from "../../lib/store.js";
 	import {enhance} from "$app/forms";
+    import Notification from "../../components/Notification.svelte";
 
     // exports
     export let form;
-    // export let data;
+    export let data;
     
     // Register on load is broken 
 
-    // const isFromRegister = data.isFromRegister;
-    // if (isFromRegister) {
-    //     notifStore.addSuccess("Registered Successfully!");
-    // }
+    const isFromRegister = data.isFromRegister;
+    
+    if(isFromRegister){
+        notifStore.clearAll()
+        notifStore.addSuccess("Logged in successfully!")
+    }
 
-
-    $: {
-		if (form !== null) {
-			notifStore.addError(form);
-		}
-	}
+    $:{
+        if(form !== null){
+            notifStore.addError(form)
+        }
+    }
+    
 </script>
 
 <!-- Render -->
 
-{#if form !== null}
-    <NotificationCentre/>
-{/if}
+
+
+<NotificationCentre/>
 
 <main class="w-screen h-screen flex items-center justify-center">
     <form method="post" class="card w-[95%] md:w-[30%] bg-base-300 p-10" use:enhance={() => {

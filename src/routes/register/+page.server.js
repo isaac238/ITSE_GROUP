@@ -14,8 +14,8 @@ export const actions = {
 		const response = await auth.registerMember(data);
 
 		if (response.success) {
-			throw (redirect(301, "/login"))
-			// throw redirect(301, "/login?redirected=true");
+			// throw (redirect(301, "/login"))
+			throw redirect(301, "/login?redirected=true");
 		}
 		else {
 			return response.message;

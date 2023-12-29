@@ -9,8 +9,9 @@
 
     function RemoveTimer(i) {
         setTimeout(() => {
+            console.log("removing:", i)
             notifStore.removeNotification(i);
-        }, 10000);
+        }, 4000);
     }
 </script>
 

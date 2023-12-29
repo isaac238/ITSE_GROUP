@@ -10,12 +10,12 @@ import Auth from "$lib/server/auth";
 
 // This feature won't work as noted in /login/+page.svelte
 
-// export async function load({ url }) {
-// 	const params = new URLSearchParams(url.search);
-// 	console.log(params.get("redirected"))
-// 	console.log(params)
-// 	return {isFromRegister: params.get("redirected")}
-// }
+export async function load({ url }) {
+	const params = new URLSearchParams(url.search);
+	console.log(params.get("redirected"))
+	console.log(params)
+	return {isFromRegister: params.get("redirected")}
+}
 
 export const actions = {
 	default: async ({ request, locals }) => {
