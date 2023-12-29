@@ -1,9 +1,8 @@
+import Collections from "../../../../lib/server/collections";
+
 export async function POST({ locals, request }) {
 	const body = await request.json()
 	const { collection, data } = body;
-	let expand = "";
-	if (collection == "portion_fooditem") expand = "foodItem";
-	
 	const pb = locals.pb;
 
 	if (locals.user && !data.user) {
@@ -11,7 +10,8 @@ export async function POST({ locals, request }) {
 	}
 
 	try {
-		const record = await pb.collection(collection).create(data, {"expand": expand});
+		const collections = new Collections(pb);
+		const record = await collections.createRecord(collection, data);
 		return new Response(JSON.stringify(record), { status: 200 });
 	} catch (error) {
 		console.log(error)

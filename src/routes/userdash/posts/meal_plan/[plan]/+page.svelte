@@ -19,6 +19,7 @@
 	$: allFoodsEaten = foods.every((food) => food.complete);
 	$: disabled = !allFoodsEaten;
 	$: logTip = disabled ? "You must eat this meal before logging this plan." : `Log this meal as ${recordData.name} log.`;
+	console.log(JSON.stringify(recordData));
 
 	async function getLog() {
 		console.log("Checking for existing log");
@@ -30,8 +31,8 @@
 
 		const response = await Utils.sendPostRequest("/api/record/search", requestBody);
 
-		const responseJSON = await response.json();
-		return responseJSON != null ? responseJSON : false;
+		if (response.status != 200) return false;
+		return await response.json();
 	}
 
 	async function createLog() {
@@ -56,7 +57,7 @@
 	async function updateLog(log) {
 		console.log("Updating existing log");
 
-		const foodSet = new Set([...record.foods, ...log.foods]);
+		const foodSet = new Set([...recordData.foods, ...log.foods]);
 
 		const requestBody = {
 			"collection": "meal_log",
@@ -75,15 +76,19 @@
 
 	async function logPlan() {
 		const logAlreadyExists = await getLog();
+		console.log("Already Exists:");
 		console.log(logAlreadyExists);
 
 		if (!logAlreadyExists) {
+			console.log("Creating:");
 			let created = await createLog();
 			console.log(created);
 			goto("/userdash/posts/meal_log/" + created.id);
 			return;
 		} 
 
+		console.log("Updating:");
+		console.log(logAlreadyExists);
 		let updated = await updateLog(logAlreadyExists);
 		console.log(updated);
 

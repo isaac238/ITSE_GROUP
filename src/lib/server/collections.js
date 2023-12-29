@@ -1,3 +1,4 @@
+import { POST } from "../../routes/api/record/update/+server.js";
 import Utils from "../utils.js";
 
 export default class Collections {
@@ -5,16 +6,19 @@ export default class Collections {
 		this.pb = pb;
 	}
 
-	static collectionsAndExpansions = {
+	static expansionsMap = {
 		"workout_log": "weight_workouts,cardio_workouts",
 		"workout_plan": "weight_workouts,cardio_workouts",
 		"meal_log": "foods,foods.foodItem",
 		"meal_plan": "foods,foods.foodItem",
+		"portion_fooditem": "foodItem",
 	};
 
 	async createRecord(collection, data) {
 		try {
 			const record = await this.pb.collection(collection).create(data);
+			console.log("Creating record");
+			console.log(record);
 			return record;
 		} catch (error) {
 			console.log(error)
@@ -22,15 +26,69 @@ export default class Collections {
 		}
 	}
 
-	async getAllLogsAndPlans() {
-		const collectionsAndExpansions = Collections.collectionsAndExpansions;
+	async getAllRecords(collection) {
+		try {
+			const records = await this.pb.collection(collection).getFullList({
+				expand: Collections.expansionsMap[collection]
+			});
+
+			return records;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async createRecord(collection, data) {
+		try {
+			const record = await this.pb.collection(collection).create(data, {
+				expand: Collections.expansionsMap[collection]
+			});
+
+			return record;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async updateRecord(collection, recordID, data) {
+		try {
+			const record = await this.pb.collection(collection).update(recordID, data);
+			return record;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async deleteRecord(collection, recordID) {
+		try {
+			const record = await this.pb.collection(collection).delete(recordID);
+			return record;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async findRecord(collection, query) {
+		try {
+			const record = await this.pb.collection(collection).getFirstListItem(query);
+			return record;
+		} catch (error) {
+			if (error.message == "The requested resource wasn't found.") {
+				return undefined;
+			}
+			return null;
+		}
+	}
+
+	async getAllLogsAndPlans(query = "") {
 		const response = {}
 
 		try {
-			for (const collection of Object.keys(collectionsAndExpansions)) {
+			for (const collection of Object.keys(Collections.expansionsMap)) {
 
 				const data = await this.pb.collection(collection).getFullList({
-					expand: collectionsAndExpansions[collection],
+					expand: Collections.expansionsMap[collection],
+					filter: query,
 				});
 
 				data.forEach(record => {
@@ -61,10 +119,8 @@ export default class Collections {
 
 	async getRecord(collection, id) {
 		try {
-			const collectionsAndExpansions = Collections.collectionsAndExpansions;
-
 			const record = await this.pb.collection(collection).getOne(id, {
-				expand: collectionsAndExpansions[collection]
+				expand: Collections.expansionsMap[collection]
 			});
 			return record;
 		} catch (error) {

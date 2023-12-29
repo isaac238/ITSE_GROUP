@@ -1,3 +1,5 @@
+import Collections from "../../../../lib/server/collections";
+
 export async function POST({ locals, request }) {
 	const body = await request.json()
 	const { collection, query } = body;
@@ -5,14 +7,24 @@ export async function POST({ locals, request }) {
 
 	try {
 		console.log(query);
-		const record = await pb.collection(collection).getFirstListItem(query);
+		const collections = new Collections(pb);
+		const record = await collections.findRecord(collection, query);
+
+		let responseCode = 444;
+
+		console.log("Record:");
 		console.log(record);
-		return new Response(JSON.stringify(record), { status: 200 });
+
+		let response = JSON.stringify(record);
+
+		if (record != undefined && record != null) {
+			responseCode = 200;
+			response = JSON.stringify(record);
+		}
+
+		console.log("responseCode", responseCode);
+		return new Response(response, { status: responseCode });
 	} catch (error) {
 		console.log(error)
-		if (error.message == "The requested resource wasn't found.") {
-			return new Response(JSON.stringify(null), { status: 444 });
-		}
-		return new Response(JSON.stringify(undefined), { status: 444 });
 	}
 }
