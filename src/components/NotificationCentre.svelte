@@ -9,7 +9,6 @@
 
     function RemoveTimer(i) {
         setTimeout(() => {
-            console.log("removing:", i)
             notifStore.removeNotification(i);
         }, 4000);
     }
@@ -18,11 +17,11 @@
 <!-- Render -->
 
 <div class="flex flex-col items-end absolute w-full z-10">
-    {#each $notifStore as notification, i}
+    {#each $notifStore as notification (notification.id)}
         <Notification
 			{ notification }
-            timer={ () => RemoveTimer(i) }
-            callback={ () => notifStore.removeNotification(i) }
+            timer={ () => RemoveTimer(notification.id) }
+            callback={ () => notifStore.removeNotification(notification.id) }
         />
     {/each}
 </div>

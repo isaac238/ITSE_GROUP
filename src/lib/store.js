@@ -7,21 +7,23 @@ import { writable } from "svelte/store";
 
 export const notifStore = createNotificationStore();
 
-
-
 function createNotificationStore() {
-    const { subscribe, update } = writable([]);
+	let notifCounter = 0;
+    const { subscribe, update, set } = writable([]);
 
-	const addNotification = (notificationMessage) => update((prevVal) => [...prevVal, notificationMessage]);
+	const addNotification = (notificationObject) => {
+		update((prevVal) => [...prevVal, notificationObject]);
+		notifCounter++;
+	}
 
     return {
         subscribe,
 
         // Remove notification method
-        removeNotification: (itemIdx) => update((prevVal) => prevVal.filter((_, idx) => idx !== itemIdx)),
-        clearAll: ((items)=> update(prevVal=>[])),
-		addError: (message) => addNotification({message: message, type: "error"}),
-		addWarning: (message) => addNotification({message: message, type: "warning"}),
-		addSuccess: (message) => addNotification({message: message, type: "success"})
+        removeNotification: (idToRemove) => update((prevVal) => prevVal.filter((notification) => notification.id !== idToRemove)),
+        clearAll: ()=> set([]),
+		addError: (message) => addNotification({message: message, type: "error", id: notifCounter}),
+		addWarning: (message) => addNotification({message: message, type: "warning", id: notifCounter}),
+		addSuccess: (message) => addNotification({message: message, type: "success", id: notifCounter}),
     }
 }
