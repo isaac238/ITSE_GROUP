@@ -14,22 +14,11 @@ export default class Collections {
 		"portion_fooditem": "foodItem",
 	};
 
-	async createRecord(collection, data) {
-		try {
-			const record = await this.pb.collection(collection).create(data);
-			console.log("Creating record");
-			console.log(record);
-			return record;
-		} catch (error) {
-			console.log(error)
-			return undefined;
-		}
-	}
-
-	async getAllRecords(collection) {
+	async getAllRecords(collection, query = "") {
 		try {
 			const records = await this.pb.collection(collection).getFullList({
-				expand: Collections.expansionsMap[collection]
+				expand: Collections.expansionsMap[collection],
+				filter: query,
 			});
 
 			return records;
@@ -47,6 +36,7 @@ export default class Collections {
 			return record;
 		} catch (error) {
 			console.log(error);
+			return undefined;
 		}
 	}
 
@@ -119,9 +109,12 @@ export default class Collections {
 
 	async getRecord(collection, id) {
 		try {
+			console.log(Collections.expansionsMap[collection]);
+
 			const record = await this.pb.collection(collection).getOne(id, {
 				expand: Collections.expansionsMap[collection]
 			});
+
 			return record;
 		} catch (error) {
 			console.log(error);
