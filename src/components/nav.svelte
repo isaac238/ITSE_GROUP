@@ -54,10 +54,13 @@
   <div class="navbar-end mr-2">
 	{#if user}
 		<div class="hidden md:inline-flex justify-center items-center">
+			
 			<iconify-icon icon="mdi:keypad" class="text-2xl mr-2" />
+			<span class="tooltip tooltip-bottom" data-tip={showPin ? "Hide Pin" : "Show Pin"}>
 			<button aria-label="Reveal Pin" on:click={() => showPin = !showPin} class="inline-flex bg-base-300 p-2 rounded-lg items-center justify-center hover:shadow-lg hover:scale-110">
 				<h1>{pinText}</h1>
 			</button>
+		</span>
 		</div>
 
 		<div class="inline-flex md:hidden justify-center items-center">
