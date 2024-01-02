@@ -1,6 +1,10 @@
 <script>
+	// imports
+
+	// Components
     import PasswordInput from "./PasswordInput.svelte";
 
+	// exports
 	export let name;
 	export let placeholder;
 	export let type;
@@ -8,6 +12,8 @@
 	export let required = false;
 	export let max = "";
 	
+	//
+
 	let input;
 
 	const setRequired = (node) => {
@@ -20,6 +26,8 @@
 	}
 	
 </script>
+
+<!-- Render -->
 
 <label for={name} class="flex flex-col gap-2">
 	<span class="text-sm tracking-normal w-full">{placeholder} <span class="text-red-400">*</span></span>

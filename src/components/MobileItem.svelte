@@ -1,6 +1,10 @@
 <script>
+	// imports
+
+	// Components
 	import "iconify-icon";
 
+	// exports
 	export let title;
 	export let subtitle;
 	export let button = "View";
@@ -8,8 +12,12 @@
 	export let to = "to-red-500";
 	export let clickEvent = "";
 	export let deleteEvent = "";
+
+	// 
+
 </script>
 
+<!-- Render -->
 
 <div class="relative px-5 snap-always snap-center text-white flex-shrink-0 w-[100%] h-100% bg-gradient-to-r {from} {to} rounded-lg flex justify-center items-center flex-col whitespace-nowrap">
 	<span class="w-full text-center pb-3">

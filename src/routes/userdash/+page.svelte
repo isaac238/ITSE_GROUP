@@ -1,16 +1,25 @@
 <script>
+	// imports
+
+	// Libraries
     import { writable } from "svelte/store";
     import { onMount } from "svelte";
+	import Utils from "$lib/utils.js"
+	import "iconify-icon";
+	import { notifStore } from "../../lib/store.js"
+
+	// Components
     import MobileItem from "../../components/MobileItem.svelte";
     import DesktopItem from "../../components/DesktopItem.svelte";
 	import NewMealLogModal from "../../components/NewMealLogModal.svelte";
 	import DeleteItemModal from "../../components/DeleteItemModal.svelte";
 	import UserdashInformation from "../../components/UserdashInformation.svelte";
-	import Utils from "$lib/utils.js"
-	import "iconify-icon";
+	import NotificationCentre from "../../components/NotificationCentre.svelte";
 
+	// exports
     export let data; //Importing data so page isn't static, for route guarding (DO NOT DELETE)..
 
+	//
     const screenWidth = writable(0);
 
 	const currentTable = writable("workout_log");
@@ -100,13 +109,16 @@
 			headers: { 'Content-Type': 'application/json' },
 		});
 
-		if (!response.ok) return;
-
+		if (!response.ok){
+			notifStore.addError("Error creating record! Try again or contact support!");
+			return;}
+		
+		notifStore.addSuccess("Record created!");
 		const record = await response.json();
 		record.subtitle = Utils.getSubtitle($currentTable, record);
 
 		collectionsData.update((prev) => {return {
-		...prev,
+		...prev, 
 		[$currentTable]: [...prev[$currentTable], record],
 		}});
 
@@ -145,14 +157,18 @@
 
 		const respJSON = await response.json();
 
-		if (respJSON === true) {
-			collectionsData.update((prev) => {return {
+		if (respJSON !== true) {	
+			notifStore.addError("There was an error deleting this record! Try again or contact support!")
+			return
+		}
+		
+		collectionsData.update((prev) => {return {
 			...prev,
 			[$currentTable]: [...prev[$currentTable].filter((record) => record.id !== itemToDelete)],
 			}});
-
-		}
 		itemToDelete = null;
+		notifStore.addSuccess("Deleted record successfully!")
+
 	}
 </script>
 
@@ -177,6 +193,7 @@
 	{$currentTable.split("_").map((x) => {return x[0].toUpperCase() + x.substring(1, x.length)}).join(" ")}
 </p>
 </header>
+<NotificationCentre/>
 
 <div class="drawer flex-grow">
     <input id="my-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerChecked}>

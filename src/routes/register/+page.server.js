@@ -1,13 +1,25 @@
-import { redirect } from "@sveltejs/kit";
+// Register page server.js
+
+// imports
+
+// Libraries
+import {redirect } from "@sveltejs/kit";
 import Auth from "$lib/server/auth";
 
+// exports
 export const actions = {
 	default: async ({ request, locals }) => {
 		const data = await request.formData();
 		const auth = new Auth(locals.pb);
 		const response = await auth.registerMember(data);
 
-		if (response.success) throw redirect(301, "/login");
-		else console.log(response.message)
+		if (response.success) {
+			// throw (redirect(301, "/login"))
+			throw redirect(301, "/login?redirected=true");
+		}
+		else {
+			return response.message;
+		}
 	}
 }
+

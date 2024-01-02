@@ -1,11 +1,20 @@
+<!-- Register.svelte -->
 <script>
-	// Imports
-	import {enhance} from "$app/forms";
+	// imports
 
-	// Component Imports
+  	// Components
+  	import InputError from "../../components/InputError.svelte";
 	import LabeledInput from "../../components/LabeledInput.svelte";
 	import Policies from "../../components/Policies.svelte";
+  	import NotificationCentre from "../../components/NotificationCentre.svelte";
+
+    // Libraries
 	import RegisterValidation from "$lib/registerValidation.js";
+	import {enhance} from "$app/forms";
+  	import {notifStore} from "../../lib/store";
+    
+  	// exports
+  	export let form;
 
 	let firstName = "";
 	let surname = "";
@@ -13,10 +22,12 @@
 	let birthdate = "";
 	let password = "";
 	let confirmPassword = "";
+
 	let errors = [];
 
 	let maxDate = new Date()
-	maxDate.setFullYear(maxDate.getFullYear() - 16);
+
+  	maxDate.setFullYear(maxDate.getFullYear() - 16);
 	
 	$: errors = [
 	...RegisterValidation.passwordValidation(password).problems,
@@ -27,12 +38,23 @@
 	...RegisterValidation.ageValidation(birthdate).problems,
 	];
 
-	// Modal show definition
+	  $: {
+		if (form !== null) {
+		  notifStore.addError(form);
+		}
+	  }
+  
+  	// Modal show definition
 	function showTCModal() {
 		document.getElementById('t&cs_modal').showModal();
 	}
 </script>
 
+<!-- Render -->
+
+{#if form !== null }
+    <NotificationCentre/>
+{/if}
 
 <!-- Modals -->
 <dialog id="t&cs_modal" class="modal">
@@ -56,7 +78,7 @@ return async ({update}) => {
 		<LabeledInput name="password" placeholder="Password" type="password" bind:value={password} required={true} />
 		<LabeledInput name="confirm-password" placeholder="Confirm Password" type="password" bind:value={confirmPassword} required={true} />
 		<button class="btn hover:bg-green-500 bg-slate-700 text-white" type="submit">Register</button>
-
+    <InputError {errors} />
 		<div class="flex justify-center">
 			<input type="checkbox" class="checkbox checkbox-primary" required/>
 			<p class="pl-4">Do you agree to the 
