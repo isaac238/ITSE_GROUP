@@ -1,16 +1,17 @@
 <script>
-    import Nav from "../components/nav.svelte";
-    import background from '$lib/assets/background.jpg'
-    import card1 from '$lib/assets/card1.jpg'
-    import card2 from '$lib/assets/card2.jpg'
-    import card3 from '$lib/assets/card3.jpg'
-    import card4 from '$lib/assets/card4.jpg'
-    import card5 from '$lib/assets/card5.jpg'
-    import card6 from '$lib/assets/card6.jpg'
+    // Imports
+
+    // Exports
 </script>
 
 <main>
-    <div class="hero min-h-screen" style="background-image: url({background});">
+    <div class="hero min-h-screen overflow-hidden">
+        <enhanced:img 
+            src="$lib/assets/webp/background-L.webp" 
+            alt="Man running on a treadmill" 
+            sizes="(min-width:1920px) 1280px, (min-width:1080px) 640px, (min-width:768px) 400px"
+            class="min-h-screen min-w-fit object-cover"
+            />
         <div class="hero-overlay bg-opacity-60" />
         <div class="hero-content h-full flex-col place-content-evenly text-center text-neutral-content"> 
             <div class="max-w-md mt-auto text-white">
@@ -29,10 +30,17 @@
             </a>
         </div>  
     </div> 
-    <div class="relative -top-20"> 
-        <div id="cards" class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-y-12">
-            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl">
-                <figure><img src={card1} alt="Man doing a dumbbell bicep curl"/></figure>
+
+    <div class="relative -top-20 justify-items-center"> 
+        <div id="cards" class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-12 justify-items-center">
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl overflow-hidden">
+                <enhanced:img 
+                    src="$lib/assets/jpg/card1-L.jpg" 
+                    alt="Man lifting dumbbell"             
+                    sizes="(min-width:600px) 600px, (min-width:500px) 500px, (min-width:300px) 300px"
+                    loading="lazy"
+                    class="w-full"
+                    />
                 <div class="card-body">
                 <h2 class="card-title">Weights!</h2>
                 <p>
@@ -55,8 +63,16 @@
                     </div>
                 </div>
             </div>
-            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl">
-                <figure><img src={card2} alt="Woman running on treadmill"/></figure>
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl ">
+
+                    <enhanced:img 
+                        src="$lib/assets/jpg/card2-L.jpg" 
+                        alt="Woman doing cardio" 
+                        sizes="(min-width:600px) 600px, (min-width:500px) 500px, (min-width:300px) 300px"
+                        loading="lazy"
+                        class="w-full"
+                    />
+
                 <div class="card-body">
                 <h2 class="card-title">Cardio!</h2>
                 <p>
@@ -77,20 +93,32 @@
                     </div>
                 </div>
             </div> 
-            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
-                <figure><img src={card3} alt="Woman working out with personal trainer"/></figure>
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl overflow-hidden">
+                <enhanced:img 
+                    src="$lib/assets/jpg/card3-L.jpg" 
+                    alt="Personal trainer training" 
+                    sizes="(min-width:600px) 600px, (min-width:500px) 500px, (min-width:300px) 300px"
+                    loading="lazy"
+                    class="w-full"
+                    />
                 <div class="card-body">
                 <h2 class="card-title">Personal Trainers!</h2>
                 <p>
-                    ModernFit Gym has some of the best personal trainers the world has to offer! We provide one-on-one sessions
+                    ModernFit Gym has wide variety of highly qualified personal trainers! We provide one-on-one sessions
                     with our trainers to help guide you with targeted workouts, ensuring proper form and motivation. As a 
                     member of our gym, you will have access to our online system where your trainer can assign you highly
                     efficient, personalised workout plans, tailored exactly to your goals!              
                 </p>
                 </div>
             </div>
-            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
-                <figure><img src={card4} alt="Vegetables" /></figure>
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl overflow-hidden">
+                <enhanced:img 
+                    src="$lib/assets/jpg/card4-L.jpg" 
+                    alt="Plates of vegetables" 
+                    sizes="(min-width:600px) 600px, (min-width:500px) 500px, (min-width:300px) 300px"
+                    loading="lazy"
+                    class="w-full"
+                    />
                 <div class="card-body">
                 <h2 class="card-title">Meal Planning Made Easy!</h2>
                 <p>
@@ -102,8 +130,14 @@
                 </p>
                 </div>
             </div>
-            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
-                <figure><img src={card5} alt="Chicken and vegetables"/></figure>
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl overflow-hidden">
+                    <enhanced:img 
+                        src="$lib/assets/jpg/card5-L.jpg" 
+                        alt="A healthy meal" 
+                        sizes="(min-width:600px) 600px, (min-width:500px) 500px, (min-width:300px) 300px"
+                        loading="lazy"
+                        class="w-full"
+                        />
                 <div class="card-body">
                 <h2 class="card-title">Meal Tracking!</h2>
                 <p>
@@ -114,12 +148,18 @@
                 </p>
                 </div>
             </div>
-            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
-                <figure><img src={card6} alt="Notebook"/></figure>
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl overflow-hidden">
+                <enhanced:img 
+                    src="$lib/assets/jpg/card6-L.jpg" 
+                    alt="Motivational quote saying make it happen" 
+                    sizes="(min-width:600px) 600px, (min-width:500px) 500px, (min-width:300px) 300px"
+                    loading="lazy"
+                    class="w-full"
+                    />
                 <div class="card-body">
                 <h2 class="card-title">Workout Tracking!</h2>
                 <p>
-                    Our patented workout log system is second to none! Our system is a comprehensive fitness tool that 
+                    Our workout log system is second to none! Our system is a comprehensive fitness tool that 
                     allows you to meticulously track and manage your exercise routine. It features a user-friendly interface with 
                     customizable profiles, enabling you to record detailed workout sessions, including exercises, sets, reps, and weights. 
                     Paired with all of our facilities and online systems, our workout tracker will give you everything you need to meet
