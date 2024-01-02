@@ -62,7 +62,7 @@
 </dialog>
 
 <!-- Page Content -->
-<form method="post" class="mx-auto mt-4 card w-[95%] md:w-[60%] lg:w-[30%] bg-base-300 p-10" use:enhance={() => {
+<form method="post" class="m-auto card w-[95%] md:w-[60%] lg:w-[30%] bg-base-300 p-10" use:enhance={() => {
 return async ({update}) => {
 	update({ reset: false });
 	}

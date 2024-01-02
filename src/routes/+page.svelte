@@ -1,9 +1,3 @@
-<script>
-    // Imports
-
-    // Exports
-</script>
-
 <main>
     <div class="hero min-h-screen overflow-hidden">
         <enhanced:img 

@@ -5,6 +5,13 @@ export default class Utils {
 		return new File([blob], "profile.svg", { type: blob.type });
 	}
 
+	static workoutLogComparator(record1, record2) {
+		let [day1, month1, year1] = record1.name.split("/");
+		let [day2, month2, year2] = record2.name.split("/");
+
+		return new Date(year2, month2 - 1, day2) - new Date(year1, month1 - 1, day1);
+	}
+
 	static getSubtitle(table, record) {
 
 		if (table === "workout_log") {
@@ -23,5 +30,17 @@ export default class Utils {
 			const dateFor = new Date(record.plan_date);
 			return "Plan for: " + dateFor.toLocaleDateString();
 		}
+	}
+
+	static async sendPostRequest(url, body) {
+		const response = await fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(body),
+		});
+
+		return response;
 	}
 }
