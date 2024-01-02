@@ -61,6 +61,7 @@ export default class Pin {
 
             const potentialConflicts = await this.pb.collection("users").getFullList({
                 filter: `DOB >= "${minDate}" && DOB < "${maxDate}" && pin != ""`,
+
 				expand: `pin`,
             });
 

@@ -1,9 +1,42 @@
+<!-- Login.svelte -->
+
 <script>
-	// Component Imports
+    // imports
+
+    // Components
     import LabeledInput from "../../components/LabeledInput.svelte";
+    import NotificationCentre from "../../components/NotificationCentre.svelte";
+
+    // Libraries
+    import { notifStore } from "../../lib/store.js";
+	import {enhance} from "$app/forms";
+
+    // exports
+    export let form;
+    export let data;
+    
+    // Register on load is broken 
+
+    const isFromRegister = data.isFromRegister;
+    
+    if(isFromRegister){
+        notifStore.clearAll()
+        notifStore.addSuccess("Registered successfully!")
+    }
+
+    $:{
+        if(form !== null){
+            notifStore.addError(form)
+        }
+    }
+    
 </script>
 
-<form method="post" class="m-auto card w-[95%] md:w-[30%] bg-base-300 p-10">
+<!-- Render -->
+
+<NotificationCentre/>
+
+<form method="post" class="m-auto card w-[95%] md:w-[30%] bg-base-300 p-10" use:enhance>
       <h1 class="text-2xl font-bold mb-8">Login</h1>
       <div class="form-control gap-2 mb-4">
 		<LabeledInput name="email" placeholder="Email" type="email" />

@@ -1,20 +1,29 @@
+<!-- Userdash - Meal Log  -->
+
 <script>
+	// Imports
     import { writable } from "svelte/store";
     import { onMount } from "svelte";
-    import MobileItem from "../../components/MobileItem.svelte";
-    import DesktopItem from "../../components/DesktopItem.svelte";
-	import NewMealLogModal from "../../components/NewMealLogModal.svelte";
-	import DeleteItemModal from "../../components/DeleteItemModal.svelte";
-	import UserdashInformation from "../../components/UserdashInformation.svelte";
+	import { goto } from "$app/navigation";
 	import Utils from "$lib/utils.js"
 	import "iconify-icon";
+	import { notifStore } from "../../lib/store.js"
 
-    export let data; //Importing data so page isn't static, for route guarding (DO NOT DELETE)..
+	// Component Imports
+    import MobileItem from "$components/MobileItem.svelte";
+    import DesktopItem from "$components/DesktopItem.svelte";
+	import NewMealLogModal from "$components/NewMealLogModal.svelte";
+	import DeleteItemModal from "$components/DeleteItemModal.svelte";
+	import UserdashInformation from "$components/UserdashInformation.svelte";
+	import NotificationCentre from "../../components/NotificationCentre.svelte";
 
+	// Props
+    export let data; 
+
+	//
     const screenWidth = writable(0);
 
 	const currentTable = writable("workout_log");
-
 	const collectionsData = writable(data.collectionsData);
 
 	let collectionData = $collectionsData[$currentTable];
@@ -25,7 +34,7 @@
 	let todaysWorkoutLogExists;
 
 	$: todaysWorkoutLogExists = $collectionsData["workout_log"].some((log) => {
-		return new Date(log.created).toLocaleDateString() === new Date().toLocaleDateString();
+		return log.name === new Date().toLocaleDateString();
 	});
 
 	$: {
@@ -57,23 +66,52 @@
         };
     });
 
-	let hasActivated = false;
+	let hasMenuToggled = false;
 
-	function onKeyUp() {
-		hasActivated = false;
+	function onKeyUp(e) {
+		if (e.key === "m" || e.key === "M" && hasMenuToggled) 
+			hasMenuToggled = false;
 	}
 
 	function onKeyDown(e) {
-		if (e.key === "m" || e.key === "M" && !hasActivated) {
+		if (e.key === "m" || e.key === "M" && !hasMenuToggled) {
 			drawerChecked = !drawerChecked;
-			hasActivated = true;
+			hasMenuToggled = true;
 		}
 	}
 
 
 	$: menuString = (drawerChecked) ? "Close" : "Menu";
-
     $: isMobile = $screenWidth < 768;
+
+
+	// Delete Item Modal Methods
+
+	let itemToDelete;
+
+	const showDeleteItemModal = (item) => {
+		itemToDelete = item;
+		document.getElementById("delete-item-modal").showModal();
+	}
+
+	// Handles response from delete modal after it sends a delete request.
+	async function deleteCallback(responseJSON) {
+		if (!responseJSON) {
+			notifStore.addError("There was an error deleting this record! Try again or contact support!")
+			return;
+		} 
+
+		console.log("Callback running");
+		const currentTableData = $collectionsData[$currentTable];
+		const currentTableDataWithoutDeletedItem = currentTableData.filter((record) => record.id != itemToDelete.id);
+
+		collectionsData.update((prev) => ({...prev, [$currentTable]: currentTableDataWithoutDeletedItem}));
+		itemToDelete = null;
+		notifStore.addSuccess("Deleted record successfully!")
+	}
+
+
+	// New Meal Log Modal Methods
 
 	let mealLogName;
 	let mealLogEatenAt;
@@ -84,34 +122,15 @@
 		document.getElementById("new-meal-log-modal").showModal();
 	}
 
-	let itemToDelete;
-	const showDeleteItemModal = (item) => {
-		document.getElementById("delete-item-modal").showModal();
-		itemToDelete = item;
+	const mealLogModalCallback = async () => {
+		let requestData = {};
+
+		requestData.name = mealLogName;
+		requestData.eaten_at = new Date(mealLogEatenAt);
+		sendNewRecordRequest(requestData);
 	}
 
-	const sendNewRecordRequest = async (requestData) => {
-		const response = await fetch("/api/record/create", {
-			method: "POST",
-			body: JSON.stringify({
-				"collection": $currentTable,
-				"data": requestData,
-			}),
-			headers: { 'Content-Type': 'application/json' },
-		});
-
-		if (!response.ok) return;
-
-		const record = await response.json();
-		record.subtitle = Utils.getSubtitle($currentTable, record);
-
-		collectionsData.update((prev) => {return {
-		...prev,
-		[$currentTable]: [...prev[$currentTable], record],
-		}});
-
-	}
-
+	// New Log Request Methods
 	const startNewRecordRequest = async () => {
 		let requestData = {};
 
@@ -123,65 +142,80 @@
 		if ($currentTable === "meal_log") { showNewMealLogModal(); } // Opens modal, if done mealLogModalCallback is called.
 	}
 
-	const mealLogModalCallback = async () => {
-		let requestData = {};
 
-		requestData.name = mealLogName;
-		requestData.eaten_at = new Date(mealLogEatenAt);
-		sendNewRecordRequest(requestData);
+	const sendNewRecordRequest = async (requestData) => {
+		const requestBody = {
+			"collection": $currentTable,
+			"data": requestData,
+		};
+
+		const response = await Utils.sendPostRequest("/api/record/create", requestBody);
+
+		if (!response.ok) return;
+
+		const newRecord = await response.json();
+		newRecord.subtitle = Utils.getSubtitle($currentTable, newRecord);
+
+		const currentTableData = $collectionsData[$currentTable];
+
+		const newTableData = [...currentTableData, newRecord];
+		newTableData.sort((record1, record2) => Utils.workoutLogComparator(record1, record2));
+
+		collectionsData.update((prev) => ({...prev, [$currentTable]: newTableData}));
 	}
 
-	const sendDeleteRequest = async () => {
-		const response = await fetch(`/api/record/delete`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				"collection": $currentTable,
-				"id": itemToDelete,
-			}),
-		});
 
-		const respJSON = await response.json();
-
-		if (respJSON === true) {
-			collectionsData.update((prev) => {return {
-			...prev,
-			[$currentTable]: [...prev[$currentTable].filter((record) => record.id !== itemToDelete)],
-			}});
-
-		}
-		itemToDelete = null;
+	// Sends the user to the page for the passed in item
+	const goToItem = (id) => {
+		console.log("Going to: " + `/userdash/posts/${$currentTable}/${id}`);
+		goto(`/userdash/posts/${$currentTable}/${id}`);
 	}
+
+
+	// Filter for the data in the current collection by name
+	let filterDate = "";
+
+	$: {
+		collectionData = $collectionsData[$currentTable];
+
+		if (filterDate !== "") {
+			collectionData = $collectionsData[$currentTable].filter(
+				(record) => record.name.includes(filterDate)
+			);
+		} 
+	} 
 </script>
 
+<!-- Keybind event listeners -->
 <svelte:window on:keydown={onKeyDown} on:keyup={onKeyUp} />
 
-<dialog id="new-meal-log-modal" class="modal">
-	<NewMealLogModal bind:name={mealLogName} bind:eatenAt={mealLogEatenAt} callback={mealLogModalCallback}/>
-</dialog>
+<!-- Modals -->
+<NewMealLogModal bind:name={mealLogName} bind:eatenAt={mealLogEatenAt} callback={mealLogModalCallback}/>
 
-<dialog id="delete-item-modal" class="modal">
-	<DeleteItemModal callback={sendDeleteRequest}/>
-</dialog>
+<DeleteItemModal callback={deleteCallback} bind:itemToDelete/>
 
-<dialog id="userdash-information-modal" class="modal">
-	<UserdashInformation/>
-</dialog>
+<UserdashInformation/>
 
 
+<!-- Header -->
 <header class="bg-transparent py-3 px-5">
 <h1 class="bg-transparent text-xl md:text-3xl font-black">Modern Fit <iconify-icon icon="mdi:weight-lifter"/></h1>
 <p class="bg-transparent text-lg md:text-2xl font-medium">
 	{$currentTable.split("_").map((x) => {return x[0].toUpperCase() + x.substring(1, x.length)}).join(" ")}
 </p>
 </header>
+<NotificationCentre/>
 
+
+<!-- Main Content -->
 <div class="drawer flex-grow">
     <input id="my-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerChecked}>
     <div class="drawer-content h-full flex flex-col">
             <div class="w-screen flex flex-col bg-transparent flex-grow flex-shrink-0 justify-center items-center h-full">
+				<div class="flex items-center justify-center flex-col md:flex-row gap-4 lg:w-2/4">
+					<h1>Search for a specific entry by name:</h1>
+					<input type="text" placeholder="e.g. 2023" class="w-fit px-4 rounded-lg p-2" bind:value={filterDate}/>
+				</div>
                 {#if isMobile}
                     <!-- Mobile View -->
                     <div class="md:hidden flex snap-x snap-mandatory overflow-x-auto p-4 space-x-4 w-screen h-full" >
@@ -190,27 +224,27 @@
 						{/if}
 						{#each collectionData as record} 
 							{#if record.name === new Date().toLocaleDateString() && $currentTable === "workout_log"}
-								<MobileItem deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
+								<MobileItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
 							{:else if $currentTable.split("_")[1] === "log"}
-								<MobileItem deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle}/>
+								<MobileItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record)}} title={record.name} subtitle={record.subtitle}/>
 							{:else}
-								<MobileItem title={record.name} subtitle={record.subtitle}/>
+								<MobileItem clickEvent={() => goToItem(record.id)} title={record.name} subtitle={record.subtitle}/>
 							{/if}
 						{/each}
                     </div>
                 {:else}
                     <!-- Desktop View -->
-                    <div class="flex flex-wrap items-center justify-center h-full rounded-xl overflow-y-auto gap-7 p-4" >
+                    <div class="flex flex-wrap items-center justify-center h-fit rounded-xl overflow-y-auto gap-7 p-5" >
 						{#if $currentTable === "meal_log" || ($currentTable === "workout_log" && !todaysWorkoutLogExists)}
 							<DesktopItem clickEvent={startNewRecordRequest} title={newLogTitle} subtitle={newLogSubtitle} button="Create" from="from-green-500" to="to-emerald-600"/>
 						{/if}
 						{#each collectionData as record}
 							{#if record.name === new Date().toLocaleDateString() && $currentTable === "workout_log"}
-								<DesktopItem deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
+								<DesktopItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
 							{:else if $currentTable.split("_")[1] === "log"}
-								<DesktopItem deleteEvent={() => {showDeleteItemModal(record.id)}} title={record.name} subtitle={record.subtitle}/>
+								<DesktopItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record)}} title={record.name} subtitle={record.subtitle}/>
 							{:else}
-								<DesktopItem title={record.name} subtitle={record.subtitle}/>
+								<DesktopItem clickEvent={() => goToItem(record.id)} title={record.name} subtitle={record.subtitle}/>
 							{/if}
 						{/each}
                     </div>
