@@ -1,0 +1,16 @@
+import Collections from "$lib/server/collections";
+import { redirect } from "@sveltejs/kit";
+
+export async function load({ locals, params }) {
+	const collections = new Collections(locals.pb);
+	const recordID = params.log;
+	const recordData = await collections.getRecord("meal_log", recordID);
+
+	console.log(recordData);
+
+	if (recordData === undefined) {
+		throw redirect(301, "/userdash");
+	}
+
+	return { user: locals.user, recordData };
+}
