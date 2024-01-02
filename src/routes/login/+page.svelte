@@ -9,8 +9,7 @@
 
     // Libraries
     import { notifStore } from "../../lib/store.js";
-	  import {enhance} from "$app/forms";
-    import Notification from "../../components/Notification.svelte";
+	import {enhance} from "$app/forms";
 
     // exports
     export let form;
@@ -37,7 +36,7 @@
 
 <NotificationCentre/>
 
-<form method="post" class="m-auto card w-[95%] md:w-[30%] bg-base-300 p-10">
+<form method="post" class="m-auto card w-[95%] md:w-[30%] bg-base-300 p-10" use:enhance>
       <h1 class="text-2xl font-bold mb-8">Login</h1>
       <div class="form-control gap-2 mb-4">
 		<LabeledInput name="email" placeholder="Email" type="email" />
