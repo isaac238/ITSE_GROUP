@@ -1,6 +1,10 @@
 <script>
+	// imports
+
+	// Libraries
 	import "iconify-icon";
 
+	// exports
 	export let title;
 	export let subtitle;
 	export let button = "View";
@@ -9,6 +13,8 @@
 	export let clickEvent = "";
 	export let deleteEvent = "";
 </script>
+
+<!-- Render -->
 
 <div class="relative w-[24rem] h-[30rem] bg-gradient-to-r {from} {to} rounded-lg text-white p-10 text-xl flex flex-col justify-center whitespace-nowrap">
 	<span class="flex flex-col justify-center items-center mb-4">

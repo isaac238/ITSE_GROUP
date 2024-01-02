@@ -8,12 +8,14 @@
 	// Exports
 	export let data;
 	let user = data.user;
+	let pin = data.pin;
 	$: user = data.user;
+	$: pin = data.pin;
 	
 </script>
 
 <main class="bg-gradient-to-t from-gray-800 to-gray-950 flex min-h-screen flex-col">
-	<Nav {user}/>
+	<Nav {user} {pin}/>
 <slot />
 </main>
 

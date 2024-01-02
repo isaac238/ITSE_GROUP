@@ -17,9 +17,9 @@ export default class Auth {
 		try {
 			await this.pb.collection('users').authWithPassword(email, password);
 			return { success: true, message: "Logged in" };
-		} catch (error) {
-			console.log(error);
-			return { success: false, message: "Error occured" };
+		}
+		catch (error) {
+			return { success: false, message: error.response.message };
 		}
 	}
 
@@ -59,9 +59,9 @@ export default class Auth {
 			return { success: true, message: "Registered!" };
 		} catch (error) {
 			if (pinRecord) await this.pb.collection('pins').delete(pinRecord.id);
+			console.log(error);
 			if (!RegisterValidation.dbPasswordValid(error)) return { success: false, message: error.data.data.password.message };
 			if (!RegisterValidation.dbEmailValid(error)) return { success: false, message: error.data.data.email.message };
-			console.log(error);
 			return { success: false, message: "Something else went wrong check the console for details" };
 		}
 	}
