@@ -1,6 +1,7 @@
 <script>
 	// Imports
 	import Utils from "$lib/utils.js"
+    import { onMount } from "svelte";
 
 	// Component Imports
     import LabeledInput from "./LabeledInput.svelte";
@@ -13,6 +14,7 @@
 	let maxStep = 1;
 
 	$: console.log(workoutModalState);
+
 
 	async function sendNewWorkoutRequest() {
 		let requestData = {};
@@ -42,7 +44,7 @@
 
 			remainingData.durationInSeconds = remainingData.durationInSeconds.split(":")
 			.reduce(
-			(acc, time) => parseInt(60 * acc) + parseInt(time)
+			(accumulator, time) => parseInt(60 * accumulator) + parseInt(time)
 			);
 
 			requestData = remainingData;
@@ -81,6 +83,57 @@
 	"Cycling",
 	"Swimming"
 	];
+
+	// onMount(async () => {
+	// workoutModalState = structuredClone({
+	// 	step: 1,
+	// 	exercise: cardio_exercises[Math.floor(Math.random() * 4)],
+	// 	weight_kg: "",
+	// 	sets: "",
+	// 	reps: "",
+	// 	durationInSeconds: "00:10:00",
+	// 	caloriesBurned: Math.floor(Math.random() * 250) + 1,
+	// 	distanceMiles: Math.floor(Math.random() * 10) + 1,
+	// 	type: "cardio",
+	// });
+	// await sendNewWorkoutRequest();
+	// workoutModalState = structuredClone({
+	// 	step: 1,
+	// 	exercise: weight_exercises[1],
+	// 	weight_kg: Math.floor(Math.random() * 82) + 1,
+	// 	sets: 3,
+	// 	reps: 10,
+	// 	durationInSeconds: "",
+	// 	caloriesBurned: "",
+	// 	distanceMiles: "",
+	// 	type: "weight",
+	// });
+	// await sendNewWorkoutRequest();
+	// workoutModalState = structuredClone({
+	// 	step: 1,
+	// 	exercise: weight_exercises[2],
+	// 	weight_kg: Math.floor(Math.random() * 82) + 1,
+	// 	sets: 3,
+	// 	reps: 10,
+	// 	durationInSeconds: "",
+	// 	caloriesBurned: "",
+	// 	distanceMiles: "",
+	// 	type: "weight",
+	// });
+	// await sendNewWorkoutRequest();
+	// workoutModalState = structuredClone({
+	// 	step: 1,
+	// 	exercise: weight_exercises[3],
+	// 	weight_kg: Math.floor(Math.random() * 82) + 1,
+	// 	sets: 3,
+	// 	reps: 10,
+	// 	durationInSeconds: "",
+	// 	caloriesBurned: "",
+	// 	distanceMiles: "",
+	// 	type: "weight",
+	// });
+	// await sendNewWorkoutRequest();
+	// })
 
 	$: workoutModalState.type = weight_exercises.includes(workoutModalState.exercise) ? "weight" : "cardio";
 
