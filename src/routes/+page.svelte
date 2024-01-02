@@ -7,7 +7,7 @@
 <main>
     <div class="hero min-h-screen overflow-hidden">
         <enhanced:img 
-            src="$lib/assets/webp/background-M.webp" 
+            src="$lib/assets/webp/background-L.webp" 
             alt="Man running on a treadmill" 
             sizes="(min-width:1920px) 1280px, (min-width:1080px) 640px, (min-width:768px) 400px"
             class="min-h-screen min-w-fit "
@@ -33,12 +33,13 @@
 
     <div class="relative -top-20 justify-items-center"> 
         <div id="cards" class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-12 justify-items-center">
-            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl">
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl overflow-hidden">
                 <enhanced:img 
                     src="$lib/assets/jpg/card1-L.jpg" 
                     alt="Man lifting dumbbell"             
                     sizes="(min-width:600px) 600px, (min-width:500px) 500px, (min-width:300px) 300px"
                     loading="lazy"
+                    class="w-full"
                     />
                 <div class="card-body">
                 <h2 class="card-title">Weights!</h2>
@@ -62,15 +63,16 @@
                     </div>
                 </div>
             </div>
-            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl">
-                <figure>
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-2xl ">
+
                     <enhanced:img 
                         src="$lib/assets/jpg/card2-L.jpg" 
                         alt="Woman doing cardio" 
                         sizes="(min-width:600px) 600px, (min-width:500px) 500px, (min-width:300px) 300px"
                         loading="lazy"
-                        />
-                </figure>
+                        class="w-full"
+                    />
+
                 <div class="card-body">
                 <h2 class="card-title">Cardio!</h2>
                 <p>
@@ -91,12 +93,13 @@
                     </div>
                 </div>
             </div> 
-            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl overflow-hidden">
                 <enhanced:img 
                     src="$lib/assets/jpg/card3-L.jpg" 
                     alt="Personal trainer training" 
                     sizes="(min-width:600px) 600px, (min-width:500px) 500px, (min-width:300px) 300px"
                     loading="lazy"
+                    class="w-full"
                     />
                 <div class="card-body">
                 <h2 class="card-title">Personal Trainers!</h2>
@@ -108,12 +111,13 @@
                 </p>
                 </div>
             </div>
-            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl overflow-hidden">
                 <enhanced:img 
                     src="$lib/assets/jpg/card4-L.jpg" 
                     alt="Plates of vegetables" 
                     sizes="(min-width:600px) 600px, (min-width:500px) 500px, (min-width:300px) 300px"
                     loading="lazy"
+                    class="w-full"
                     />
                 <div class="card-body">
                 <h2 class="card-title">Meal Planning Made Easy!</h2>
@@ -126,12 +130,13 @@
                 </p>
                 </div>
             </div>
-            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl overflow-hidden">
                     <enhanced:img 
                         src="$lib/assets/jpg/card5-L.jpg" 
                         alt="A healthy meal" 
                         sizes="(min-width:600px) 600px, (min-width:500px) 500px, (min-width:300px) 300px"
                         loading="lazy"
+                        class="w-full"
                         />
                 <div class="card-body">
                 <h2 class="card-title">Meal Tracking!</h2>
@@ -143,12 +148,13 @@
                 </p>
                 </div>
             </div>
-            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl">
+            <div class="card w-11/12 lg:hover:border-slate-300 lg:hover:scale-105 bg-base-100 border-2 border-slate-700 shadow-xl overflow-hidden">
                 <enhanced:img 
                     src="$lib/assets/jpg/card6-L.jpg" 
                     alt="Motivational quote saying make it happen" 
                     sizes="(min-width:600px) 600px, (min-width:500px) 500px, (min-width:300px) 300px"
                     loading="lazy"
+                    class="w-full"
                     />
                 <div class="card-body">
                 <h2 class="card-title">Workout Tracking!</h2>
