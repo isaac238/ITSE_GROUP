@@ -10,7 +10,7 @@
             src="$lib/assets/webp/background-L.webp" 
             alt="Man running on a treadmill" 
             sizes="(min-width:1920px) 1280px, (min-width:1080px) 640px, (min-width:768px) 400px"
-            class="min-h-screen min-w-fit "
+            class="min-h-screen min-w-fit object-cover"
             />
         <div class="hero-overlay bg-opacity-60" />
         <div class="hero-content h-full flex-col place-content-evenly text-center text-neutral-content"> 
