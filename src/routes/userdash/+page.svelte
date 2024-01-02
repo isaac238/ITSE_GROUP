@@ -9,7 +9,7 @@
 	import "iconify-icon";
 	import "@carbon/charts-svelte/styles.css";
 	import { LineChart } from "@carbon/charts-svelte";
-
+	import { notifStore } from "../../lib/store.js"
 
 	// Component Imports
     import MobileItem from "$components/MobileItem.svelte";
@@ -17,10 +17,12 @@
 	import NewMealLogModal from "$components/NewMealLogModal.svelte";
 	import DeleteItemModal from "$components/DeleteItemModal.svelte";
 	import UserdashInformation from "$components/UserdashInformation.svelte";
+	import NotificationCentre from "../../components/NotificationCentre.svelte";
 
 	// Props
     export let data; 
 
+	//
     const screenWidth = writable(0);
 
 	const currentTable = writable("home");
@@ -96,13 +98,18 @@
 
 	// Handles response from delete modal after it sends a delete request.
 	async function deleteCallback(responseJSON) {
-		if (!responseJSON) return;
+		if (!responseJSON) {
+			notifStore.addError("There was an error deleting this record! Try again or contact support!")
+			return;
+		} 
+
 		console.log("Callback running");
 		const currentTableData = $collectionsData[$currentTable];
 		const currentTableDataWithoutDeletedItem = currentTableData.filter((record) => record.id != itemToDelete.id);
 
 		collectionsData.update((prev) => ({...prev, [$currentTable]: currentTableDataWithoutDeletedItem}));
 		itemToDelete = null;
+		notifStore.addSuccess("Deleted record successfully!")
 	}
 
 
@@ -126,7 +133,6 @@
 	}
 
 	// New Log Request Methods
-
 	const startNewRecordRequest = async () => {
 		let requestData = {};
 
@@ -354,6 +360,7 @@
 	{$currentTable.split("_").map((x) => {return x[0].toUpperCase() + x.substring(1, x.length)}).join(" ")}
 </p>
 </header>
+<NotificationCentre/>
 
 
 <!-- Main Content -->

@@ -1,10 +1,18 @@
 <script>
+	// imports
+	
+	// Components
 	import LabeledInput from "./LabeledInput.svelte";
+	
+	// Libraries
 	import "iconify-icon";
 
+	// exports
 	export let eatenAt;
 	export let name;
 	export let callback;
+
+	$: console.log(eatenAt);
 
 	const handleSubmit = () => {
 		console.log(name);
@@ -16,6 +24,7 @@
 	}
 </script>
 
+<!-- Render -->
 <dialog id="new-meal-log-modal" class="modal">
 	<div class="modal-box bg-gradient-to-b from-gray-800 to-gray-950">
 		<h2 class="text-xl text-white">New: <span class="font-semibold">Meal Log</span></h2>

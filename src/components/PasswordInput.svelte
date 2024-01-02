@@ -1,10 +1,18 @@
 <script>
+  
+  // imports
+  
+  // Libraries
   import "iconify-icon";
+  
 
+  // exports
   export let name;
   export let placeholder;
   export let value = "";
   export let required = false;
+
+  //
 
   let type = "password";
   let icon = "mdi:eye-off-outline";
