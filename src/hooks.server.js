@@ -20,14 +20,15 @@ export const handle = (async ({ event, resolve }) => {
 	if (event.locals.user)
 		event.locals.user.avatar = pb.files.getUrl(event.locals.user, event.locals.user.avatar);
 
-	const trainerOnlyRoutes = ["/trainerdash"];
-	const memberOnlyRoutes = ["/userdash"];
+	const trainerOnlyRoutes = ["trainerdash"];
+	const memberOnlyRoutes = ["userdash"];
 
 	const isTrainer = event.locals.user ? event.locals.user.role.includes("trainer") : false;
 	const isMember = event.locals.user ? event.locals.user.role.includes("member") : false;
 
-	const routeIsTrainerOnly = trainerOnlyRoutes.includes(event.url.pathname);
-	const routeIsMemberOnly = memberOnlyRoutes.includes(event.url.pathname);
+	const route = event.url.pathname.split("/")[1];
+	const routeIsTrainerOnly = trainerOnlyRoutes.includes(route);
+	const routeIsMemberOnly = memberOnlyRoutes.includes(route);
 
 	if (!isTrainer && routeIsTrainerOnly) throw redirect(302, "/");
 	if (!isMember && routeIsMemberOnly) throw redirect(302, "/");
