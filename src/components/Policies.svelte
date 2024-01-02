@@ -88,16 +88,16 @@
         <h5 class="font-bold text-xl pb-2 pt-2">7. Changes to Privacy Policy</h5>
         <ul class="list-disc pl-9">
             <li>We reserve the right to update our privacy policy. Users will be notified of any changes, and continued use of the website implies acceptance of the updated policy.</li>
-        </ul>
-
-        <h5 class="font-bold text-xl pb-2 pt-2">8. Contact Information</h5>
-        <ul class="list-disc pl-9">
-            <li>For questions or concerns regarding the terms & conditions or privacy policy, contact us at <a class="text-indigo-600 hover:underline" href="mailto:support@modernfitgyms.com" >support@modernfitgyms.com</a> .</li>
-        </ul>
+        </ul>        
 
         <h5 class="font-bold text-xl pb-2 pt-2">8. Information Sharing</h5>
         <ul class="list-disc pl-9">
             <li>Your data may be shared with a trainer if you acquire one. This is accepted in the contract between you and the trainer when you sign up for one.</li>
+        </ul>
+
+        <h5 class="font-bold text-xl pb-2 pt-2">9. Contact Information</h5>
+        <ul class="list-disc pl-9">
+            <li>For questions or concerns regarding the terms & conditions or privacy policy, contact us at <a class="text-indigo-600 hover:underline" href="mailto:support@modernfitgyms.com" >support@modernfitgyms.com</a> .</li>
         </ul>
 
     <div class="modal-action">

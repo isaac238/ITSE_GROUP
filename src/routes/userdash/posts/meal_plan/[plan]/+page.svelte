@@ -4,7 +4,7 @@
 	import Utils from "$lib/utils.js";
 
 	// Component Imports
-    import MealPlanFooditem from "../../../../../components/MealPlanFooditem.svelte";
+    import MealPlanFooditem from "$components/MealPlanFooditem.svelte";
 
 	// Props
 	export let data;
@@ -20,6 +20,50 @@
 	$: disabled = !allFoodsEaten;
 	$: logTip = disabled ? "You must eat this meal before logging this plan." : `Log this meal as ${recordData.name} log.`;
 	console.log(JSON.stringify(recordData));
+
+	let allUsedFoodItems;
+	let averageFoodStatsPer100;
+	let totalPortion;
+	let totalFoodStats;
+
+	function calculateAverageOfProperty(array, propertyName) {
+		if (array.length > 0) {
+			return array.reduce((total, next) => total + next[propertyName], 0) / array.length;
+		} else {
+			return 0;
+		}
+	}
+
+	function calculateTotalOfProperty(array, propertyName) {
+		if (array.length > 0) {
+			return array.reduce((total, next) => total + ((next.expand.foodItem[propertyName] / 100) * next.portion_in_g), 0);
+		} else {
+			return 0;
+		}
+	}
+
+	$: allUsedFoodItems = foods.map((food) => food.expand.foodItem);
+
+	$: averageFoodStatsPer100 = {
+		"calories_in_g": calculateAverageOfProperty(allUsedFoodItems, "calories_in_g"),
+		"protein_in_g": calculateAverageOfProperty(allUsedFoodItems, "protein_in_g"),
+		"carbs_in_g": calculateAverageOfProperty(allUsedFoodItems, "carbs_in_g"),
+		"fats_in_g": calculateAverageOfProperty(allUsedFoodItems, "fats_in_g"),
+		"sugar_in_g": calculateAverageOfProperty(allUsedFoodItems, "sugar_in_g"),
+	};
+
+	$: totalFoodStats = {
+		"calories_in_g": calculateTotalOfProperty(foods, "calories_in_g"),
+		"protein_in_g": calculateTotalOfProperty(foods, "protein_in_g"),
+		"carbs_in_g": calculateTotalOfProperty(foods, "carbs_in_g"),
+		"fats_in_g": calculateTotalOfProperty(foods, "fats_in_g"),
+		"sugar_in_g": calculateTotalOfProperty(foods, "sugar_in_g"),
+	};
+
+
+	$: console.log(allUsedFoodItems);
+	$: console.log(averageFoodStatsPer100);
+
 
 	async function getLog() {
 		console.log("Checking for existing log");
@@ -120,4 +164,43 @@
 	{#each foods as food}
 		<MealPlanFooditem {food} bind:complete={food.complete}/>
 	{/each}
+	<h1 class="mt-4 text-xl font-semibold text-center">Totals</h1>
+	<div class="mt-3 text-black rounded-lg bg-gray-100 shadow-lg ">
+		<table class="table">
+			<thead>
+				<tr class="text-black">
+					<th></th>
+					<th>Per 100g</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>Calories</th>
+					<td>{averageFoodStatsPer100.calories_in_g}Kcal</td>
+					<td>{totalFoodStats.calories_in_g}Kcal</td>
+				</tr>
+				<tr>
+					<th>Protein</th>
+					<td>{averageFoodStatsPer100.protein_in_g}g</td>
+					<td>{totalFoodStats.protein_in_g}g</td>
+				</tr>
+				<tr>
+					<th>Carbs</th>
+					<td>{averageFoodStatsPer100.carbs_in_g}g</td>
+					<td>{totalFoodStats.carbs_in_g}g</td>
+				</tr>
+				<tr>
+					<th>Fat</th>
+					<td>{averageFoodStatsPer100.fats_in_g}g</td>
+					<td>{totalFoodStats.fats_in_g}g</td>
+				</tr>
+				<tr>
+					<th>Sugar</th>
+					<td>{averageFoodStatsPer100.sugar_in_g}g</td>
+					<td>{totalFoodStats.sugar_in_g}g</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

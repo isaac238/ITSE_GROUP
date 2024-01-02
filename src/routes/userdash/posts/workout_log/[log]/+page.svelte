@@ -4,10 +4,10 @@
 	import Utils from "$lib/utils.js"
 
 	// Component Imports
-    import WeightWorkoutLog from "../../../../../components/WeightWorkoutLog.svelte";
-    import CardioWorkoutLog from "../../../../../components/CardioWorkoutLog.svelte";
-    import DeleteItemModal from "../../../../../components/DeleteItemModal.svelte";
-    import NewWorkoutModal from "../../../../../components/NewWorkoutModal.svelte";
+    import WeightWorkoutLog from "$components/WeightWorkoutLog.svelte";
+    import CardioWorkoutLog from "$components/CardioWorkoutLog.svelte";
+    import DeleteItemModal from "$components/DeleteItemModal.svelte";
+    import NewWorkoutModal from "$components/NewWorkoutModal.svelte";
 
 	// Props
 	export let data;

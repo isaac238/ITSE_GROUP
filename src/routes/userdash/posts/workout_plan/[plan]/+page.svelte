@@ -5,8 +5,8 @@
 
 
 	// Component Imports
-    import WeightWorkoutPlan from "../../../../../components/WeightWorkoutPlan.svelte";
-    import CardioWorkoutPlan from "../../../../../components/CardioWorkoutPlan.svelte";
+    import WeightWorkoutPlan from "$components/WeightWorkoutPlan.svelte";
+    import CardioWorkoutPlan from "$components/CardioWorkoutPlan.svelte";
 
 	// Props
 	export let data;

@@ -1,6 +1,10 @@
 <script>
+	// imports
+
+	// Components
     import PasswordInput from "./PasswordInput.svelte";
 
+	// exports
 	export let name;
 	export let placeholder;
 	export let type;
@@ -19,6 +23,8 @@
 	$: if (type != "password" && input != undefined && input.value != value) { input.value = value; }
 	
 </script>
+
+<!-- Render -->
 
 <label for={name} class="flex flex-col gap-2">
 	<span class="text-sm tracking-normal w-full">{placeholder}<span class="text-red-400">*</span></span>

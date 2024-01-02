@@ -19,6 +19,7 @@
 	}
 </script>
 
+<!-- Renders -->
 <dialog id="delete-item-modal" class="modal">
 	<div class="modal-box bg-gradient-to-b from-gray-800 to-gray-950">
 		<h2 class="text-xl text-white">Are you sure you want to <span class="font-semibold text-red-500">delete</span> this item?</h2>
