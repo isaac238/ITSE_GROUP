@@ -9,8 +9,6 @@
 
     // Libraries
     import { notifStore } from "../../lib/store.js";
-	  import {enhance} from "$app/forms";
-    import Notification from "../../components/Notification.svelte";
 
     // exports
     export let form;
