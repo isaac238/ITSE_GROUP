@@ -48,7 +48,7 @@
 	// NEW WORKOUT MODAL FUNCTIONS
 
 	function clearWorkoutModalState() {
-		workoutModalState = {
+		workoutModalState = structuredClone({
 			step: 0,
 			exercise: "",
 			weight_kg: "",
@@ -58,7 +58,7 @@
 			caloriesBurned: "",
 			distanceMiles: "",
 			type: "",
-		};
+		});
 	}
 
 	function showNewWorkoutModal() {
@@ -68,6 +68,7 @@
 	}
 
 	async function newWorkoutCallback(createdRecord) {
+		console.log("NEW WORKOUT CALLBACK");
 		let updateResponseJSON;
 		let requestData = {};
 

@@ -23,12 +23,11 @@
 
 	let allUsedFoodItems;
 	let averageFoodStatsPer100;
-	let totalPortion;
 	let totalFoodStats;
 
 	function calculateAverageOfProperty(array, propertyName) {
 		if (array.length > 0) {
-			return array.reduce((total, next) => total + next[propertyName], 0) / array.length;
+			return array.reduce((accumulator, next) => accumulator + next[propertyName], 0) / array.length;
 		} else {
 			return 0;
 		}
@@ -36,7 +35,7 @@
 
 	function calculateTotalOfProperty(array, propertyName) {
 		if (array.length > 0) {
-			return array.reduce((total, next) => total + ((next.expand.foodItem[propertyName] / 100) * next.portion_in_g), 0);
+			return array.reduce((accumulator, next) => accumulator + ((next.expand.foodItem[propertyName] / 100) * next.portion_in_g), 0);
 		} else {
 			return 0;
 		}
