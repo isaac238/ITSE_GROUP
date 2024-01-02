@@ -82,7 +82,7 @@
                 <div class="card-body">
                 <h2 class="card-title">Personal Trainers!</h2>
                 <p>
-                    ModernFit Gym has some of the best personal trainers the world has to offer! We provide one-on-one sessions
+                    ModernFit Gym has boasts an excellent variety of highly qualified trainers! We provide one-on-one sessions
                     with our trainers to help guide you with targeted workouts, ensuring proper form and motivation. As a 
                     member of our gym, you will have access to our online system where your trainer can assign you highly
                     efficient, personalised workout plans, tailored exactly to your goals!              
@@ -119,7 +119,7 @@
                 <div class="card-body">
                 <h2 class="card-title">Workout Tracking!</h2>
                 <p>
-                    Our patented workout log system is second to none! Our system is a comprehensive fitness tool that 
+                    Our workout log system is second to none! Our system is a comprehensive fitness tool that 
                     allows you to meticulously track and manage your exercise routine. It features a user-friendly interface with 
                     customizable profiles, enabling you to record detailed workout sessions, including exercises, sets, reps, and weights. 
                     Paired with all of our facilities and online systems, our workout tracker will give you everything you need to meet
