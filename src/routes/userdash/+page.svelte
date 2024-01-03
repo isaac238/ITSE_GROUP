@@ -203,7 +203,6 @@
 
 
 	const getCaloriesFromMealPLan = (mealPlan) => mealPlan.reduce((accumulator, record) => {
-		console.log(record.foods)
 		if (record.foods.length <= 0) return accumulator;
 
 		const caloriesGainedInLog = record.expand.foods.reduce(
@@ -336,10 +335,6 @@
 	const graphDataDistanceTravelled = Object.keys(pastYearDistanceTravelled).map((key) =>
 		 ({group: "Travelled", key: key, value: pastYearDistanceTravelled[key]})
 	);
-
-	console.log(graphDataAverageWeight);
-	console.log(graphDataCaloriesBurned);
-	console.log(graphDataCaloriesGained);
 </script>
 
 <!-- Keybind event listeners -->

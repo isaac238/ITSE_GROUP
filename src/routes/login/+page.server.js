@@ -12,8 +12,6 @@ import Auth from "$lib/server/auth";
 
 export async function load({ url }) {
 	const params = new URLSearchParams(url.search);
-	console.log(params.get("redirected"))
-	console.log(params)
 	return {isFromRegister: params.get("redirected")}
 }
 
