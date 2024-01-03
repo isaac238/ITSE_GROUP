@@ -9,6 +9,7 @@
 
     // Libraries
     import { notifStore } from "../../lib/store.js";
+	import { goto } from "$app/navigation";
 	import {enhance} from "$app/forms";
 	import { invalidateAll } from "$app/navigation";
 
