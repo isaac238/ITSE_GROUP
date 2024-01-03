@@ -53,6 +53,7 @@ export default class Auth {
 				"avatar": await Utils.imageFromUrl("https://api.iconify.design/mdi/user.svg?download=1"),
 				"pin": pinRecord.id,
 				"role": "member",
+				"branch": formData.get('branch'),
 			};
 
 			await this.pb.collection('users').create(data);
