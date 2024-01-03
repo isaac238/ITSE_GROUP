@@ -62,6 +62,6 @@
             <User name="{mealPlan.name}" link="{$user}/mealplan/{mealPlan.id}"/>
         </div>
     {/each}   
+	<button class="btn btn-primary w-[95%] my-10" on:click={() => showNewPlanModal()}>Add</button>
 </div>
 
-<button class="btn btn-primary" on:click={() => showNewPlanModal()}>Add</button>

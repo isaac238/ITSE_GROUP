@@ -104,7 +104,7 @@
 
 <header class="py-3 px-5">
 <h1 class="bg-transparent text-xl md:text-3xl font-black">Modern Fit <iconify-icon icon="mdi:weight-lifter"/></h1>
-<a href="/userdash"> <h2 class="bg-transparent text-lg md:text-2xl font-medium">&lt; Back</h2> </a>
+<a href={"/trainerdash/" + data.user.id}> <h2 class="bg-transparent text-lg md:text-2xl font-medium">&lt; Back</h2> </a>
 </header>
 
 <div class="w-screen md:w-3/4 rounded-lg md:mt-14 place-self-center md:bg-slate-900 md:shadow-lg h-[5rem] flex items-center justify-center md:justify-between">
