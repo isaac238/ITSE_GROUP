@@ -4,15 +4,16 @@
 	import Utils from "$lib/utils.js"
 
 	// Component Imports
-    import WeightWorkoutLog from "$components/WeightWorkoutLog.svelte";
-    import CardioWorkoutLog from "$components/CardioWorkoutLog.svelte";
-    import DeleteItemModal from "$components/DeleteItemModal.svelte";
-    import NewWorkoutModal from "$components/NewWorkoutModal.svelte";
+    import WeightWorkoutLog from "../../../../../components/WeightWorkoutLog.svelte";
+    import CardioWorkoutLog from "../../../../../components/CardioWorkoutLog.svelte";
+    import DeleteItemModal from "../../../../../components/DeleteItemModal.svelte";
+    import NewWorkoutModal from "../../../../../components/NewWorkoutModal.svelte";
 
 	// Props
 	export let data;
 
-	const recordData = data.recordData;
+	const recordData = data.workoutPlans;
+	console.log(recordData);
 
 	let [ day, month, year ] = recordData.name.split("/");
 	const logDate = new Date(year, month - 1, day);
@@ -48,7 +49,7 @@
 	// NEW WORKOUT MODAL FUNCTIONS
 
 	function clearWorkoutModalState() {
-		workoutModalState = structuredClone({
+		workoutModalState = {
 			step: 0,
 			exercise: "",
 			weight_kg: "",
@@ -58,7 +59,7 @@
 			caloriesBurned: "",
 			distanceMiles: "",
 			type: "",
-		});
+		};
 	}
 
 	function showNewWorkoutModal() {
@@ -68,7 +69,6 @@
 	}
 
 	async function newWorkoutCallback(createdRecord) {
-		console.log("NEW WORKOUT CALLBACK");
 		let updateResponseJSON;
 		let requestData = {};
 
@@ -78,7 +78,7 @@
 		if (workoutModalState.type == "cardio") requestData = {[`cardio_workouts`]: [...cardio_workouts.map((item) => item.id), createdRecord.id]};
 
 		const requestBody = {
-			"collection": "workout_log",
+			"collection": "workout_plan",
 			"recordID": recordData.id,
 			"data": requestData,
 		};
@@ -104,12 +104,12 @@
 
 <header class="py-3 px-5">
 <h1 class="bg-transparent text-xl md:text-3xl font-black">Modern Fit <iconify-icon icon="mdi:weight-lifter"/></h1>
-<a href="/userdash"> <h2 class="bg-transparent text-lg md:text-2xl font-medium">&lt; Back</h2> </a>
+<a href={"/trainerdash/" + recordData.user}> <h2 class="bg-transparent text-lg md:text-2xl font-medium">&lt; Back</h2> </a>
 </header>
 
 <div class="w-screen md:w-3/4 rounded-lg md:mt-14 place-self-center md:bg-slate-900 md:shadow-lg h-[5rem] flex items-center justify-center md:justify-between">
 	<h1 class="md:ml-10 max-w-screen text-2xl md:text-3xl text-white font-semibold">
-		{logDate.toDateString() + "'s Log"}
+		{recordData.name}
 	</h1>
 	<button on:click={() => showNewWorkoutModal()} class="bg-white hover:bg-black text-black hover:text-white md:mr-4 md:relative absolute bottom-0 md:w-fit w-11/12 h-16 my-3 md:my-0 md:h-fit btn btn-primary shadow-lg"><iconify-icon class="text-3xl" icon="mdi:weight-lifter"/>Add Workout</button>
 </div>
@@ -117,7 +117,7 @@
 {#if weight_workouts.length <= 0 && cardio_workouts <= 0}
 	<div class="w-screen flex-grow flex flex-col items-center justify-center gap-4">
 		<h1 class="text-lg md:text-2xl text-white font-semibold">
-			No workouts found for {logDate.toDateString()}
+			No workouts found for {recordData.name}
 		</h1>
 		<button on:click={() => showNewWorkoutModal()} class="h-full text-md btn btn-primary bg-white text-black hover:text-white hover:bg-black drawer-button z-10 p-4 rounded-lg cursor-pointer"><iconify-icon class="text-3xl" icon="mdi:weight-lifter"/>Add Your First Workout</button>
 	</div>

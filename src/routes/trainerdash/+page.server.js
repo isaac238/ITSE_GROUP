@@ -1,8 +1,7 @@
-// Trainer dash server.js
+import Collections from '$lib/server/collections';
 
-// imports
-
-//exports
-export async function load({ locals }) {
-	return { user: locals.user};
+export async function load({locals, params}) {
+	const collections = new Collections(locals.pb);
+	const clientData = await collections.getRecord("users", locals.user.id);
+	return { user: locals.user, clientData };
 }

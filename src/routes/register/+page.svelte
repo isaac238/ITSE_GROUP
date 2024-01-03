@@ -15,6 +15,10 @@
     
   	// exports
   	export let form;
+	export let data;
+
+	const branches = data.branches;
+	console.log(branches);
 
 	let firstName = "";
 	let surname = "";
@@ -77,6 +81,15 @@ return async ({update}) => {
 		<LabeledInput name="birthdate" placeholder="Date Of Birth" type="date" max={maxDate.toISOString().split("T")[0]} bind:value={birthdate} required={true} />
 		<LabeledInput name="password" placeholder="Password" type="password" bind:value={password} required={true} />
 		<LabeledInput name="confirm-password" placeholder="Confirm Password" type="password" bind:value={confirmPassword} required={true} />
+		<label for="branch" class="flex flex-col">
+		<span class="text-sm tracking-normal w-full mb-2">Choose A Branch<span class="text-red-400">*</span></span>
+		<select name="branch" id="branch" class="w-full input input-bordered focus:outline focus:outline-1 focus:outline-white focus:border-none focus:ring-0">
+		<option value="" disabled selected>Select your option</option>
+		{#each branches as branch}
+		<option value={branch.id}>{branch.name}</option>
+		{/each}
+		</select>
+		</label>
 		<button class="btn hover:bg-green-500 bg-slate-700 text-white" type="submit">Register</button>
     <InputError {errors} />
 		<div class="flex justify-center">

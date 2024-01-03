@@ -11,6 +11,7 @@ export default class Collections {
 		"meal_log": "foods,foods.foodItem",
 		"meal_plan": "foods,foods.foodItem",
 		"portion_fooditem": "foodItem",
+		"users": "trainees",
 	};
 
 	async getAllRecords(collection, query = "") {
@@ -108,8 +109,6 @@ export default class Collections {
 
 	async getRecord(collection, id) {
 		try {
-			console.log(Collections.expansionsMap[collection]);
-
 			const record = await this.pb.collection(collection).getOne(id, {
 				expand: Collections.expansionsMap[collection]
 			});

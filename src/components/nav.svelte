@@ -3,12 +3,10 @@
 	import 'iconify-icon';
 
 	// Exports
-	export let user;
 	export let pin;
-
-	// Variables
-	const isTrainer = user ? user.role.includes("trainer") : false;
-	const isMember = user ? user.role.includes("member") : false;
+	export let user;
+	export let isTrainer;
+	export let isMember;
 	
 	let showPin = false;
 	let icon;

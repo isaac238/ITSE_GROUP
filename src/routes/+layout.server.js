@@ -6,5 +6,5 @@ export async function load({ locals }) {
 	if (locals.user) {
 		pinDecrypted = await pin.get(locals.user.pin);
 	}
-	return {user: locals.user, pin: pinDecrypted }
+	return {user: locals.user, isTrainer: locals.isTrainer, isMember: locals.isMember, pin: pinDecrypted }
  }

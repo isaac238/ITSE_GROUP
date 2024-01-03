@@ -12,8 +12,6 @@ import Auth from "$lib/server/auth";
 
 export async function load({ url }) {
 	const params = new URLSearchParams(url.search);
-	console.log(params.get("redirected"))
-	console.log(params)
 	return {isFromRegister: params.get("redirected")}
 }
 
@@ -23,8 +21,6 @@ export const actions = {
 		const auth = new Auth(locals.pb);
 		const response = await auth.login(data);
 		console.log(response);
-		if (response.success) throw redirect(301, "/userdash");
-		
-		else return response.message;
+		return response;
 	}
 }

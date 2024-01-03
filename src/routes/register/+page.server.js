@@ -5,6 +5,13 @@
 // Libraries
 import {redirect } from "@sveltejs/kit";
 import Auth from "$lib/server/auth";
+import Collections from '$lib/server/collections';
+
+export async function load({ locals }) {
+	const collections = new Collections(locals.pb);
+	const branches = await collections.getAllRecords("branches");
+	return { branches }
+}
 
 // exports
 export const actions = {

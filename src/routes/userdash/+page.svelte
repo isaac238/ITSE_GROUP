@@ -7,6 +7,8 @@
 	import { goto } from "$app/navigation";
 	import Utils from "$lib/utils.js"
 	import "iconify-icon";
+	import "@carbon/charts-svelte/styles.css";
+	import { LineChart } from "@carbon/charts-svelte";
 	import { notifStore } from "../../lib/store.js"
 
 	// Component Imports
@@ -23,7 +25,7 @@
 	//
     const screenWidth = writable(0);
 
-	const currentTable = writable("workout_log");
+	const currentTable = writable("home");
 	const collectionsData = writable(data.collectionsData);
 
 	let collectionData = $collectionsData[$currentTable];
@@ -183,7 +185,156 @@
 				(record) => record.name.includes(filterDate)
 			);
 		} 
-	} 
+	}
+
+	const getCaloriesFromWorkoutLogs = (workoutLog) => workoutLog.reduce((accumulator, record) => {
+		if (record.cardio_workouts.length <= 0) return accumulator;
+
+		const caloriesBurnedInLog = record.expand.cardio_workouts.reduce((accumulator, rel) => rel.caloriesBurned + accumulator, 0);
+		return accumulator + caloriesBurnedInLog;
+	}, 0);
+
+	const getDistanceFromWorkoutLogs = (workoutLog) => workoutLog.reduce((accumulator, record) => {
+		if (record.cardio_workouts.length <= 0) return accumulator;
+
+		const distanceTravelledInLog = record.expand.cardio_workouts.reduce((accumulator, rel) => rel.distanceMiles + accumulator, 0);
+		return accumulator + distanceTravelledInLog;
+	}, 0);
+
+
+	const getCaloriesFromMealPLan = (mealPlan) => mealPlan.reduce((accumulator, record) => {
+		if (record.foods.length <= 0) return accumulator;
+
+		const caloriesGainedInLog = record.expand.foods.reduce(
+		(accumulator, relation) => ((relation.expand.foodItem.calories_in_g / 100) * relation.portion_in_g) + accumulator,
+		0);
+		return accumulator + caloriesGainedInLog;
+	}, 0)
+
+	function getAverageWeightFromWorkoutLogs(workoutLogs) {
+		const weightAverages = {};
+		const weightCounters = {};
+
+		for (const log of workoutLogs) {
+
+			if (log.weight_workouts.length <= 0) continue;
+
+			for (const weight_workout of log.expand.weight_workouts) {
+				const workoutType = weight_workout.exercise;
+
+				if (!Object.keys(weightAverages).includes(workoutType)) {
+					weightAverages[workoutType] = 0;
+					weightCounters[workoutType] = 0;
+				}
+
+				weightAverages[workoutType] += weight_workout.weight_kg;
+				weightCounters[workoutType]++;
+			}
+		}
+		
+		for (const [key, value] of Object.entries(weightAverages)) {
+			weightAverages[key] = Math.round((value / weightCounters[key])*10) / 10;
+		}
+
+		return weightAverages;
+	}
+
+	function yearOfCollectionByMonth(collectionName) {
+		const currentDate = new Date();
+		let currentYear = currentDate.getFullYear();
+		let currentMonth = currentDate.getMonth();
+		let result = {};
+
+		for (let i = 0; i < 13; i++) {
+			const thisMonthsWorkouts = $collectionsData[collectionName].filter((record) => {
+				if (collectionName == "workout_log") {
+					let [_, month, year] = record.name.split("/");
+					return month-1 == currentMonth - i && year == currentYear;
+				}
+
+				if (collectionName == "meal_log") {
+					const dateEaten = new Date(record.eaten_at);
+					return dateEaten.getMonth() == currentMonth - i && dateEaten.getFullYear() == currentYear;
+				}
+
+				const dateCreated = new Date(record.created);
+				return dateCreated.getMonth() == currentMonth - i && dateCreated.getFullYear() == currentYear;
+			});
+
+			result[new Date(currentYear, currentMonth - i, 1)] = thisMonthsWorkouts;
+
+			if (currentMonth - i == 0) {
+				currentYear--;
+				currentMonth = 12 + i;
+			}
+		}
+
+		return result;
+	}
+
+	function getPastYearMealCalories() {
+		const pastYearMeals = yearOfCollectionByMonth("meal_log");
+
+		for (const [key, value] of Object.entries(pastYearMeals)) {
+			pastYearMeals[key] = getCaloriesFromMealPLan(value);
+		}
+		return pastYearMeals;
+	}
+
+	function getPastYearWorkoutsCalories() {
+		const pastYearWorkouts = yearOfCollectionByMonth("workout_log");
+
+		for (const [key, value] of Object.entries(pastYearWorkouts)) {
+			pastYearWorkouts[key] = getCaloriesFromWorkoutLogs(value);
+		}
+
+		return pastYearWorkouts;
+	}
+	
+	function getPastYearWorkoutsDistance() {
+		const pastYearWorkouts = yearOfCollectionByMonth("workout_log");
+
+		for (const [key, value] of Object.entries(pastYearWorkouts)) {
+			pastYearWorkouts[key] = getDistanceFromWorkoutLogs(value);
+		}
+
+		return pastYearWorkouts;
+	}
+
+	function getPastYearWorkoutsAverageWeight() {
+		const pastYearWorkouts = yearOfCollectionByMonth("workout_log");
+
+		for (const [key, value] of Object.entries(pastYearWorkouts)) {
+			pastYearWorkouts[key] = getAverageWeightFromWorkoutLogs(value);
+		}
+
+		return pastYearWorkouts;
+	}
+
+	const pastYearWorkoutsAverageWeight = getPastYearWorkoutsAverageWeight();
+	let graphDataAverageWeight = [];
+	for (const [key, value] of Object.entries(pastYearWorkoutsAverageWeight)) {
+		for (const [exercise, weight] of Object.entries(value)) {
+			graphDataAverageWeight.push({group: exercise, key: key, value: weight});
+		}
+	}
+
+	const pastYearWorkoutsCalories = getPastYearWorkoutsCalories();
+
+	const graphDataCaloriesBurned = Object.keys(pastYearWorkoutsCalories).map((key) =>
+		 ({group: "Burned", key: key, value: pastYearWorkoutsCalories[key]})
+	);
+
+	const pastYearMealCalories = getPastYearMealCalories();
+
+	const graphDataCaloriesGained = Object.keys(pastYearMealCalories).map((key) =>
+		 ({group: "Gained", key: key, value: pastYearMealCalories[key]})
+	);
+
+	const pastYearDistanceTravelled = getPastYearWorkoutsDistance();
+	const graphDataDistanceTravelled = Object.keys(pastYearDistanceTravelled).map((key) =>
+		 ({group: "Travelled", key: key, value: pastYearDistanceTravelled[key]})
+	);
 </script>
 
 <!-- Keybind event listeners -->
@@ -212,43 +363,160 @@
     <input id="my-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerChecked}>
     <div class="drawer-content h-full flex flex-col">
             <div class="w-screen flex flex-col bg-transparent flex-grow flex-shrink-0 justify-center items-center h-full">
-				<div class="flex items-center justify-center flex-col md:flex-row gap-4 lg:w-2/4">
-					<h1>Search for a specific entry by name:</h1>
-					<input type="text" placeholder="e.g. 2023" class="w-fit px-4 rounded-lg p-2" bind:value={filterDate}/>
-				</div>
-                {#if isMobile}
-                    <!-- Mobile View -->
-                    <div class="md:hidden flex snap-x snap-mandatory overflow-x-auto p-4 space-x-4 w-screen h-full" >
-						{#if $currentTable === "meal_log" || ($currentTable === "workout_log" && !todaysWorkoutLogExists)}
-							<MobileItem clickEvent={startNewRecordRequest} title={newLogTitle} subtitle={newLogSubtitle} button="Create" from="from-green-500" to="to-emerald-600"/>
-						{/if}
-						{#each collectionData as record} 
-							{#if record.name === new Date().toLocaleDateString() && $currentTable === "workout_log"}
-								<MobileItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
-							{:else if $currentTable.split("_")[1] === "log"}
-								<MobileItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record)}} title={record.name} subtitle={record.subtitle}/>
-							{:else}
-								<MobileItem clickEvent={() => goToItem(record.id)} title={record.name} subtitle={record.subtitle}/>
+				{#if $currentTable != "home"}
+					<div class="flex items-center justify-center flex-col md:flex-row gap-4 lg:w-2/4">
+						<h1>Search for a specific entry by name:</h1>
+						<input type="text" placeholder="e.g. 2023" class="w-fit px-4 rounded-lg p-2" bind:value={filterDate}/>
+					</div>
+
+					{#if isMobile}
+						<!-- Mobile View -->
+						<div class="md:hidden flex snap-x snap-mandatory overflow-x-auto p-4 space-x-4 w-screen h-full" >
+							{#if $currentTable === "meal_log" || ($currentTable === "workout_log" && !todaysWorkoutLogExists)}
+								<MobileItem clickEvent={startNewRecordRequest} title={newLogTitle} subtitle={newLogSubtitle} button="Create" from="from-green-500" to="to-emerald-600"/>
 							{/if}
-						{/each}
-                    </div>
-                {:else}
-                    <!-- Desktop View -->
-                    <div class="flex flex-wrap items-center justify-center h-fit rounded-xl overflow-y-auto gap-7 p-5" >
-						{#if $currentTable === "meal_log" || ($currentTable === "workout_log" && !todaysWorkoutLogExists)}
-							<DesktopItem clickEvent={startNewRecordRequest} title={newLogTitle} subtitle={newLogSubtitle} button="Create" from="from-green-500" to="to-emerald-600"/>
-						{/if}
-						{#each collectionData as record}
-							{#if record.name === new Date().toLocaleDateString() && $currentTable === "workout_log"}
-								<DesktopItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
-							{:else if $currentTable.split("_")[1] === "log"}
-								<DesktopItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record)}} title={record.name} subtitle={record.subtitle}/>
-							{:else}
-								<DesktopItem clickEvent={() => goToItem(record.id)} title={record.name} subtitle={record.subtitle}/>
+							{#each collectionData as record} 
+								{#if record.name === new Date().toLocaleDateString() && $currentTable === "workout_log"}
+									<MobileItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
+								{:else if $currentTable.split("_")[1] === "log"}
+									<MobileItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record)}} title={record.name} subtitle={record.subtitle}/>
+								{:else}
+									<MobileItem clickEvent={() => goToItem(record.id)} title={record.name} subtitle={record.subtitle}/>
+								{/if}
+							{/each}
+						</div>
+					{:else}
+						<!-- Desktop View -->
+						<div class="flex flex-wrap items-center justify-center h-fit rounded-xl overflow-y-auto gap-7 p-5" >
+							{#if $currentTable === "meal_log" || ($currentTable === "workout_log" && !todaysWorkoutLogExists)}
+								<DesktopItem clickEvent={startNewRecordRequest} title={newLogTitle} subtitle={newLogSubtitle} button="Create" from="from-green-500" to="to-emerald-600"/>
 							{/if}
-						{/each}
-                    </div>
-                {/if}
+							{#each collectionData as record}
+								{#if record.name === new Date().toLocaleDateString() && $currentTable === "workout_log"}
+									<DesktopItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record)}} title={record.name} subtitle={record.subtitle} from="from-green-500" to="to-emerald-600"/>
+								{:else if $currentTable.split("_")[1] === "log"}
+									<DesktopItem clickEvent={() => goToItem(record.id)} deleteEvent={() => {showDeleteItemModal(record)}} title={record.name} subtitle={record.subtitle}/>
+								{:else}
+									<DesktopItem clickEvent={() => goToItem(record.id)} title={record.name} subtitle={record.subtitle}/>
+								{/if}
+							{/each}
+						</div>
+					{/if}
+				{:else}
+					<!-- Graphs -->
+					<div class="w-full h-full p-8 flex flex-col flex-wrap items-center justify-center">
+						<h1 class="text-2xl font-bold">Nutrition Information</h1>
+						<div class="w-full">
+							<LineChart data={[...graphDataCaloriesGained, ...graphDataCaloriesBurned]}
+
+							options={{
+								title: "Calorie Tracker",
+
+								axes: {
+									left: {
+										mapsTo: "value",
+										title: "Total Calories",
+										ticks: {
+											formatter: (value) => value.toLocaleString() + "kcal",
+										}
+									},
+									bottom: {
+										mapsTo: "key",
+										title: "Month",
+										scaleType: "time",
+										ticks: {
+											formatter: (date) => date.toLocaleDateString(undefined, {month: "short", year: "numeric"}),
+										}
+									},
+								},
+
+								tooltip: {
+									valueFormatter: (value, axis) => axis == "Total Calories" ? value.toLocaleString() + "kcal" : axis == "Month" ? value.toLocaleDateString(undefined, {month: "short", year: "numeric"}) : value,
+								},
+
+								toolbar: {
+									enabled: false,
+								},
+
+								theme: "g100",
+								}}/>
+						</div>
+
+						<h1 class="text-2xl font-bold my-4">Workout Information</h1>
+						<div class="w-full">
+							<LineChart data={[...graphDataDistanceTravelled]}
+
+							options={{
+								title: "Distance Tracker",
+
+								axes: {
+									left: {
+										mapsTo: "value",
+										title: "Miles Travelled",
+										ticks: {
+											formatter: (value) => value.toLocaleString() + " Miles",
+										}
+									},
+									bottom: {
+										mapsTo: "key",
+										title: "Month",
+										scaleType: "time",
+										ticks: {
+											formatter: (date) => date.toLocaleDateString(undefined, {month: "short", year: "numeric"}),
+										}
+									},
+								},
+
+								tooltip: {
+									valueFormatter: (value, axis) => axis == "Miles Travelled" ? value.toLocaleString() + " Miles" : axis == "Month" ? value.toLocaleDateString(undefined, {month: "short", year: "numeric"}) : value,
+								},
+
+								toolbar: {
+									enabled: false,
+								},
+
+								theme: "g100",
+								}}/>
+						</div>
+
+						<div class="w-full">
+							<LineChart data={graphDataAverageWeight}
+
+							options={{
+								title: "Weight Map",
+
+								axes: {
+									left: {
+										mapsTo: "value",
+										title: "Average Weight",
+										ticks: {
+											formatter: (value) => value.toLocaleString() + "kg",
+										}
+									},
+									bottom: {
+										mapsTo: "key",
+										title: "Month",
+										scaleType: "time",
+										ticks: {
+											formatter: (date) => date.toLocaleDateString(undefined, {month: "short", year: "numeric"}),
+										}
+									},
+								},
+
+								tooltip: {
+									valueFormatter: (value, axis) => axis == "Average Weight" ? value.toLocaleString() + "kcal" : axis == "Month" ? value.toLocaleDateString(undefined, {month: "short", year: "numeric"}) : value,
+								},
+
+								toolbar: {
+									enabled: false,
+								},
+
+								theme: "g100",
+								}}/>
+						</div>
+					</div>
+
+				{/if}
             </div>
     </div>
     <div class="drawer-side">
@@ -266,10 +534,11 @@
 					<h1 class="text-md font-medium">{data.user.first_name + " " + data.user.surname}</h1>
 				</span>
 			{/if}
-            <li><button class:active ={$currentTable === "workout_log"} on:click={() => currentTable.set("workout_log")}>Workout Log</button></li>
-            <li><button class:active ={$currentTable === "workout_plan"} on:click={() => currentTable.set("workout_plan")}>Workout Plans</button></li>
-            <li><button class:active ={$currentTable === "meal_log"} on:click={() => currentTable.set("meal_log")}>Meal Log</button></li>
-            <li><button class:active ={$currentTable === "meal_plan"} on:click={() => currentTable.set("meal_plan")}>Meal Plans</button></li>
+			<li><button class:active={$currentTable === "home"} on:click={() => currentTable.set("home")}>Home</button></li>
+            <li><button class:active={$currentTable === "workout_log"} on:click={() => currentTable.set("workout_log")}>Workout Log</button></li>
+            <li><button class:active={$currentTable === "workout_plan"} on:click={() => currentTable.set("workout_plan")}>Workout Plans</button></li>
+            <li><button class:active={$currentTable === "meal_log"} on:click={() => currentTable.set("meal_log")}>Meal Log</button></li>
+            <li><button class:active={$currentTable === "meal_plan"} on:click={() => currentTable.set("meal_plan")}>Meal Plans</button></li>
         </ul>
     </div>
 </div>

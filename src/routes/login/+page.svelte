@@ -9,7 +9,9 @@
 
     // Libraries
     import { notifStore } from "../../lib/store.js";
+	import { goto } from "$app/navigation";
 	import {enhance} from "$app/forms";
+	import { invalidateAll } from "$app/navigation";
 
     // exports
     export let form;
@@ -25,9 +27,8 @@
     }
 
     $:{
-        if(form !== null){
-            notifStore.addError(form)
-        }
+		if (form !== null && form.success) goto("/userdash").then(() => invalidateAll());
+        if(form !== null && !form.success) notifStore.addError(form);
     }
     
 </script>
