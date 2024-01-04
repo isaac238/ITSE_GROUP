@@ -12,7 +12,7 @@
 		<p>After clicking <span class="font-bold">VIEW</span> you can see the workouts / foods in any trainer assigned plans or add / remove workouts and foods from your own logs.</p>
 		<h3 class="text-xl text-white font-semibold mt-4">Keybinds</h3>
 		<ul>
-			<li> <span class="font-bold">M</span>   : Open the menu</li>
+			<li> <span class="font-bold">`</span>   : Open the menu</li>
 			<li> <span class="font-bold">ESC</span> : Exit a modal</li>
 		</ul>
 		<div class="modal-action">
