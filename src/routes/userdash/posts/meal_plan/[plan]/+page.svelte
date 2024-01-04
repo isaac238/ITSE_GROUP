@@ -27,7 +27,7 @@
 
 	function calculateAverageOfProperty(array, propertyName) {
 		if (array.length > 0) {
-			return array.reduce((accumulator, next) => accumulator + next[propertyName], 0) / array.length;
+			return Math.round((array.reduce((accumulator, next) => accumulator + next[propertyName], 0) / array.length) * 10) / 10;
 		} else {
 			return 0;
 		}
@@ -35,7 +35,7 @@
 
 	function calculateTotalOfProperty(array, propertyName) {
 		if (array.length > 0) {
-			return array.reduce((accumulator, next) => accumulator + ((next.expand.foodItem[propertyName] / 100) * next.portion_in_g), 0);
+			return Math.round(array.reduce((accumulator, next) => accumulator + ((next.expand.foodItem[propertyName] / 100) * next.portion_in_g), 0) * 10) / 10;
 		} else {
 			return 0;
 		}
