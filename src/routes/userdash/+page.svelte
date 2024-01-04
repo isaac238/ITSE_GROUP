@@ -71,12 +71,12 @@
 	let hasMenuToggled = false;
 
 	function onKeyUp(e) {
-		if (e.key === "m" || e.key === "M" && hasMenuToggled) 
+		if (e.key === "`" && hasMenuToggled) 
 			hasMenuToggled = false;
 	}
 
 	function onKeyDown(e) {
-		if (e.key === "m" || e.key === "M" && !hasMenuToggled) {
+		if (e.key === "`" && !hasMenuToggled) {
 			drawerChecked = !drawerChecked;
 			hasMenuToggled = true;
 		}
