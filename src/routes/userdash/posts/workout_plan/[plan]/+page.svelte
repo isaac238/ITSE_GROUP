@@ -36,8 +36,9 @@
 
 		const response = await Utils.sendPostRequest("/api/record/search", requestBody);
 
-		const responseJSON = await response.json();
-		return responseJSON != null ? responseJSON : false;
+		// const responseJSON = await response.json();
+		// console.log(responseJSON);
+		return response.ok ? await response.json() : false;
 	}
 
 	async function createLog() {
